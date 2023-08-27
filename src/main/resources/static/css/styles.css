@@ -1,0 +1,104 @@
+/* GLOBAL */
+*{
+	box-sizing: border-box;
+}
+
+/* CLEAR FLOAT */
+.clear{
+	clear: both;
+}
+
+/* GENERAL */
+html,body{
+font-size: 16px;
+font-family: ‘Times New Roman’, Times, serif;
+}
+
+/* HOME PAGE*/
+/* HEADER */
+.header-img{
+    max-width: 100%;
+    height: 300px;
+    background: url('../img/job-search-header.jpg');
+    background-size: contain;
+}
+
+#logInBtn{
+	width: 100px;
+    height: 47px;
+    font-size: 20px;
+}
+
+/* CONTENT */
+.table{
+	width:100%;
+	height:100px;
+}
+
+.table th{
+	font-size: 37px;
+	padding: 0 !important;
+}
+
+.first-th{
+	width:50%;
+}
+.job-info{
+	margin-bottom: 2.5rem;
+}
+
+.job-info-detail{
+	display: inline-block;
+
+}
+
+.job-info-ele-company-name>p, .job-info-ele-company-address>p{
+	display: inline;
+	font-size: 20px;
+}
+
+.job-info-ele-company-address{
+	margin-left: 15px;
+}
+.company-info{
+	padding-bottom: 9px;
+	padding-top: 30px;
+}
+
+.content-list-jobs{
+	margin-bottom: 30px;
+}
+
+/* LOG IN PAGE */
+.container-logIn{
+	width: 525px!important;
+    margin-left: 550px !important;
+    padding: 20px;
+    height: 395px !important;
+    margin-top: 150px;
+}
+
+.form-logIn{
+	width: 495px;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.form-gp-input{
+    width: 450px;
+}
+
+.form-gp-btn{
+	margin-left: 290px;
+}
+
+.form-gp-btn>input{
+	width: 160px;
+}
+
+/* COMPANY PAGE */
+#recruitmentCreationBtn{
+	width: 200px;
+    height: 47px;
+    font-size: 20px;
+}

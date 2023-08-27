@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Log In Page</title>
+	<!--    CSS Styles-->
+	<link th:href="@{/css/styles.css}" rel="stylesheet"/>
+	<!--    BT CSS -->
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body class="bg-secondary">
+<div class="container bg-light container-logIn">
+	<!--	LOG IN FORM-->
+	<h1>LOG IN FORM</h1>
+	<form class="form-logIn" th:action="@{/login}" method="POST">
+		<!-- Check for login error -->
+		<div th:if="${param.error}">
+
+			<i class="failed">Sorry! You entered invalid username/password.</i>
+
+		</div>
+		<div class="form-group form-gp-input">
+			<label for="email" class="col-form-label">Email:</label>
+			<input type="text" class="form-control" id="email">
+			<p id="errorEmail" style="display:none"></p>
+		</div>
+		<div class="form-group form-gp-input">
+			<label for="password" class="col-form-label">Password:</label>
+			<input type="password" class="form-control" id="password">
+			<p class="errorPassword" style="display:none"></p>
+		</div>
+		<div class="form-gp-btn">
+			<input type="submit" value="Log In" class="btn btn-primary"/>
+		</div>
+		<div>
+			<p>Not a member? <a href="#!" data-toggle="modal" data-target="#exampleModal">Register</a></p>
+		</div>
+	</form>
+	<!--         MODAL-->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+		 aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add New Users</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-left">
+					<form action="#" method="POST">
+						<div class="form-group">
+							<label for="emailReg" class="col-form-label">Email:</label>
+							<input type="text" class="form-control" id="emailReg">
+							<p id="errorEmailReg"></p>
+						</div>
+						<div class="form-group">
+							<label for="fullNameReg" class="col-form-label">Full Name:</label>
+							<input type="text" class="form-control" id="fullNameReg">
+							<p id="errorFullNameReg"></p>
+						</div>
+						<div class="form-group">
+							<label for="passwordReg" class="col-form-label">Password:</label>
+							<input type="password" class="form-control" id="passwordReg">
+							<p id="errorPasswordReg"></p>
+						</div>
+						<div class="form-group">
+							<label for="confirmingPasswordReg" class="col-form-label">Confirm Password:</label>
+							<input type="password" class="form-control" id="confirmingPasswordReg">
+							<p id="errorPasswordConfirmReg"></p>
+						</div>
+						<div class="form-group">
+							<label for="roleReg" class="col-form-label">Role:</label>
+							<select id="roleReg">
+								<option value="1">Admin
+								</option>
+								<option value="2">User
+								</option>
+							</select>
+						</div>
+					</form>
+					<div class="modal-footer">
+						<input type="button" id="addUserBtn" value="Register" class="btn btn-primary"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!--BT JS-->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<!--MAIN JS-->
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>
