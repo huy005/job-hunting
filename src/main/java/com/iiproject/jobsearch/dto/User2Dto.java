@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User2Dto {
-    private int userId;
+//    private int userId;
 
     private String username;
 

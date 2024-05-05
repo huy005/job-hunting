@@ -38,9 +38,6 @@ public class Company {
     @Column(name="status")
     private int status;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(name="follow_company_id",
-    joinColumns = @JoinColumn(name = "company_id"),
-    inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> users;
+    @OneToMany(mappedBy = "company")
+    private List<User> user;
 }

@@ -1,5 +1,6 @@
 package com.iiproject.jobsearch.controllers;
 
+import com.iiproject.jobsearch.dto.CompanyDto;
 import com.iiproject.jobsearch.dto.GenericResponse;
 import com.iiproject.jobsearch.dto.User2Dto;
 import com.iiproject.jobsearch.dto.UserDto;
@@ -37,16 +38,29 @@ public class RecruiterController {
 //    }
 
     @PostMapping("/recruiter-info")
-    public @ResponseBody ResponseEntity<GenericResponse> putPersonalInfo(@RequestBody @Valid User2Dto theUserDto,
+    public @ResponseBody ResponseEntity<GenericResponse> putRecruiterInfo(@RequestBody @Valid User2Dto user2Dto,
                                                                          Authentication authentication,
                                                                          HttpStatus httpStatus) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boolean emailConfirmed = companyService.confirmEmailAndSave(userDetails.getUsername(),theUserDto);
+        boolean emailConfirmed = companyService.confirmEmailAndSave(userDetails.getUsername(),user2Dto);
         if (emailConfirmed) {
             return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
-                    "The information updated successfully.", Utils.getTimeStampHelper()));
+                    "The recruiter's information updated successfully.", Utils.getTimeStampHelper()));
         }
         throw new UserNotFoundException("The updating user not found.");
+    }
+
+    @PostMapping("/company-info")
+    public @ResponseBody ResponseEntity<GenericResponse> putCompanyInfo(@RequestBody @Valid CompanyDto companyDto ,
+                                                                         Authentication authentication,
+                                                                         HttpStatus httpStatus) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        boolean companyConfirmed = companyService.confirmCompanyAndSave(userDetails.getUsername(),companyDto);
+        if (companyConfirmed) {
+            return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
+                    "The company's information updated successfully.", Utils.getTimeStampHelper()));
+        }
+        throw new UserNotFoundException("The updating company not found.");
     }
 
 }

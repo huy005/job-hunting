@@ -47,6 +47,7 @@ public class User {
     @JoinColumn(name="cv_id")
     private Cv cv;
 
-    @ManyToMany(mappedBy = "users",cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH, CascadeType.REFRESH})
-    private List<Company> companies;
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "company_id")
+    private Company company;
 }

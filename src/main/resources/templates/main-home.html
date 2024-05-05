@@ -30,7 +30,8 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#recruiterInfoModal">Recruiter's
                             Info</a></li>
-                        <li><a class="dropdown-item" href="#">Company's Info</a></li>
+                        <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#companyInfoModal">Company's
+                            Info</a></li>
                     </ul>
                 </div>
                 <!--				<a class="nav-item nav-link btn-primary rounded text-center font-weight-bold" id="logInBtn" th:href="@{/logInPage}">Log In</a>-->
@@ -47,19 +48,18 @@
     <div class="header-img"></div>
 </div>
 <!--Recruiter's Info Modals-->
-<div class="modal fade" id="recruiterInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="recruiterInfoModal" tabindex="-1" aria-labelledby="recruiterInfoModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Update Recruiter's Info</h5>
+                <h5 class="modal-title" id="recruiterInfoModalLabel">Update Recruiter's Info</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body text-left">
                 <form action="#" method="POST">
-<!--                    <input type="hidden" id="idReInfo" name="id" th:field="*{userId}">-->
                     <div class="form-group">
                         <label for="emailReInfo" class="col-form-label">Email:</label>
                         <input type="text" class="form-control" id="emailReInfo">
@@ -84,7 +84,8 @@
                         <label for="descriptionReInfo" class="col-form-label">Description:</label>
                         <textarea id="descriptionReInfo" style="width: 100%;" rows="4"
                                   cols="50">
-</textarea><br><br>
+                        </textarea><br><br>
+                        <p id="errorDescriptionReInfo"></p>
                     </div>
                 </form>
                 <div class="modal-footer">
@@ -94,54 +95,55 @@
         </div>
     </div>
 </div>
-<!--Company's Info Modals-->
-<!--<div class="modal fade" id="recruiterInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel"-->
-<!--     aria-hidden="true">-->
-<!--    <div class="modal-dialog">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title" id="exampleModalLabel">Update Recruiter's Info</h5>-->
-<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                    <span aria-hidden="true">&times;</span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body text-left">-->
-<!--                <form action="#" method="POST">-->
-<!--                    &lt;!&ndash;                    <input type="hidden" id="idReInfo" name="id" th:field="*{userId}">&ndash;&gt;-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="emailReInfo" class="col-form-label">Email:</label>-->
-<!--                        <input type="text" class="form-control" id="emailReInfo">-->
-<!--                        <p id="errorEmailReInfo"></p>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="fullNameReInfo" class="col-form-label">Full Name:</label>-->
-<!--                        <input type="text" class="form-control" id="fullNameReInfo">-->
-<!--                        <p id="errorFullNameReInfo"></p>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="addressReInfo" class="col-form-label">Address:</label>-->
-<!--                        <input type="text" class="form-control" id="addressReInfo">-->
-<!--                        <p id="errorAddressReInfo"></p>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="phoneNumberReInfo" class="col-form-label">Phone Number:</label>-->
-<!--                        <input type="text" class="form-control" id="phoneNumberReInfo">-->
-<!--                        <p id="errorPhoneNumberReInfo"></p>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="descriptionReInfo" class="col-form-label">Description:</label>-->
-<!--                        <textarea id="descriptionReInfo" style="width: 100%;" rows="4"-->
-<!--                                  cols="50">-->
-<!--</textarea><br><br>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--                <div class="modal-footer">-->
-<!--                    <input type="button" id="updateInfo2Btn" value="Submit" class="btn btn-primary"/>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+
+<!--COMPANY's INFO MODAL-->
+<div class="modal fade" id="companyInfoModal" tabindex="-1" aria-labelledby="companyInfoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="companyInfoModalLabel">Update Recruiter's Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-left">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="emailCoInfo" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="emailCoInfo">
+                        <p id="errorEmailCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameCoInfo" class="col-form-label">Full Name:</label>
+                        <input type="text" class="form-control" id="nameCoInfo">
+                        <p id="errorNameCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="addressCoInfo" class="col-form-label">Address:</label>
+                        <input type="text" class="form-control" id="addressCoInfo">
+                        <p id="errorAddressCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumberCoInfo" class="col-form-label">Phone Number:</label>
+                        <input type="text" class="form-control" id="phoneNumberCoInfo">
+                        <p id="errorPhoneNumberCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionCoInfo" class="col-form-label">Description:</label>
+                        <textarea id="descriptionCoInfo" style="width: 100%;" rows="4"
+                                  cols="50">
+                        </textarea><br><br>
+                        <p id="errorDescriptionCoInfo"></p>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <input type="button" id="updateInfo2Btn" value="Submit" class="btn btn-primary"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <p>
     User: <span sec:authentication="principal.username"></span>

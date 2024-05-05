@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanyDto {
-    private int userId;
+//    private int companyId;
 
     private String companyName;
 
