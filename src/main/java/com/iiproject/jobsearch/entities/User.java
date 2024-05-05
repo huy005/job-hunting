@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -18,16 +19,16 @@ public class User {
     private int userId;
 
     @Column(name="user_full_name")
-    private String userFullName;
+    private String username;
 
     @Column(name="user_email")
-    private String userEmail;
+    private String email;
 
     @Column(name="user_address")
     private String userAddress;
 
     @Column(name="user_password")
-    private String userPassword;
+    private String password;
 
     @Column(name="user_image")
     private  String userImage;

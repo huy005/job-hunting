@@ -1,41 +1,4 @@
 //// -----------------USER OPERATIONS---------------------------------------------
-//// LOG IN BUTTON
-//$(function() {
-//  $('#logInBtn').click(function() {
-//    var data = {
-//      userEmail: $('#emailLoginForm').val(),
-//      userPassword: $('#passwordLogInForm').val(),
-//    };
-//    $.ajax({
-//      url: '/userPage',
-//      method: 'post',
-//      data: JSON.stringify(data),
-//      contentType: 'application/json',
-//      dataType: "json",
-//      cache: false
-//    }).done(function(data, status, jqxhr) {
-//    console.log(data);
-//	    alert("Added a new user successfully!!!");
-//	    $("#emailLoginForm").val("");
-//	    $("#passwordLogInForm").val("");
-//    }).fail(function(data, status, jqxhr) {
-//     console.log(data);
-//        alert("Failed to log in!!!");
-//        $.each(data.responseJSON.errors,(index, value) => {
-//        if(value.field == "userEmail") {
-//            $('#errorEmailLoginForm').text(value.defaultMessage).css({"display":"block", "color":"red"});
-//        }else{
-//            $("#errorEmailLoginForm").text("");
-//        }
-//        if(value.field == "userPassword") {
-//            $('#errorPasswordLogInForm').text(value.defaultMessage).css({"display":"block", "color":"red"});
-//        }else{
-//            $("#errorPasswordLogInForm").text("");
-//        }
-//    });
-//   });
-// });
-//});
 
 $(function() {
   $('#addUserBtn').click(function() {
@@ -46,9 +9,9 @@ $(function() {
 		 $('#errorPasswordConfirmRe').text("The password you entered not match!!! ");
 	}
     var data = {
-      userEmail: $('#emailReg').val(),
-      userFullName: $('#fullNameReg').val(),
-      userPassword: passwordConfirmed,
+      email: $('#emailReg').val(),
+      username: $('#fullNameReg').val(),
+      password: passwordConfirmed,
       role: $('#roleReg').val()
     };
     $.ajax({
@@ -60,7 +23,7 @@ $(function() {
       cache: false
     }).done(function(data, status, jqxhr) {
     console.log(data);
-	    alert("Added a new user successfully!!!");
+	    alert("A new user added successfully!!!");
 	    $('#exampleModal').modal('hide');
 	    $('#emailReg').val("");
 	    $('#fullNameReg').val("");
@@ -94,3 +57,119 @@ $(function() {
     });
    });
  });
+
+ // UPDATE RECRUITER's INFO
+$(function() {
+    $('#updateInfoBtn').click(function() {
+        var data = {
+            userAddress: $('#addressReInfo').val(),
+            userDescription: $('#descriptionReInfo').val(),
+            email: $('#emailReInfo').val(),
+            username: $('#fullNameReInfo').val(),
+            // userId: $('#idReInfo').val(),
+            userPhoneNumber: $('#phoneNumberReInfo').val()
+        };
+        $.ajax({
+            url: '/recruiters/recruiter-info',
+            method: 'post',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: "json",
+            cache: false
+        }).done(function(data, status, jqxhr) {
+            console.log(data);
+            alert("The recruiter's info updated successfully!!!");
+            $('#recruiterInfoModal').modal('hide');
+            $('#emailReInfo').val("");
+            $('#fullNameReInfo').val("");
+            $('#addressReInfo').val("");
+            $('#phoneNumberReInfo').val("");
+            $('#descriptionReInfo').val("");
+        }).fail(function(data, status, jqxhr) {
+            console.log(data);
+            console.log(status);
+            console.log(jqxhr);
+            alert("Failed to update recruiter's info!!!");
+            $.each(data.responseJSON.errors,(index, value) => {
+                if(value.field == "userEmail") {
+                    $('#errorEmailReInfo').text(value.defaultMessage).css({"display":"block", "color":"red"});
+                }else{
+                    $('#errorEmailReInfo').text("");
+                }
+                if(value.field == "userFullName") {
+                    $('#errorFullNameReInfo').text(value.defaultMessage).css({"display":"block", "color":"red"});
+                }else{
+                    $('#errorFullNameReInfo').text("");
+                }
+                if(value.field == "userAddress") {
+                    $('#errorAddressReInfo').text(value.defaultMessage).css({"display":"block", "color":"red"});
+                }else{
+                    $('#errorAddressReInfo').text("");
+                }
+                if(value.field == "userPhoneNumber") {
+                    $('#errorPhoneNumberReInfo').text(value.defaultMessage).css({"display":"block", "color":"red"});
+                }else{
+                    $('#errorPhoneNumberReInfo').text("");
+                }
+            });
+        });
+    });
+});
+
+// UPDATE COMPANY's INFO
+$(function() {
+    $('#updateInfo2Btn').click(function() {
+        var data = {
+            userAddress: $('#addressReInfo').val(),
+            userDescription: $('#descriptionReInfo').val(),
+            email: $('#emailReInfo').val(),
+            username: $('#fullNameReInfo').val(),
+            // userId: $('#idReInfo').val(),
+            userPhoneNumber: $('#phoneNumberReInfo').val()
+        };
+        $.ajax({
+            url: '/recruiters/recruiter-info',
+            method: 'post',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: "json",
+            cache: false
+        }).done(function(data, status, jqxhr) {
+            console.log(data);
+            alert("The recruiter's info updated successfully!!!");
+            $('#recruiterInfoModal').modal('hide');
+            $('#emailReInfo').val("");
+            $('#fullNameReInfo').val("");
+            $('#addressReInfo').val("");
+            $('#phoneNumberReInfo').val("");
+            $('#descriptionReInfo').val("");
+        }).fail(function(data, status, jqxhr) {
+            console.log(data);
+            console.log(status);
+            console.log(jqxhr);
+            alert("Failed to update recruiter's info!!!");
+            $.each(data.responseJSON.errors,(index, value) => {
+                if(value.field == "userEmail") {
+                    $('#errorEmailReInfo').text(value.defaultMessage).css({"display":"block", "color":"red"});
+                }else{
+                    $('#errorEmailReInfo').text("");
+                }
+                if(value.field == "userFullName") {
+                    $('#errorFullNameReInfo').text(value.defaultMessage).css({"display":"block", "color":"red"});
+                }else{
+                    $('#errorFullNameReInfo').text("");
+                }
+                if(value.field == "userAddress") {
+                    $('#errorAddressReInfo').text(value.defaultMessage).css({"display":"block", "color":"red"});
+                }else{
+                    $('#errorAddressReInfo').text("");
+                }
+                if(value.field == "userPhoneNumber") {
+                    $('#errorPhoneNumberReInfo').text(value.defaultMessage).css({"display":"block", "color":"red"});
+                }else{
+                    $('#errorPhoneNumberReInfo').text("");
+                }
+            });
+        });
+    });
+});

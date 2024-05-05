@@ -28,6 +28,19 @@ public class HomeController {
         this.homeService = homeService;
     }
 
+    @GetMapping("/logInPage")
+    public String showLogInPage(Model theModel) {
+        theModel.addAttribute("userDtoLogIn", new UserDto());
+        return "log-in";
+    }
+
+    @GetMapping("/")
+    public String showMainHomePage1(Model themodel) {
+        List<Recruitment> recruitmentsQuantity = homeService.getRecruitmentByQuantity();
+        themodel.addAttribute("recruitmentsQuantity", recruitmentsQuantity);
+        return "main-home";
+    }
+
     @GetMapping("/home")
     public String showHomePage(Model themodel) {
         List<Recruitment> recruitmentsQuantity = homeService.getRecruitmentByQuantity();
@@ -35,10 +48,14 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/logInPage")
-    public String showLogInPage(Model theModel) {
-        theModel.addAttribute("userDtoLogIn", new UserDto());
-        return "log-in";
+    @GetMapping("/main-home")
+    public String showMainHomePage2(Model theModel) {
+        List<Recruitment> recruitmentsQuantity = homeService.getRecruitmentByQuantity();
+        theModel.addAttribute("recruitmentsQuantity", recruitmentsQuantity);
+//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User user = homeService.findByID(userDetails.getUserId());
+//        theModel.addAttribute("user", user);
+        return "main-home";
     }
 
     @PostMapping("/showMainHomePage")
@@ -50,13 +67,13 @@ public class HomeController {
     @PostMapping("/save")
     public @ResponseBody ResponseEntity<Boolean> saveUser(@RequestBody @Valid UserDto theUserDto) {
         User theUser = new User();
-        theUser.setUserEmail(theUserDto.getUserEmail());
-        theUser.setUserFullName(theUserDto.getUserFullName());
-        theUser.setUserPassword(theUserDto.getUserPassword());
+        theUser.setEmail(theUserDto.getEmail());
+        theUser.setUsername(theUserDto.getUsername());
+        theUser.setPassword(theUserDto.getPassword());
         int roleId = parseInt(theUserDto.getRole());
-        Role theRole = new Role(roleId, roleId == 1 ? "Admin" : "User");
-        theUser.setRole(theRole);
-        homeService.saveUserAndRole(theUser, theRole);
+        Role role = new Role(roleId, roleId == 1 ? "Recruiter" : "Candidate");
+        theUser.setRole(role);
+        homeService.saveUserAndRole(theUser, role);
         return ResponseEntity.ok(Boolean.TRUE);
     }
 
@@ -70,4 +87,13 @@ public class HomeController {
         // Denied Page
         return "log-in";
     }
+
+    //    UPDATE
+//    @GetMapping("/update")
+//    public String update(Authentication authentication, Model theModel) {
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//        User user = homeService.getUserWithEmail(userDetails.getUsername());
+//        theModel.addAttribute("user", user);
+//        return "recruit/recruit-info";
+//    }
 }

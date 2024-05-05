@@ -1,9 +1,7 @@
 package com.iiproject.jobsearch.services;
 
-import com.iiproject.jobsearch.dto.ICompanyCount;
 import com.iiproject.jobsearch.dto.IRecruitmentCount;
 import com.iiproject.jobsearch.dto.UserDto;
-import com.iiproject.jobsearch.entities.Company;
 import com.iiproject.jobsearch.entities.Recruitment;
 import com.iiproject.jobsearch.entities.Role;
 import com.iiproject.jobsearch.entities.User;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class HomeServiceImp implements HomeService {
@@ -36,6 +35,8 @@ public class HomeServiceImp implements HomeService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
+
+
 
     //    TO GET THE POPULAR COMPANIES, RECRUITMENTS, CATEGORIES By Recruitment (id,quantity)
     @Override
@@ -65,15 +66,15 @@ public class HomeServiceImp implements HomeService {
 
     @Override
     public boolean confirmLogIn(UserDto theUserDto) {
-        String userDtoEmail = theUserDto.getUserEmail();
-        Optional<User> userOptional = userRepository.findByUserEmail(userDtoEmail);
+        String userDtoEmail = theUserDto.getEmail();
+        Optional<User> userOptional = userRepository.findByEmail(userDtoEmail);
         User theUser = null;
         if (userOptional.isPresent()){
             theUser = userOptional.get();
         }else {
             throw new RuntimeException("Did not find email - " + userDtoEmail);
         }
-        if(theUserDto.getUserPassword().equals(theUser.getUserPassword())){
+        if(theUserDto.getPassword().equals(theUser.getPassword())){
             return true;
         }else{
             throw new RuntimeException("The password not match!!!");
@@ -81,10 +82,17 @@ public class HomeServiceImp implements HomeService {
     }
 
     @Override
-    public void saveUserAndRole(User theUser, Role theRole) {
+    public void saveUserAndRole(User theUser, Role role) {
         userRepository.save(theUser);
-        roleRepository.save(theRole);
+        roleRepository.save(role);
     }
 
+    @Override
+    public User findByID(int id) {
+        Optional<User> recruiter = userRepository.findByUserId(id);
+        User theRecruiter = null;
+        if (recruiter.isPresent()) theRecruiter = recruiter.get();
+        return theRecruiter;
+    }
 
 }

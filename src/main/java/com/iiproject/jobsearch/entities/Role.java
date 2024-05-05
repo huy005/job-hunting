@@ -1,5 +1,6 @@
 package com.iiproject.jobsearch.entities;
 
+import io.micrometer.observation.ObservationFilter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,6 @@ public class Role {
     @Column(name="role_name")
     private String roleName;
 
-//    @OneToOne(mappedBy = "role", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
+//    @ManyToOne(mappedBy = "role")
 //    private User user;
 }
