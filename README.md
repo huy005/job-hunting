@@ -48,7 +48,7 @@ Shows all of the job descriptions with the relative companies
 
 9/Job Descriptions Addition(UI: done, Logic: in progress)  
 Recruiters post job descriptions and shows on homepage
-![img_6.png](img_6.png)
+![img_7.png](img_7.png)
 
 10/Job Descriptions Update(in progress)  
 Recruiters update job descriptions
