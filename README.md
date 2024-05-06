@@ -4,6 +4,7 @@ pre1/Run Sql file: resources/static/job_hunting.sql
 
 I/FUNDAMENTAL FUNCTIONS  
 URL: http://localhost:8080/home  -> Homepage that users have not logged in yet.
+![img_2.png](img_2.png)
 
 1/The Popular Companies
 Shows popular companies based on the position applied most or the most number of candidates  
@@ -28,7 +29,8 @@ Register a new account
 Form http://localhost:8080/logInPage , click "Register" anchor link   
 Fill register info in the form then click Register button
 "Successfully registered..." shown in case of success   
-Redirected to http://localhost:8080/main-home -> Homepage that users have logged in
+Redirected to http://localhost:8080/main-home -> Homepage that users have logged in  
+![img_4.png](img_4.png)
 
 6/Logging out  
 From main homepage, click "Log Out" button  
@@ -40,11 +42,13 @@ From main homepage, click "Personal Info" and choose one of 2 choices respective
 Upload logo or image(in progress)  
 Validation for each field(in progress)  
 
-8/Job Descriptions(in progress)  
+8/Job Descriptions  
 Shows all of the job descriptions with the relative companies
+![img_5.png](img_5.png)
 
-9/Job Descriptions Addition(in progress)  
+9/Job Descriptions Addition(UI: done, Logic: in progress)  
 Recruiters post job descriptions and shows on homepage
+![img_6.png](img_6.png)
 
 10/Job Descriptions Update(in progress)  
 Recruiters update job descriptions

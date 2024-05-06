@@ -8,10 +8,15 @@
 	clear: both;
 }
 
+.float-left{
+	float: left;
+}
+
 /* GENERAL */
 html,body{
 font-size: 16px;
 font-family: ‘Times New Roman’, Times, serif;
+	background-color: #a6ced3 !important;
 }
 
 /* HOME PAGE*/
@@ -101,4 +106,23 @@ font-family: ‘Times New Roman’, Times, serif;
 	width: 200px;
     height: 47px;
     font-size: 20px;
+}
+
+/*JOB DESCRIPTION*/
+.job-des-bottom-info-left>p{
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+.job-des-bottom-info-right>p{
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+.job-des-content>p{
+	margin-bottom: 0 !important;
+}
+
+.text-area-description{
+	margin: 1rem;
 }

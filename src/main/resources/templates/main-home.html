@@ -21,7 +21,10 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link active" href="#">Find Jobs<span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="#">Company Reviews</a>
+                <!--                POST/JOB DESCRIPTION INFO-->
+                <a class="nav-item nav-link" th:href="@{/recruiters/job-descriptions}">Job Description
+                    List</a>
+                <!--                PERSONAL INFO-->
                 <div class="dropdown">
                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
                             aria-expanded="false">
@@ -34,26 +37,25 @@
                             Info</a></li>
                     </ul>
                 </div>
-                <!--				<a class="nav-item nav-link btn-primary rounded text-center font-weight-bold" id="logInBtn" th:href="@{/logInPage}">Log In</a>-->
-                <!--				<a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
             </div>
         </div>
 
         <div class="navbar-nav" style="text-align:right">
             <form action="#" th:action="@{/logout}" method="POST">
-                <input type="submit" value="Log Out" class="btn btn-primary"/>
+                <input type="submit" value="Log Out" class="btn btn-dark"/>
             </form>
         </div>
     </nav>
     <div class="header-img"></div>
 </div>
-<!--Recruiter's Info Modals-->
+
+<!--RECRUITER'S INFO MODAL-->
 <div class="modal fade" id="recruiterInfoModal" tabindex="-1" aria-labelledby="recruiterInfoModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="recruiterInfoModalLabel">Update Recruiter's Info</h5>
+                <h5 class="modal-title" id="recruiterInfoModalLabel">Recruiter's Info</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -102,7 +104,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="companyInfoModalLabel">Update Recruiter's Info</h5>
+                <h5 class="modal-title" id="companyInfoModalLabel">Company's Info</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -145,12 +147,6 @@
     </div>
 </div>
 
-<p>
-    User: <span sec:authentication="principal.username"></span>
-    <br><br>
-    Role(s): <span sec:authentication="principal.authorities"></span>
-</p>
-
 <div class="content">
     <div class="container">
         <!--	TOP CATEGORIES-->
@@ -160,14 +156,14 @@
                 <h1 class="text-primary">THE POPULAR CATEGORIES</h1>
             </div>
             <div class="row text-center">
-                <div class="col-3" th:each="recruitmentQuantity : ${recruitmentsQuantity}">
-                    <h3 th:text="${recruitmentQuantity.category.categoryName}">Category1</h3>
-                    <p><span th:text="${recruitmentQuantity.quantity}">2</span> Interested position(s)</p>
+                <div class="col-3" th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
+                    <h3 th:text="${jobDescriptionQuantity.category.categoryName}">Category1</h3>
+                    <p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)</p>
                 </div>
             </div>
         </div>
-        <!--	TOP JOBS, TOP COMPANIES-->
 
+        <!--	TOP JOBS, TOP COMPANIES-->
         <table class="table table-borderless">
             <thead>
             <tr>
@@ -181,14 +177,14 @@
             <tbody>
             <tr>
                 <td>
-                    <div class="row mb-3 border-top" th:each="recruitmentQuantity : ${recruitmentsQuantity}">
+                    <div class="row mb-3 border-top" th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
                         <div class="col-9">
                             <div class="job-info ">
                                 <div class="job-info-detail">
-                                    <h5 class="job-info-h" th:text="${recruitmentQuantity.recruitmentType}">Full
+                                    <h5 class="job-info-h" th:text="${jobDescriptionQuantity.jobDescriptionType}">Full
                                         time</h5>
-                                    <h2 class="job-info-h" th:text="${recruitmentQuantity.title}">Title</h2>
-                                    <div class="job-info-ele" th:object="${recruitmentQuantity.company}">
+                                    <h2 class="job-info-h" th:text="${jobDescriptionQuantity.title}">Title</h2>
+                                    <div class="job-info-ele" th:object="${jobDescriptionQuantity.company}">
                                         <div class="job-info-ele-company-name float-left">
                                             <i class="fa-solid fa-building"></i>
                                             <p th:text="*{companyName}">Company's Name</p>
@@ -213,13 +209,13 @@
 
                 <td class="text-center">
                     <div class="text-center company-info border-top"
-                         th:each="recruitmentQuantity : ${recruitmentsQuantity}">
+                         th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
                         <div class="logo-img">
-                            <img th:src="${recruitmentQuantity.company.companyLogo}" width="10%"
+                            <img th:src="${jobDescriptionQuantity.company.companyLogo}" width="10%"
                                  alt="company-logo.png">
                         </div>
-                        <h5 th:text="${recruitmentQuantity.company.companyName}">Company's Name</h5>
-                        <p><span th:text="${recruitmentQuantity.quantity}">2</span> Interested position(s)</p>
+                        <h5 th:text="${jobDescriptionQuantity.company.companyName}">Company's Name</h5>
+                        <p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)</p>
                     </div>
                 </td>
             </tr>

@@ -22,7 +22,7 @@
 			<div class="navbar-nav">
 				<a class="nav-item nav-link active" href="#">Find Jobs<span class="sr-only">(current)</span></a>
 				<a class="nav-item nav-link" href="#">Company Reviews</a>
-				<a class="nav-item nav-link btn-primary rounded text-center font-weight-bold" id="logInBtn" th:href="@{/logInPage}">Log In</a>
+				<a class="nav-item nav-link btn btn-info rounded text-center font-weight-bold" id="logInBtn" th:href="@{/logInPage}">Log In</a>
 				<!--				<a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
 			</div>
 		</div>
@@ -39,9 +39,9 @@
 				<h1 class="text-primary">THE POPULAR CATEGORIES</h1>
 			</div>
 			<div class="row text-center">
-				<div class="col-3"  th:each="recruitmentQuantity : ${recruitmentsQuantity}">
-					<h3 th:text="${recruitmentQuantity.category.categoryName}">Category1</h3>
-					<p><span th:text="${recruitmentQuantity.quantity}">2</span> Interested position(s)</p>
+				<div class="col-3"  th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
+					<h3 th:text="${jobDescriptionQuantity.category.categoryName}">Category1</h3>
+					<p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)</p>
 				</div>
 			</div>
 		</div>
@@ -60,13 +60,13 @@
 			<tbody>
 			<tr>
 				<td>
-					<div class="row mb-3 border-top" th:each="recruitmentQuantity : ${recruitmentsQuantity}">
+					<div class="row mb-3 border-top" th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
 						<div class="col-9">
 							<div class="job-info ">
 								<div class="job-info-detail">
-									<h5 class="job-info-h" th:text="${recruitmentQuantity.recruitmentType}">Full time</h5>
-									<h2 class="job-info-h" th:text="${recruitmentQuantity.title}">Title</h2>
-									<div class="job-info-ele" th:object="${recruitmentQuantity.company}">
+									<h5 class="job-info-h" th:text="${jobDescriptionQuantity.jobDescriptionType}">Full time</h5>
+									<h2 class="job-info-h" th:text="${jobDescriptionQuantity.title}">Title</h2>
+									<div class="job-info-ele" th:object="${jobDescriptionQuantity.company}">
 										<div class="job-info-ele-company-name float-left">
 											<i class="fa-solid fa-building"></i>
 											<p th:text="*{companyName}">Company's Name</p>
@@ -90,13 +90,13 @@
 				</td>
 
 				<td class="text-center">
-					<div class="text-center company-info border-top" th:each="recruitmentQuantity : ${recruitmentsQuantity}">
+					<div class="text-center company-info border-top" th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
 						<div class="logo-img">
-							<img th:src="${recruitmentQuantity.company.companyLogo}" width="10%"
+							<img th:src="${jobDescriptionQuantity.company.companyLogo}" width="10%"
 								 alt="company-logo.png">
 						</div>
-						<h5 th:text="${recruitmentQuantity.company.companyName}">Company's Name</h5>
-						<p><span th:text="${recruitmentQuantity.quantity}">2</span> Interested position(s)</p>
+						<h5 th:text="${jobDescriptionQuantity.company.companyName}">Company's Name</h5>
+						<p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)</p>
 					</div>
 				</td>
 			</tr>

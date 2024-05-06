@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Search Home Page</title>
+    <!--    CSS Styles-->
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <!--    BT CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!--	Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">JobSearch</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="#">Find Jobs<span class="sr-only">(current)</span></a>
+                <!--                POST/JOB DESCRIPTION INFO-->
+                <a class="nav-item nav-link" th:href="@{/recruiters/job-descriptions}">Job Description
+                    List</a>
+                <!--                PERSONAL INFO-->
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
+                            aria-expanded="false">
+                        Personal Info
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#recruiterInfoModal">Recruiter's
+                            Info</a></li>
+                        <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#companyInfoModal">Company's
+                            Info</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-nav" style="text-align:right">
+            <form action="#" th:action="@{/logout}" method="POST">
+                <input type="submit" value="Log Out" class="btn btn-dark"/>
+            </form>
+        </div>
+    </nav>
+    <div class="header-img"></div>
+</div>
+
+<!--RECRUITER'S INFO MODAL-->
+<div class="modal fade" id="recruiterInfoModal" tabindex="-1" aria-labelledby="recruiterInfoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recruiterInfoModalLabel">Recruiter's Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-left">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="emailReInfo" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="emailReInfo">
+                        <p id="errorEmailReInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="fullNameReInfo" class="col-form-label">Full Name:</label>
+                        <input type="text" class="form-control" id="fullNameReInfo">
+                        <p id="errorFullNameReInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="addressReInfo" class="col-form-label">Address:</label>
+                        <input type="text" class="form-control" id="addressReInfo">
+                        <p id="errorAddressReInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumberReInfo" class="col-form-label">Phone Number:</label>
+                        <input type="text" class="form-control" id="phoneNumberReInfo">
+                        <p id="errorPhoneNumberReInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionReInfo" class="col-form-label">Description:</label>
+                        <textarea id="descriptionReInfo" style="width: 100%;" rows="4"
+                                  cols="50">
+                        </textarea><br><br>
+                        <p id="errorDescriptionReInfo"></p>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <input type="button" id="updateInfoBtn" value="Submit" class="btn btn-primary"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--COMPANY's INFO MODAL-->
+<div class="modal fade" id="companyInfoModal" tabindex="-1" aria-labelledby="companyInfoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="companyInfoModalLabel">Company's Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-left">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="emailCoInfo" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="emailCoInfo">
+                        <p id="errorEmailCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameCoInfo" class="col-form-label">Full Name:</label>
+                        <input type="text" class="form-control" id="nameCoInfo">
+                        <p id="errorNameCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="addressCoInfo" class="col-form-label">Address:</label>
+                        <input type="text" class="form-control" id="addressCoInfo">
+                        <p id="errorAddressCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumberCoInfo" class="col-form-label">Phone Number:</label>
+                        <input type="text" class="form-control" id="phoneNumberCoInfo">
+                        <p id="errorPhoneNumberCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionCoInfo" class="col-form-label">Description:</label>
+                        <textarea id="descriptionCoInfo" style="width: 100%;" rows="4"
+                                  cols="50">
+                        </textarea><br><br>
+                        <p id="errorDescriptionCoInfo"></p>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <input type="button" id="updateInfo2Btn" value="Submit" class="btn btn-primary"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container">
+        <!--	TOP TITLE-->
+        <div class="content-list-jobs">
+            <div class="content-list-jobs-header text-center">
+                <h1 class="text-primary">LIST OF JOB DESCRIPTIONS</h1>
+            </div>
+            <div class="row text-center">
+                <div class="col-3" th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
+                    <h3 th:text="${jobDescriptionQuantity.category.categoryName}">Category1</h3>
+                    <p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)</p>
+                </div>
+            </div>
+        </div>
+
+        <!--                ADD A NEW JOB DESCRIPTION BUTTON-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn btn-primary float-left mb-3" data-toggle="modal"
+                            data-target="#addNewJobModal" data-whatever="@mdo">
+                        POST A NEW JOB
+                    </button>
+                </div>
+                <!--                        SEARCH BAR-->
+                <div class="col-6">
+                    <form action="#" method="get">
+                        <div class="input-group">
+                            <input type="text" name="keyword"
+                                   class="form-control" placeholder="Search for..."/>
+                            <input type="hidden" name="keyword2" value="search"/>
+                            <span>
+                                <input class="btn btn-primary" type="submit" value="Search!"/>
+                             </span>
+                        </div>
+                    </form>
+                </div>
+                <!--                        MODAL-->
+            </div>
+            <div class="modal fade" id="addNewJobModal" tabindex="-1" aria-labelledby="addNewJobModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addNewJobModalLabel">POST A NEW JOB</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-left">
+                            <form action="#" method="POST">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="title" class="col-form-label">Title:</label>
+                                            <input type="text" class="form-control" id="title">
+                                            <p id="errorTitle" style="display:none"></p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="quantity" class="col-form-label">Quantity:</label>
+                                            <input type="text" class="form-control" id="quantity">
+                                            <p id="errorQuantity" style="display:none"></p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="experience"
+                                                   class="col-form-label">Required Experience:</label>
+                                            <input type="text" class="form-control" id="experience">
+                                            <p id="errorExperience" style="display:none"></p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="experience"
+                                                   class="jobDesAddress">Working Address:</label>
+                                            <input type="text" class="form-control" id="jobDesAddress">
+                                            <p id="errorJobDesAddress" style="display:none"></p>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="deadline"
+                                                   class="col-form-label">Deadline:</label>
+                                            <input type="text" class="form-control" id="deadline">
+                                            <p id="errorDeadline" style="display:none"></p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="salary"
+                                                   class="col-form-label">Salary:</label>
+                                            <input type="text" class="form-control" id="salary">
+                                            <p id="errorSalary" style="display:none"></p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="jobDesType"
+                                                   class="col-form-label">Type:</label>
+                                            <input type="text" class="form-control" id="jobDesType">
+                                            <p id="errorJobDesType" style="display:none"></p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="category" class="col-form-label">Category:</label>
+                                            <select id="category">
+                                                <option value="1">NODEJS
+                                                </option>
+                                                <option value="2">PHP
+                                                </option>
+                                                <option value="3">JAVA
+                                                </option>
+                                                <option value="4">ASP .NET
+                                                </option>
+                                                <option value="5">C#
+                                                </option>
+                                                <option value="6">TYPESCRIPT
+                                                </option>
+                                                <option value="7">RUBY
+                                                </option>
+                                                <option value="8">JAVASCRIPT
+                                                </option>
+                                                <option value="9">PYTHON
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="text-area-description">
+                                        <div class="form-group">
+                                            <label for="jobDesDescription" class="col-form-label">Description:</label>
+                                            <textarea id="jobDesDescription" style="width: 100%;" rows="4"
+                                                      cols="50">
+                                            </textarea><br><br>
+                                            <p id="errorJobDesDescription"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                                <input type="button" id="addUserBtn" value="POST" class="btn btn-primary"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--	LIST OF JOB DESCRIPTIONS-->
+            <table class="table job-des-table">
+                <tbody>
+                <tr th:each="jobDescription : ${jobDescriptionList}">
+                    <td class="job-des-content">
+                        <p th:text="${jobDescription.jobDescriptionType}">JD TYPE</p>
+                        <h3 th:text="${jobDescription.title}">JD TITLE</h3>
+                        <div class="job-des-bottom-info">
+                            <div class="job-des-bottom-info-left float-left">
+                                <i class="fa-solid fa-building float-left"></i>
+                                <p th:text="${jobDescription.company.getCompanyName()}">COMPANY NAME</p>
+                            </div>
+                            <div class="job-des-bottom-info-right">
+                                <i class="fa-solid fa-location-dot float-left"></i>
+                                <p th:text="${jobDescription.jobDescriptionAddress}">JD ADDRESS</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </td>
+
+                    <!--Buttons-->
+                    <td>
+<!--                        <div class="dropdown">-->
+<!--                            <button class="btn btn btn-info dropdown-toggle" type="button"-->
+<!--                                    data-toggle="dropdown"-->
+<!--                                    aria-expanded="false">-->
+<!--                                Operations-->
+<!--                            </button>-->
+                            <div>
+                                <a class="dropdown-item " href="#"><span class="btn btn-primary">Edit</span></a>
+                                <a class="dropdown-item " href="#"><span class="btn btn-danger">Delete</span></a>
+                            </div>
+
+<!--                            -->
+<!--                            <div class="dropdown-menu">-->
+<!--                                <a class="dropdown-item " href="#"><span class="btn btn-primary">Edit</span></a>-->
+<!--                                <a class="dropdown-item " href="#"><span class="btn btn-danger">Delete</span></a>-->
+                                <!--                            &lt;!&ndash;                                        UPDATE BUTTON&ndash;&gt;-->
+                                <!--                            <a class="dropdown-item" th:href="@{/users/update(userId=${user.id})}"><span-->
+                                <!--                                    class="blue">Update</span></a>-->
+
+                                <!--                            <a class="dropdown-item" href="#"><span class="blue">Detail</span></a>-->
+                                <!--                            &lt;!&ndash;                                        DELETE BUTTON&ndash;&gt;-->
+                                <!--                            <a class="dropdown-item" th:href="@{/users/delete(userId=${user.id})}"-->
+                                <!--                               onclick="if (!(confirm('Are you sure you want to delete this user?'))) return false">-->
+                                <!--                                <span class="red">Delete</span></a>-->
+
+                                <!--                            &lt;!&ndash;                                        LOCK/UNLOCK BUTTON&ndash;&gt;-->
+                                <!--                            <a class="dropdown-item cursorPointer" th:id="'buttonLock-' + ${user.id}"-->
+                                <!--                               th:classappend="${user.userStatus == 0} ? disabled : ''"-->
+                                <!--                               th:attr="onclick=|changeStatus('${user.id}', '${user.userStatus}')|"-->
+                                <!--                            >-->
+                                <!--                                Lock</a>-->
+                                <!--                            <a class="dropdown-item cursorPointer" th:id="'buttonUnlock-' + ${user.id}"-->
+                                <!--                               th:classappend="${user.userStatus == 1} ? disabled : ''"-->
+                                <!--                               th:attr="onclick=|changeStatus('${user.id}', '${user.userStatus}')|"-->
+                                <!--                            >-->
+                                <!--                                Unlock</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--                    Pagination Buttons-->
+            <div>
+                <ul th:if="${! #lists.isEmpty(users)}">
+                    <li style="display:inline;">
+                        <span th:if="${userPage.first}">&lt;&lt;First</span>
+                        <a
+                                th:if="${!userPage.first}"
+                                th:href="@{/users/list(page = ${userPage.number} - 1)}"
+                        >
+                            &lt;&lt;Previous
+                        </a>
+                    </li>
+                    <li
+                            th:each="i : ${#numbers.sequence(0, userPage.totalPages - 1)}"
+                            style="display:inline; margin-left:10px;"
+                    >
+                        <span th:if="${i} == ${userPage.number}" th:text="${i + 1}">1</span>
+                        <a
+                                th:if="${i} != ${userPage.number}"
+                                th:href="@{/users/list(page = ${i})}"
+                        >
+                            <span th:text="${i+1}"></span>
+                        </a>
+                    </li>
+                    <li style="display:inline; margin-left: 10px">
+                        <span th:if="${userPage.last}">Last&gt;&gt;</span>
+                        <a th:if="${!userPage.last}" th:href="@{/users/list(page = (${userPage.number} + 1))}">
+                            Next&gt;&gt;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-secondary">
+        <!-- Footer Links -->
+        <div class="text-center">
+            <!-- Content -->
+            <h5 class="text-uppercase pt-3">Footer Content</h5>
+            <p>Here is your footer content.</p>
+        </div>
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <a href="/" class="text-info"> MDBootstrap.com</a>
+        </div>
+    </footer>
+</div>
+<!--BT JS-->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<!--MAIN JS-->
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>
