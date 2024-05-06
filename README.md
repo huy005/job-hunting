@@ -1,4 +1,4 @@
-This application support candidates and recruiters on job-hunting.
+This application supports candidates and recruiters on job-hunting.
 *Prerequisites:
 pre1/Run Sql file: resources/static/job_hunting.sql
 
@@ -14,6 +14,7 @@ Shows popular jobs based on the position applied most or the most number of cand
 
 3/THE POPULAR CATEGORIES(ASP .NET, PHP,...)  
 Shows popular categories based on the position applied most
+
 ---
 II/RECRUITER'S FUNCTIONS  
 
@@ -58,6 +59,7 @@ Recruiters delete job descriptions
 
 12/Candidate List View(in progress)  
 Recruiters view candidate list
+
 ---
 III/CANDIDATE'S FUNCTIONS  
 5 functions in total (in progress)
