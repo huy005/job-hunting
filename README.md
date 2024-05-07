@@ -44,7 +44,7 @@ Upload logo or image(in progress)
 Validation for each field(in progress)  
 
 8/Job Descriptions  
-Shows all of the job descriptions with the relative companies
+Shows all of the job descriptions with the correspronding companies
 ![img_5.png](img_5.png)
 
 9/Job Descriptions Addition(UI: done, Logic: in progress)  
