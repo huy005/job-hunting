@@ -11,8 +11,7 @@ import java.util.List;
 
 public interface HomeService {
     List<JobDescription> getJobDescriptionsByQuantity();
-    void save(User user);
     boolean confirmLogIn(UserDto theUserDto);
     void saveUserAndRole(User theUser, Role role);
-    User findByID(int id);
+    User findUserByEmail(String theEmail);
 }

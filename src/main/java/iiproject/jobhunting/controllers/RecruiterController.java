@@ -1,13 +1,13 @@
 package iiproject.jobhunting.controllers;
 
-import iiproject.jobhunting.dto.CompanyDto;
-import iiproject.jobhunting.dto.GenericResponse;
-import iiproject.jobhunting.dto.User2Dto;
-import iiproject.jobhunting.entities.Company;
+import iiproject.jobhunting.dto.*;
 import iiproject.jobhunting.entities.JobDescription;
+import iiproject.jobhunting.entities.Role;
+import iiproject.jobhunting.entities.User;
 import iiproject.jobhunting.exception.UserNotFoundException;
 import iiproject.jobhunting.helpers.Utils;
-import iiproject.jobhunting.services.CompanyService;
+import iiproject.jobhunting.services.HomeService;
+import iiproject.jobhunting.services.RecruiterService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +21,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 @Controller
 @RequestMapping("/recruiters")
 public class RecruiterController {
 
     private final HttpSession httpSession;
-    private final CompanyService companyService;
+    private final RecruiterService recruiterService;
+    private final HomeService homeService;
 
     @Autowired
-    public RecruiterController(HttpSession httpSession, CompanyService companyService) {
+    public RecruiterController(HttpSession httpSession, RecruiterService recruiterService,HomeService homeService) {
         this.httpSession = httpSession;
-        this.companyService = companyService;
+        this.recruiterService = recruiterService;
+        this.homeService = homeService;
     }
 
     @PostMapping("/recruiter-info")
@@ -39,7 +43,7 @@ public class RecruiterController {
                                                                           Authentication authentication,
                                                                           HttpStatus httpStatus) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boolean emailConfirmed = companyService.confirmEmailAndSave(userDetails.getUsername(), user2Dto);
+        boolean emailConfirmed = recruiterService.confirmEmailAndSave(userDetails.getUsername(), user2Dto);
         if (emailConfirmed) {
             return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
                     "The recruiter's information updated successfully.", Utils.getTimeStampHelper()));
@@ -52,7 +56,7 @@ public class RecruiterController {
                                                                         Authentication authentication,
                                                                         HttpStatus httpStatus) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boolean companyConfirmed = companyService.confirmCompanyAndSave(userDetails.getUsername(), companyDto);
+        boolean companyConfirmed = recruiterService.confirmCompanyAndSave(userDetails.getUsername(), companyDto);
         if (companyConfirmed) {
             return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
                     "The company's information updated successfully.", Utils.getTimeStampHelper()));
@@ -64,14 +68,25 @@ public class RecruiterController {
     public String getJobDescriptions(
             Authentication authentication, HttpStatus httpStatus, Model theModel) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        List<JobDescription> jobDescriptionList = companyService.getJobDescriptionList(userDetails.getUsername());
-//        Company company = companyService.getCompany(userDetails.getUsername());
+        List<JobDescription> jobDescriptionList = recruiterService.getJobDescriptionList(userDetails.getUsername());
+//        Company company = recruiterService.getCompany(userDetails.getUsername());
         if (jobDescriptionList != null) {
-            theModel.addAttribute("jobDescriptionList",jobDescriptionList);
+            theModel.addAttribute("jobDescriptionList", jobDescriptionList);
 //            theModel.addAttribute("company",company);
             return "job-descriptions";
         }
         throw new UserNotFoundException("The company not found.");
     }
 
+    //    ADD A JOB DESCRIPTION
+    @PostMapping("/job-description-registration")
+    public @ResponseBody ResponseEntity<GenericResponse> saveUser(@RequestBody @Valid JobDescriptionDto jobDescriptionDto,
+                                                          Authentication authentication,HttpStatus httpStatus) {
+        boolean isExistedJobDescription = recruiterService.saveJobDescription(jobDescriptionDto, authentication);
+        if (isExistedJobDescription){
+            return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
+                    "The company's information updated successfully.", Utils.getTimeStampHelper()));
+        }
+        throw new UserNotFoundException("The user not found.");
+    }
 }

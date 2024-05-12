@@ -1,26 +1,22 @@
-package iiproject.jobhunting.security;
+package iiproject.jobhunting.configs;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +33,7 @@ public class SecurityConfig {
 
         // define query to retrieve the authorities/roles by username
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-                "select u.user_email as username, u.role_id, r.role_name from user_db AS u\n" +
+                "select u.user_email as username, r.role_name as role from user_db AS u\n" +
                         "inner join role_db AS r\n" +
                         "on u.role_id = r.role_id\n" +
                         "where u.user_email = ?");
@@ -46,24 +42,25 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        http.csrf(AbstractHttpConfigurer::disable)
+        http.csrf((csrf) -> csrf
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/css/**", "/js/**", "/img/**","/home").permitAll()
+                                .requestMatchers("/css/**", "/js/**", "/img/**","/index").permitAll()
+                                .requestMatchers("/recruiters/**").hasAuthority("RECRUITER")
+                                .requestMatchers("/candidates/**").hasAuthority("CANDIDATE")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
                         form
-                                .loginPage("/logInPage")
+                                .loginPage("/log-in-page")
                                 .loginProcessingUrl("/authenticateTheUser")
-                                .defaultSuccessUrl("/main-home")
+                                .defaultSuccessUrl("/home")
                                 .usernameParameter("email")
                                 .passwordParameter("password")
                                 .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll
-                )
+                .logout((logout) -> logout.logoutSuccessUrl("/index"))
                 .exceptionHandling(configurer ->
                         configurer.accessDeniedPage("/access-denied")
                 );
@@ -76,16 +73,5 @@ public class SecurityConfig {
         return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/img/**");
     }
 
-    @Bean
-    SecurityFilterChain springSecurity(HttpSecurity http) throws Exception {
-        HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
-        requestCache.setMatchingRequestParameterName(null);
-        http
-                // ...
-                .requestCache((cache) -> cache
-                        .requestCache(requestCache)
-                );
-        return http.build();
-    }
 
 }

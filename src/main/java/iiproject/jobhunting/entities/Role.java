@@ -22,6 +22,6 @@ public class Role {
     @Column(name="role_name")
     private String roleName;
 
-//    @ManyToOne(mappedBy = "role")
+//    @OneToOne(mappedBy = "role",cascade = {CascadeType.ALL})
 //    private User user;
 }

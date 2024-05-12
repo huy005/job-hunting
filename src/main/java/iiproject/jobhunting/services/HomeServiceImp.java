@@ -19,17 +19,14 @@ import java.util.Optional;
 @Service
 public class HomeServiceImp implements HomeService {
 
-    private CompanyRepository companyRepository;
     private JobDescriptionRepository jobDescriptionRepository;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
 
     @Autowired
-    public HomeServiceImp(CompanyRepository companyRepository,
-                          JobDescriptionRepository jobDescriptionRepository,
+    public HomeServiceImp(JobDescriptionRepository jobDescriptionRepository,
                           UserRepository userRepository,
                           RoleRepository roleRepository) {
-        this.companyRepository = companyRepository;
         this.jobDescriptionRepository = jobDescriptionRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -59,11 +56,6 @@ public class HomeServiceImp implements HomeService {
     }
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
-    }
-
-    @Override
     public boolean confirmLogIn(UserDto theUserDto) {
         String userDtoEmail = theUserDto.getEmail();
         Optional<User> userOptional = userRepository.findByEmail(userDtoEmail);
@@ -87,11 +79,14 @@ public class HomeServiceImp implements HomeService {
     }
 
     @Override
-    public User findByID(int id) {
-        Optional<User> recruiter = userRepository.findByUserId(id);
-        User theRecruiter = null;
-        if (recruiter.isPresent()) theRecruiter = recruiter.get();
-        return theRecruiter;
+    public User findUserByEmail(String theEmail) {
+        Optional<User> userOptional = userRepository.findByEmail(theEmail);
+        User user = null;
+        if (userOptional.isPresent()) {
+            return user = userOptional.get();
+        }
+        return null;
     }
+
 
 }

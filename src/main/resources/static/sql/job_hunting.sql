@@ -12,8 +12,8 @@ CREATE TABLE role_db
 );
 
 INSERT INTO role_db(role_name)
-VALUES ('Admin'),
-('User');
+VALUES ('RECRUITER'),
+('CANDIDATE');
 
 CREATE TABLE category_db
 (
@@ -38,20 +38,21 @@ CREATE TABLE company_db
     company_name varchar(255),
     company_phone_number varchar(255),
     company_description text,
+    created_at datetime,
     status int(11),
     primary key (company_id)
 );
 
 SET foreign_key_checks = 0;
-INSERT INTO company_db(company_address,company_email,company_name,company_phone_number,company_description,status)
-VALUES ('589 HCM','qwe@email.com','Comp1','0902222221','Company No.1',1),
-('344 MKO','ert4@email.com','Comp2','0705559990','Company No.2',1),
-('666 IWP','dfg7@email.com','Comp3','0904444555','Company No.3',1),
-('2934 AAA','9pown@email.com','Comp4','0118889929','Company No.4',1),
-('0023 OWJ','bnm@email.com','Comp5','0905553332','Company No.5',1),
-('738/2 HEN','lkj1@email.com','Comp6','0703336665','Company No.6',1),
-('8222 JQK','zxc3@email.com','Comp7','01012444566','Company No.7',1),
-('21323 BBOIK','dedkoj0083@email.com','Comp8','02839900292','Company No.8',1);
+INSERT INTO company_db(company_address,company_email,company_name,company_phone_number,company_description,status,company_logo)
+VALUES ('589 HCM','qwe@email.com','Comp1','0902222221','Company No.1',1, "img/flower-logo.png"),
+('344 MKO','ert4@email.com','Comp2','0705559990','Company No.2',1,"img/leaves-logo.png"),
+('666 IWP','dfg7@email.com','Comp3','0904444555','Company No.3',1,"img/leaves-logo2.png"),
+('2934 AAA','9pown@email.com','Comp4','0118889929','Company No.4',1,"img/sakura-logo.png"),
+('0023 OWJ','bnm@email.com','Comp5','0905553332','Company No.5',1,"img/tea-leaves-logo.png"),
+('738/2 HEN','lkj1@email.com','Comp6','0703336665','Company No.6',1,"img/tropical-leaves-logo.png"),
+('8222 JQK','zxc3@email.com','Comp7','01012444566','Company No.7',1,"img/tropical-leaves-logo2.png"),
+('21323 BBOIK','dedkoj0083@email.com','Comp8','02839900292','Company No.8',1,"img/meal-logo.png");
 
 CREATE TABLE job_description_db
 (
@@ -65,7 +66,7 @@ CREATE TABLE job_description_db
     job_description_type varchar(255),
 	description varchar(255),
     deadline varchar(255),
-    created_at varchar(255),
+    created_at datetime,
     status int(11),
 	view int(11),
     company_id int(11),
@@ -95,6 +96,7 @@ CREATE TABLE user_db
 	phone_number varchar(255),
     user_description varchar(255),
     status int(11),
+    created_at datetime,
     role_id int(11),
     company_id int (11),
     primary key (user_id),

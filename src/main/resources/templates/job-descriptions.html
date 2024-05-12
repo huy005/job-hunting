@@ -13,7 +13,7 @@
 <body>
 <div class="header">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">JobSearch</a>
+        <a class="navbar-brand" href="#">JobHunting</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -167,13 +167,14 @@
             <div class="row">
                 <div class="col-6">
                     <button class="btn btn-primary float-left mb-3" data-toggle="modal"
-                            data-target="#addNewJobModal" data-whatever="@mdo">
+                            data-target="#jdReModal" data-whatever="@mdo">
                         POST A NEW JOB
                     </button>
                 </div>
                 <!--                        SEARCH BAR-->
                 <div class="col-6">
                     <form action="#" method="get">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <div class="input-group">
                             <input type="text" name="keyword"
                                    class="form-control" placeholder="Search for..."/>
@@ -184,9 +185,9 @@
                         </div>
                     </form>
                 </div>
-                <!--                        MODAL-->
+                <!-- POST A NEW JOB MODAL-->
             </div>
-            <div class="modal fade" id="addNewJobModal" tabindex="-1" aria-labelledby="addNewJobModalLabel"
+            <div class="modal fade" id="jdReModal" tabindex="-1" aria-labelledby="addNewJobModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -196,58 +197,59 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+
                         <div class="modal-body text-left">
                             <form action="#" method="POST">
+                                <div class="form-group">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                </div>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="title" class="col-form-label">Title:</label>
-                                            <input type="text" class="form-control" id="title">
-                                            <p id="errorTitle" style="display:none"></p>
+                                            <label for="jd-title" class="col-form-label">Title:</label>
+                                            <input type="text" class="form-control" id="jd-title">
+                                            <p id="error-jd-title" style="display:none"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="quantity" class="col-form-label">Quantity:</label>
-                                            <input type="text" class="form-control" id="quantity">
-                                            <p id="errorQuantity" style="display:none"></p>
+                                            <label for="jd-quantity" class="col-form-label">Quantity:</label>
+                                            <input type="text" class="form-control" id="jd-quantity">
+                                            <p id="error-jd-quantity" style="display:none"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="experience"
+                                            <label for="jd-experience"
                                                    class="col-form-label">Required Experience:</label>
-                                            <input type="text" class="form-control" id="experience">
-                                            <p id="errorExperience" style="display:none"></p>
+                                            <input type="text" class="form-control" id="jd-experience">
+                                            <p id="error-jd-experience" style="display:none"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="experience"
+                                            <label for="jd-address"
                                                    class="jobDesAddress">Working Address:</label>
-                                            <input type="text" class="form-control" id="jobDesAddress">
-                                            <p id="errorJobDesAddress" style="display:none"></p>
+                                            <input type="text" class="form-control" id="jd-address">
+                                            <p id="error-jd-address" style="display:none"></p>
                                         </div>
-
-
                                     </div>
-
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="deadline"
+                                            <label for="jd-deadline"
                                                    class="col-form-label">Deadline:</label>
-                                            <input type="text" class="form-control" id="deadline">
-                                            <p id="errorDeadline" style="display:none"></p>
+                                            <input type="text" class="form-control" id="jd-deadline">
+                                            <p id="error-jd-deadline" style="display:none"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="salary"
+                                            <label for="jd-salary"
                                                    class="col-form-label">Salary:</label>
-                                            <input type="text" class="form-control" id="salary">
-                                            <p id="errorSalary" style="display:none"></p>
+                                            <input type="text" class="form-control" id="jd-salary">
+                                            <p id="error-jd-salary" style="display:none"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="jobDesType"
+                                            <label for="jd-type"
                                                    class="col-form-label">Type:</label>
-                                            <input type="text" class="form-control" id="jobDesType">
-                                            <p id="errorJobDesType" style="display:none"></p>
+                                            <input type="text" class="form-control" id="jd-type">
+                                            <p id="error-jd-type" style="display:none"></p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="category" class="col-form-label">Category:</label>
-                                            <select id="category">
+                                            <label for="jd-category" class="col-form-label">Category:</label>
+                                            <select id="jd-category">
                                                 <option value="1">NODEJS
                                                 </option>
                                                 <option value="2">PHP
@@ -271,8 +273,8 @@
                                     </div>
                                     <div class="text-area-description">
                                         <div class="form-group">
-                                            <label for="jobDesDescription" class="col-form-label">Description:</label>
-                                            <textarea id="jobDesDescription" style="width: 100%;" rows="4"
+                                            <label for="jd-description" class="col-form-label">Description:</label>
+                                            <textarea id="jd-description" style="width: 100%;" rows="4"
                                                       cols="50">
                                             </textarea><br><br>
                                             <p id="errorJobDesDescription"></p>
@@ -282,7 +284,7 @@
                             </form>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
-                                <input type="button" id="addUserBtn" value="POST" class="btn btn-primary"/>
+                                <input type="button" id="addJobDescriptionBtn" value="POST" class="btn btn-primary"/>
                             </div>
                         </div>
                     </div>

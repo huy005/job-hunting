@@ -1,121 +1,303 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset="UTF-8">
-	<title>Job Search Home Page</title>
-	<!--    CSS Styles-->
-	<link th:href="@{/css/styles.css}" rel="stylesheet"/>
-	<!--    BT CSS -->
-	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
-	<!--	Font Awesome-->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <meta charset="UTF-8">
+    <title>Job Search Home Page</title>
+    <!--    CSS Styles-->
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <!--    BT CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!--	Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 <div class="header">
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">JobSearch</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-				aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-			<div class="navbar-nav">
-				<a class="nav-item nav-link active" href="#">Find Jobs<span class="sr-only">(current)</span></a>
-				<a class="nav-item nav-link" href="#">Company Reviews</a>
-				<a class="nav-item nav-link btn btn-info rounded text-center font-weight-bold" id="logInBtn" th:href="@{/logInPage}">Log In</a>
-				<!--				<a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
-			</div>
-		</div>
-	</nav>
-	<div class="header-img"></div>
+    <!--        TOKEN-->
+<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">JobHunting</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="#">Find Jobs<span class="sr-only">(current)</span></a>
+                <!--                POST/JOB DESCRIPTION INFO-->
+                <a class="nav-item nav-link" th:href="@{/recruiters/job-descriptions}">Job Description
+                    List</a>
+                <!--                PERSONAL INFO-->
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
+                            aria-expanded="false">
+                        Personal Info
+                    </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                            <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#recruiterInfoModal">Recruiter's
+                                Info</a></li>
+                            <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#companyInfoModal">Company's
+                                Info</a></li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-nav" style="text-align:right">
+            <form action="#" th:action="@{/logout}" method="POST">
+                <input type="submit" value="Log Out" class="btn btn-dark"/>
+            </form>
+        </div>
+    </nav>
+    <div class="header-img"></div>
+</div>
+
+<!--RECRUITER'S INFO MODAL-->
+<div class="modal fade" id="recruiterInfoModal" tabindex="-1" aria-labelledby="recruiterInfoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recruiterInfoModalLabel">Recruiter's Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-left" th:object="${user}">
+                <!--                UPLOAD USER'S IMAGE-->
+                <div class="single-upload form-container">
+                    <div class="row">
+                        <div class="col-8">
+                            <form id="userImageReInfoForm" name="singleUploadForm" method="post">
+                                <div class="form-group">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                </div>
+                                <label for="userImageReInfoForm-info">Choose a user image:</label><br>
+                                <input id="userImageReInfoForm-info" type="file" name="file"
+                                       style="margin-bottom: 0.3rem;"/>
+<!--                                <p id="errorUserImageReInfoForm"></p>-->
+<!--                                <p id="successfulUserImageReInfoForm"></p>-->
+                                <button type="submit" class="primary submit-btn">Upload</button>
+                            </form>
+                        </div>
+                        <div class="col-4">
+                            <div class="logo-img">
+                                <img th:src="*{userImage}" width="100%"
+                                     alt="user-image.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form action="#" method="POST">
+                    <div class="form-group">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" id="userImageReInfo"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailReInfo" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="emailReInfo" disabled th:field="*{email}">
+                        <!--                                            <p id="errorEmailReInfo"></p>-->
+                    </div>
+                    <div class="form-group">
+                        <label for="fullNameReInfo" class="col-form-label">Full Name:</label>
+                        <input type="text" class="form-control" id="fullNameReInfo" th:field="*{username}">
+                        <p id="errorFullNameReInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="addressReInfo" class="col-form-label">Address:</label>
+                        <input type="text" class="form-control" id="addressReInfo" th:field="*{userAddress}">
+                        <p id="errorAddressReInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumberReInfo" class="col-form-label">Phone
+                            Number:</label>
+                        <input type="text" class="form-control" id="phoneNumberReInfo" th:field="*{phoneNumber}">
+                        <p id="errorPhoneNumberReInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionReInfo" class="col-form-label">Description:</label>
+                        <textarea id="descriptionReInfo" style="width: 100%;" rows="4"
+                                  cols="50" th:field="*{userDescription}">
+                        </textarea><br><br>
+                        <p id="errorDescriptionReInfo"></p>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <input type="button" id="updateInfoBtn" value="Submit" class="btn btn-primary"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--COMPANY's INFO MODAL-->
+<div class="modal fade" id="companyInfoModal" tabindex="-1" aria-labelledby="companyInfoModalLabel"
+     aria-hidden="true" th:object="${company}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="companyInfoModalLabel">Company's Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-left">
+                <!--                UPLOAD　LOGO-->
+                <div class="single-upload form-container">
+                    <div class="row">
+                        <div class="col-8">
+                            <form id="companyLogoCoInfoForm" name="singleUploadForm" method="post">
+                                <div class="form-group">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                </div>
+                                <label for="companyLogoCoForm-info">Choose a company logo:</label>
+                                <input id="companyLogoCoForm-info" type="file" name="file" style="margin-bottom: 0.3rem;"/>
+                                <button type="submit" class="primary submit-btn">Upload</button>
+                            </form>
+                        </div>
+                        <div class="col-4">
+                            <div class="logo-img">
+                                <img th:src="*{companyLogo}" width="100%"
+                                     alt="company-logo.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" id="companyLogoCoInfo"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailCoInfo" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="emailCoInfo" th:field="*{companyEmail}">
+                        <p id="errorEmailCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameCoInfo" class="col-form-label">Full Name:</label>
+                        <input type="text" class="form-control" id="nameCoInfo" th:field="*{companyName}">
+                        <p id="errorNameCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="addressCoInfo" class="col-form-label">Address:</label>
+                        <input type="text" class="form-control" id="addressCoInfo" th:field="*{companyAddress}">
+                        <p id="errorAddressCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumberCoInfo" class="col-form-label">Phone Number:</label>
+                        <input type="text" class="form-control" id="phoneNumberCoInfo"
+                               th:field="*{companyPhoneNumber}">
+                        <p id="errorPhoneNumberCoInfo"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionCoInfo" class="col-form-label">Description:</label>
+                        <textarea id="descriptionCoInfo" style="width: 100%;" rows="4"
+                                  cols="50" th:field="*{companyDescription}">
+                        </textarea><br><br>
+                        <p id="errorDescriptionCoInfo"></p>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <input type="button" id="updateInfo2Btn" value="Submit" class="btn btn-primary"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="content">
-	<div class="container">
-		<!--	TOP CATEGORIES-->
-		<div class="content-list-jobs">
-			<div class="content-list-jobs-header text-center">
-				<p class="mb-0 pt-3 px-1 text-info">LIST OF CATEGORIES</p>
-				<h1 class="text-primary">THE POPULAR CATEGORIES</h1>
-			</div>
-			<div class="row text-center">
-				<div class="col-3"  th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
-					<h3 th:text="${jobDescriptionQuantity.category.categoryName}">Category1</h3>
-					<p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)</p>
-				</div>
-			</div>
-		</div>
-		<!--	TOP JOBS, TOP COMPANIES-->
+    <div class="container">
+        <!--	TOP CATEGORIES-->
+        <div class="content-list-jobs">
+            <div class="content-list-jobs-header text-center">
+                <p class="mb-0 pt-3 px-1 text-info">LIST OF CATEGORIES</p>
+                <h1 class="text-primary">THE POPULAR CATEGORIES</h1>
+            </div>
+            <div class="row text-center">
+                <div class="col-3" th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
+                    <h3 th:text="${jobDescriptionQuantity.category.categoryName}">Category1</h3>
+                    <p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)</p>
+                </div>
+            </div>
+        </div>
 
-		<table class="table table-borderless" >
-			<thead>
-			<tr>
-				<div>
-					<p class="mb-0 pt-3 px-1 text-info">Jobs have a lot of candidates</p>
-					<th class="first-th text-primary">The Popular Jobs</th>
-				</div>
-				<th class="text-center text-primary">The Popular Companies</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>
-					<div class="row mb-3 border-top" th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
-						<div class="col-9">
-							<div class="job-info ">
-								<div class="job-info-detail">
-									<h5 class="job-info-h" th:text="${jobDescriptionQuantity.jobDescriptionType}">Full time</h5>
-									<h2 class="job-info-h" th:text="${jobDescriptionQuantity.title}">Title</h2>
-									<div class="job-info-ele" th:object="${jobDescriptionQuantity.company}">
-										<div class="job-info-ele-company-name float-left">
-											<i class="fa-solid fa-building"></i>
-											<p th:text="*{companyName}">Company's Name</p>
-										</div>
-										<div class="job-info-ele-company-address float-left">
-											<i class="fa-solid fa-location-crosshairs"></i>
-											<p th:text="*{companyAddress}">Work Place</p>
-										</div>
-									</div>
-								</div>
-								<div class="clear"></div>
-							</div>
-						</div>
+        <!--	TOP JOBS, TOP COMPANIES-->
+        <table class="table table-borderless">
+            <thead>
+            <tr>
+                <div>
+                    <p class="mb-0 pt-3 px-1 text-info">Jobs have a lot of candidates</p>
+                    <th class="first-th text-primary">The Popular Jobs</th>
+                </div>
+                <th class="text-center text-primary">The Popular Companies</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="row mb-3 border-top" th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
+                        <div class="col-9">
+                            <div class="job-info ">
+                                <div class="job-info-detail">
+                                    <h5 class="job-info-h" th:text="${jobDescriptionQuantity.jobDescriptionType}">
+                                        Full
+                                        time</h5>
+                                    <h2 class="job-info-h" th:text="${jobDescriptionQuantity.title}">Title</h2>
+                                    <div class="job-info-ele" th:object="${jobDescriptionQuantity.company}">
+                                        <div class="job-info-ele-company-name float-left">
+                                            <i class="fa-solid fa-building"></i>
+                                            <p th:text="*{companyName}">Company's Name</p>
+                                        </div>
+                                        <div class="job-info-ele-company-address float-left">
+                                            <i class="fa-solid fa-location-crosshairs"></i>
+                                            <p th:text="*{companyAddress}">Work Place</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
 
-						<div class="col-3 mt-5">
-							<div th:class="addBtnStyle">
-								<button type="button" id="applyBtn" class="btn btn-primary">Apply Job</button>
-							</div>
-						</div>
-					</div>
-				</td>
+                        <div class="col-3 mt-5">
+                            <div th:class="addBtnStyle">
+                                <button type="button" id="applyBtn" class="btn btn-primary">Apply Job</button>
+                            </div>
+                        </div>
+                    </div>
+                </td>
 
-				<td class="text-center">
-					<div class="text-center company-info border-top" th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
-						<div class="logo-img">
-							<img th:src="${jobDescriptionQuantity.company.companyLogo}" width="10%"
-								 alt="company-logo.png">
-						</div>
-						<h5 th:text="${jobDescriptionQuantity.company.companyName}">Company's Name</h5>
-						<p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)</p>
-					</div>
-				</td>
-			</tr>
-			</tbody>
-		</table>
-	</div>
-	<!-- Footer -->
-	<footer class="bg-secondary">
-		<!-- Footer Links -->
-		<div class="text-center">
-			<!-- Content -->
-			<h5 class="text-uppercase pt-3">Footer Content</h5>
-			<p>Here is your footer content.</p>
-		</div>
-		<!-- Copyright -->
-		<div class="footer-copyright text-center py-3">© 2020 Copyright:
-			<a href="/" class="text-info"> MDBootstrap.com</a>
-		</div>
-	</footer>
+                <td class="text-center">
+                    <div class="text-center company-info border-top"
+                         th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
+                        <div class="logo-img">
+                            <img th:src="${jobDescriptionQuantity.company.companyLogo}" width="10%"
+                                 alt="company-logo.png">
+                        </div>
+                        <h5 th:text="${jobDescriptionQuantity.company.companyName}">Company's Name</h5>
+                        <p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)</p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-secondary">
+        <!-- Footer Links -->
+        <div class="text-center">
+            <!-- Content -->
+            <h5 class="text-uppercase pt-3">Footer Content</h5>
+            <p>Here is your footer content.</p>
+        </div>
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <a href="/" class="text-info"> MDBootstrap.com</a>
+        </div>
+    </footer>
 </div>
 
 

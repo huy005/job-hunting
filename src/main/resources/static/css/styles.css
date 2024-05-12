@@ -84,9 +84,10 @@ font-family: ‘Times New Roman’, Times, serif;
 }
 
 .form-logIn{
-	width: 495px;
+	width: 30.5rem;
     border: 1px solid black;
-    padding: 20px;
+    padding: 1rem;
+	height: 16.8rem;
 }
 
 .form-gp-input{

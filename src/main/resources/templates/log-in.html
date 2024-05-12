@@ -10,9 +10,15 @@
 </head>
 <body class="bg-secondary">
 <div class="container bg-light container-logIn">
+    <!-- REDIRECT TO HOMEPAGE W/O NOT BEING LOGGED IN-->
+    <div class="index-page" style="text-align: center;">
+        <a class="btn btn-info" th:href="@{/index}" style="font-size: 1.2em;">GO TO HOME PAGE</a>
+    </div>
     <!--	LOG IN FORM-->
     <h1>LOG IN FORM</h1>
     <form class="form-logIn" th:action="@{/authenticateTheUser}" method="POST">
+<!--        token-->
+<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
         <!-- Check for login error -->
         <div th:if="${param.error}">
             <i class="alert-danger">Sorry!!! You entered invalid username/password.</i>

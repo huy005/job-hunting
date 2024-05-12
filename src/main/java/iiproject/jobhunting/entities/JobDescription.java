@@ -21,7 +21,7 @@ public class JobDescription {
     private String jobDescriptionAddress;
 
     @Column(name="quantity")
-    private String quantity;
+    private int quantity;
 
     @Column(name="experience")
     private String experience;
@@ -47,6 +47,9 @@ public class JobDescription {
     @Column(name="created_at")
     private String createdAt;
 
+    @Column(name="status")
+    private int status;
+
     @Column(name="view")
     private int view;
 
@@ -54,8 +57,7 @@ public class JobDescription {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="category_id")
     private Category category;
-
 }
