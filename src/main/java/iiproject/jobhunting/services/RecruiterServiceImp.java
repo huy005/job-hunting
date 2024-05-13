@@ -45,6 +45,13 @@ public class RecruiterServiceImp implements RecruiterService {
         return theRecruiter;
     }
 
+    public JobDescription findJobDescriptionById(int theId) {
+        Optional<JobDescription> jobDescription = jobDescriptionRepository.findById(theId);
+        JobDescription theJobDescription = null;
+        if (jobDescription.isPresent()) theJobDescription = jobDescription.get();
+        return theJobDescription;
+    }
+
     @Override
     public boolean confirmEmailAndSave(String email, User2Dto user2Dto) {
         User theUser = findByEmail(email);
@@ -78,6 +85,33 @@ public class RecruiterServiceImp implements RecruiterService {
     }
 
     @Override
+    public JobDescription getJobDescriptionByID(int theId) {
+        return findJobDescriptionById(theId);
+    }
+
+    @Override
+    public boolean confirmJobDescriptionAndSave(JobDescriptionDto jobDescriptionDto) {
+        JobDescription jobDescription = findJobDescriptionById(jobDescriptionDto.getJobDescriptionId());
+        if (jobDescription != null) {
+            jobDescription.setTitle(jobDescriptionDto.getTitle());
+            jobDescription.setQuantity(jobDescriptionDto.getQuantity());
+            jobDescription.setExperience(jobDescriptionDto.getExperience());
+            jobDescription.setJobDescriptionAddress(jobDescriptionDto.getJobDescriptionAddress());
+            jobDescription.setDeadline(jobDescriptionDto.getDeadline());
+            jobDescription.setSalary(jobDescriptionDto.getSalary());
+            jobDescription.setJobDescriptionType(jobDescriptionDto.getJobDescriptionType());
+            Category category = new Category(parseInt(jobDescriptionDto.getCategoryId()));
+            jobDescription.setCategory(category);
+            jobDescription.setDescription(jobDescriptionDto.getDescription());
+            jobDescriptionRepository.save(jobDescription);
+            return true;
+        }
+        return false;
+    }
+
+
+
+    @Override
     public List<JobDescription> getJobDescriptionList(String email) {
         User theUser = findByEmail(email);
         if (theUser != null) {
@@ -97,10 +131,7 @@ public class RecruiterServiceImp implements RecruiterService {
         jobDescription.setSalary(jobDescriptionDto.getSalary());
         jobDescription.setJobDescriptionType(jobDescriptionDto.getJobDescriptionType());
         jobDescription.setDescription(jobDescriptionDto.getDescription());
-        Category category = new Category();
-        int categoryId = parseInt(jobDescriptionDto.getCategoryId());
-        category.setCategoryId(categoryId);
-//        category.setCategoryName("C#");
+        Category category = new Category(parseInt(jobDescriptionDto.getCategoryId()));
         jobDescription.setCategory(category);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = homeService.findUserByEmail(userDetails.getUsername());

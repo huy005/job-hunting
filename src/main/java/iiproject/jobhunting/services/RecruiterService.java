@@ -14,6 +14,10 @@ public interface RecruiterService {
 
     boolean confirmCompanyAndSave(String email, CompanyDto companyDto);
 
+    boolean confirmJobDescriptionAndSave(JobDescriptionDto jobDescriptionDto);
+
+    JobDescription getJobDescriptionByID(int theId);
+
     List<JobDescription> getJobDescriptionList(String email);
 
     boolean saveJobDescription(JobDescriptionDto jobDescriptionDto, Authentication authentication);

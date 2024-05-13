@@ -69,14 +69,22 @@ public class RecruiterController {
             Authentication authentication, HttpStatus httpStatus, Model theModel) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         List<JobDescription> jobDescriptionList = recruiterService.getJobDescriptionList(userDetails.getUsername());
-//        Company company = recruiterService.getCompany(userDetails.getUsername());
+
         if (jobDescriptionList != null) {
             theModel.addAttribute("jobDescriptionList", jobDescriptionList);
-//            theModel.addAttribute("company",company);
             return "job-descriptions";
         }
         throw new UserNotFoundException("The company not found.");
     }
+
+// UPDATE JOB DESCRIPTION
+    @GetMapping("/job-description-update")
+    public String update(@RequestParam("jobDescriptionId") int theId, Model theModel) {
+        JobDescription jobDescription = recruiterService.getJobDescriptionByID(theId);
+        theModel.addAttribute("jobDescription", jobDescription);
+        return "jd/jd-update-form";
+    }
+
 
     //    ADD A JOB DESCRIPTION
     @PostMapping("/job-description-registration")
@@ -88,5 +96,16 @@ public class RecruiterController {
                     "The company's information updated successfully.", Utils.getTimeStampHelper()));
         }
         throw new UserNotFoundException("The user not found.");
+    }
+
+    @PostMapping("/job-description-info")
+    public @ResponseBody ResponseEntity<GenericResponse> putJobDescriptionInfo(@RequestBody @Valid JobDescriptionDto jobDescriptionDto,
+                                                                        HttpStatus httpStatus) {
+        boolean companyConfirmed = recruiterService.confirmJobDescriptionAndSave(jobDescriptionDto);
+        if (companyConfirmed) {
+            return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
+                    "The job description's information updated successfully.", Utils.getTimeStampHelper()));
+        }
+        throw new UserNotFoundException("The updating job description not found.");
     }
 }

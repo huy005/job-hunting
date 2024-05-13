@@ -257,7 +257,7 @@ $(function () {
 // ADD JOB DESCRIPTION BUTTON
 $(function () {
     $('#addJobDescriptionBtn').click(function () {
-        var token =  $('input[name="_csrf"]').val();
+        // var token =  $('input[name="_csrf"]').val();
         var data = {
             title: $('#jd-title').val(),
             quantity: $('#jd-quantity').val(),
@@ -276,7 +276,7 @@ $(function () {
             contentType: 'application/json',
             dataType: "json",
             headers: {
-                'X-XSRF-TOKEN': token
+                'X-XSRF-TOKEN': $('input[name="_csrf"]').val()
             },
             cache: false
         }).done(function (data, status, jqxhr) {
@@ -331,15 +331,108 @@ $(function () {
                 } else {
                     $('#error-jd-type').text("");
                 }
-                if (value.field == "category") {
-                    $('#jd-category').text(value.defaultMessage).css({"display": "block", "color": "red"});
-                } else {
-                    $('#jd-category').text("");
-                }
+                // if (value.field == "category") {
+                //     $('#error-jd-category').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                // } else {
+                //     $('#jd-category').text("");
+                // }
                 if (value.field == "description") {
-                    $('#jd-description').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-description').text(value.defaultMessage).css({"display": "block", "color": "red"});
                 } else {
-                    $('#jd-description').text("");
+                    $('#error-jd-description').text("");
+                }
+            });
+        });
+    });
+});
+
+
+// UPDATE JOB DESCRIPTION's INFO
+$(function () {
+    $('#updateJdInfoBtn').click(function () {
+        var data = {
+            jobDescriptionId: $('#jobDescriptionId').val(),
+            title: $('#jd-ud-title').val(),
+            quantity: $('#jd-ud-quantity').val(),
+            experience: $('#jd-ud-experience').val(),
+            jobDescriptionAddress: $('#jd-ud-address').val(),
+            deadline: $('#jd-ud-deadline').val(),
+            salary: $('#jd-ud-salary').val(),
+            jobDescriptionType: $('#jd-ud-type').val(),
+            categoryId: $('#jd-ud-category').val(),
+            description: $('#jd-ud-description').val()
+        };
+        $.ajax({
+            url: '/recruiters/job-description-info',
+            method: 'post',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: "json",
+            headers: {
+                'X-XSRF-TOKEN': $('input[name="_csrf"]').val()
+            },
+            cache: false
+        }).done(function (data) {
+            console.log(data);
+            alert("The job description's info updated successfully!!!");
+            $('#jdInfoModal').modal('hide');
+            // $('#emailCoInfo').val("");
+            // $('#companyLogoCoInfo').val("");
+            // $('#nameCoInfo').val("");
+            // $('#addressCoInfo').val("");
+            // $('#phoneNumberCoInfo').val("");
+            // $('#descriptionCoInfo').val("");
+            // location.reload();
+        }).fail(function (data, status, jqxhr) {
+            console.log(data);
+            console.log(status);
+            console.log(jqxhr);
+            alert("Failed to update job description's info!!!");
+            $.each(data.responseJSON.errors, (index, value) => {
+                if (value.field == "title") {
+                    $('#error-jd-ud-title').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                } else {
+                    $('#error-jd-ud-title').text("");
+                }
+                if (value.field == "quantity") {
+                    $('#error-jd-ud-quantity').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                } else {
+                    $('#error-jd-ud-quantity').text("");
+                }
+                if (value.field == "experience") {
+                    $('#error-jd-ud-experience').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                } else {
+                    $('#error-jd-ud-experience').text("");
+                }
+                if (value.field == "jobDescriptionAddress") {
+                    $('#error-jd-ud-address').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                } else {
+                    $('#error-jd-ud-address').text("");
+                }
+                if (value.field == "deadline") {
+                    $('#error-jd-ud-deadline').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                } else {
+                    $('#error-jd-ud-deadline').text("");
+                }
+                if (value.field == "salary") {
+                    $('#error-jd-ud-salary').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                } else {
+                    $('#error-jd-ud-salary').text("");
+                }
+                if (value.field == "jobDescriptionType") {
+                    $('#error-jd-ud-type').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                } else {
+                    $('#error-jd-ud-type').text("");
+                }
+                // if (value.field == "category") {
+                //     $('#error-jd-category').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                // } else {
+                //     $('#jd-category').text("");
+                // }
+                if (value.field == "description") {
+                    $('#error-jd-ud-description').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                } else {
+                    $('#error-jd-ud-description').text("");
                 }
             });
         });

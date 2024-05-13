@@ -21,6 +21,10 @@ public class Category {
     @Column(name="category_name")
     private String categoryName;
 
-//    @OneToOne(mappedBy = "category", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
+    public Category(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    //    @OneToOne(mappedBy = "category", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 //    private JobDescription jobDescription;
 }
