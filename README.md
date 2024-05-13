@@ -62,7 +62,7 @@ Click "Job Description List"
 ![img_17.png](img_17.png)
 
 9/Job Descriptions Addition  
-Recruiters post job descriptions and shows on homepage
+Recruiters post job descriptions and shows on homepage  
 Click "POST A NEW JOB" Button
 Validation for each field(in progress)
 ![img_18.png](img_18.png)
