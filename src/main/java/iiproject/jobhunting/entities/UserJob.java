@@ -11,16 +11,16 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="follow_company_db")
-public class FollowCompany {
+@Table(name="user_job_db")
+public class UserJob {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="follow_company_id")
-    private int roleId;
+    @Column(name="user_job_id")
+    private int userJobId;
 
     @Column(name="user_id")
     private int userId;
 
-    @Column(name="company_id")
-    private int companyId;
+    @Column(name="job_description_id")
+    private int jobDescriptionId;
 }

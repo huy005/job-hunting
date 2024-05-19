@@ -3,6 +3,7 @@ package iiproject.jobhunting.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -35,8 +36,17 @@ public class Company {
     @Column(name="company_description")
     private String companyDescription;
 
-    @Column(name="status")
-    private int status;
+    @Column(name="createdAt")
+    private LocalDateTime createdAt;
+
+    @Column(name="updatedAt")
+    private LocalDateTime updatedAt;
+
+    @Column(name="delete_status")
+    private int deleteStatus;
+
+    @Column(name="deletedAt")
+    private LocalDateTime deletedAt;
 
     @OneToMany(mappedBy = "company")
     private List<User> user;

@@ -19,6 +19,18 @@ font-family: ‘Times New Roman’, Times, serif;
 	background-color: #a6ced3 !important;
 }
 
+.color-green{
+	color: green;
+}
+
+.color-red{
+	color: red;
+}
+
+.hiddenAll{
+	display:none !important;
+}
+
 /* HOME PAGE*/
 /* HEADER */
 .header-img{

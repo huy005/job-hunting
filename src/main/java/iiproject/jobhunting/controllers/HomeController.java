@@ -45,7 +45,9 @@ public class HomeController {
         User user = homeService.findUserByEmail(userDetails.getUsername());
         if (user != null) {
             List<JobDescription> jobDescriptionQuantities = homeService.getJobDescriptionsByQuantity();
-            model.addAttribute("jobDescriptionQuantities", jobDescriptionQuantities);
+            if (!jobDescriptionQuantities.isEmpty()){
+                model.addAttribute("jobDescriptionQuantities", jobDescriptionQuantities);
+            }
             model.addAttribute("user", user);
             model.addAttribute("company", user.getCompany());
             return "home";

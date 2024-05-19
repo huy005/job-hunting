@@ -45,10 +45,10 @@ From main homepage, click "Log Out" button
 "You have been logged out!!!" shown  
 ![img_11.png](img_11.png)
 
-7/Recruiter's and Company's Info Update  
+7/Recruiter's and Company's New Info  
 Update recruiter's and company's Info by filling the form  
 From main homepage, click "Personal Info" and choose one of 2 choices respectively  
-Upload company's logo or user's image (After uploading images, click Update Button before submitting.)  
+Upload company's logo or user's image
 Validation for each field(in progress)  
 ![img_15.png](img_15.png)
 ![img_12.png](img_12.png)
@@ -56,14 +56,14 @@ Validation for each field(in progress)
 ![img_14.png](img_14.png)
 
 8/Job Descriptions  
-Show all of the job descriptions with the relative companies  
-Click "Job Description List"
+Show all the job descriptions with the relative companies  
+Click "Job Description List" and be redirected to "Job Description List" page  
 ![img_16.png](img_16.png)
 ![img_17.png](img_17.png)
 
 9/Job Descriptions Addition  
 Recruiters post job descriptions and shows on homepage  
-Click "POST A NEW JOB" Button
+Click "POST A NEW JOB" Button  
 Validation for each field(in progress)
 ![img_18.png](img_18.png)
 ![img_19.png](img_19.png)  
@@ -75,11 +75,22 @@ After filling in the fields that need updating, click Save button to update the 
 ![img.png](img.png)  
 ![img_1.png](img_1.png)    
 
-11/Delete Job Descriptions(in progress)  
-Recruiters delete job descriptions
+11/Delete Job Descriptions 
+Recruiters delete job descriptions by clicking Red Delete Button  
+A confirmation popup will be shown  
+The job description deleted will be disappeared from the list  
+![img_4.png](img_4.png)
 
-12/Candidate List View(in progress)  
-Recruiters view candidate list
+12/Candidate List View
+Recruiters view candidate list applying for the corresponding job  
+![img_2.png](img_2.png)  
+
+From the job description page, the recruiter can also see then the candidate applying for the job by clicking Candidate button  
+![img_3.png](img_3.png)
+
+If there are no any candidates applying for this job, the message will be shown  
+![img_5.png](img_5.png)
+
 
 ---
 III/CANDIDATE'S FUNCTIONS  

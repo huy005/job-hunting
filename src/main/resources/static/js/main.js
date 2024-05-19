@@ -64,9 +64,11 @@ $(function () {
 
         if ($('#userImageReInfoForm-info').val() != 0) {
             alert("Upload the user's image before submitting.")
+            $('#errorUserImageReInfoForm').text('Upload the user\'s image before submitting.')
+            e.file.preventDefault();
+            // uploadUserImage();
         }
 
-        var token =  $('input[name="_csrf"]').val();
         var data = {
             userAddress: $('#addressReInfo').val(),
             userDescription: $('#descriptionReInfo').val(),
@@ -81,7 +83,7 @@ $(function () {
             contentType: 'application/json',
             dataType: "json",
             headers: {
-                'X-XSRF-TOKEN': token
+                'X-XSRF-TOKEN': $('input[name="_csrf"]').val()
             },
             processData: false,
             cache: false
@@ -94,7 +96,8 @@ $(function () {
             $('#addressReInfo').val("");
             $('#phoneNumberReInfo').val("");
             $('#descriptionReInfo').val("");
-            location.reload();
+            $('#successfulUserImageReInfoForm').text('')
+            // location.reload();
         }).fail(function (data, status, jqxhr) {
             console.log(data);
             console.log(status);
@@ -121,12 +124,67 @@ $(function () {
     });
 });
 
+// UPDATE USER's IMAGE
+$(function () {
+    $('#userImageReInfoForm').submit(function(event) {
+        if ($('#userImageReInfoForm-info').val() != 0) {
+            // var data = $('#userImageReInfoForm').;
+            var formData = new FormData(this);
+
+        }
+
+        $.ajax({
+            url: '/file-upload',
+            method: 'post',
+            data: formData,
+            enctype: 'multipart/form-data',
+            headers: {
+                'X-XSRF-TOKEN': $('input[name="_csrf"]').val()
+            },
+            contentType: false,
+            processData: false,
+            cache: false
+        }).done(function (formData, status, jqxhr) {
+            console.log(formData);
+            console.log(status);
+            console.log(jqxhr);
+            $('#userImageReInfo').val(formData.fileName);
+            $('#userImageReInfoForm-info').val('');
+            $('#errorUserImageReInfoForm').text('');
+            $('#successfulUserImageReInfoForm').text('The user\'s image updated successfully!!!');
+            // alert("The user's image updated successfully!!!");
+        }).fail(function (data, status, jqxhr) {
+            console.log(data);
+            console.log(status);
+            console.log(jqxhr);
+            alert("Failed to update The user's image!!!");
+        });
+        event.preventDefault();
+    });
+});
+
+// USER's IMAGE PREVIEW
+$(function () {
+    $('#userImageReInfoForm-info').change(function () {
+        let file = this.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                $('#user-image-preview').html('<img width="100%" alt="user-image.png" src="' + e.target.result + '">');
+            }
+            reader.readAsDataURL(file);
+        }
+    })
+});
+
 // UPDATE COMPANY's INFO
 $(function () {
     $('#updateInfo2Btn').click(function () {
 
         if ($('#companyLogoCoForm-info').val() != 0) {
             alert("Upload the company logo before submitting.")
+            $('#errorCompanyLogoCoForm').text('Upload the company\'s logo before submitting.')
+            e.file.preventDefault();
         }
 
         var data = {
@@ -142,6 +200,9 @@ $(function () {
             method: 'post',
             data: JSON.stringify(data),
             contentType: 'application/json',
+            headers: {
+                'X-XSRF-TOKEN': $('input[name="_csrf"]').val()
+            },
             dataType: "json",
             cache: false
         }).done(function (data) {
@@ -154,7 +215,8 @@ $(function () {
             $('#addressCoInfo').val("");
             $('#phoneNumberCoInfo').val("");
             $('#descriptionCoInfo').val("");
-            location.reload();
+            $('#successfulCompanyLogoCoForm').text('');
+            // location.reload();
         }).fail(function (data, status, jqxhr) {
             console.log(data);
             console.log(status);
@@ -189,17 +251,17 @@ $(function () {
 // UPDATE COMPANY's LOGO
 $(function () {
     $('#companyLogoCoInfoForm').submit(function (event) {
-
         if ($('#companyLogoCoForm-info').val() != 0) {
-            var formElement = this;
-            var formData = new FormData(formElement);
+            var formData = new FormData(this);
         }
-
         $.ajax({
             url: '/file-upload',
             method: 'post',
             data: formData,
             enctype: 'multipart/form-data',
+            headers: {
+                'X-XSRF-TOKEN': $('input[name="_csrf"]').val()
+            },
             contentType: false,
             processData: false,
             cache: false
@@ -209,7 +271,8 @@ $(function () {
             console.log(jqxhr);
             $('#companyLogoCoInfo').val(formData.fileName);
             $('#companyLogoCoForm-info').val('');
-            alert("The company's logo updated successfully!!!");
+            $('#errorCompanyLogoCoForm').text('');
+            $('#successfulCompanyLogoCoForm').text('The company\'s logo updated successfully!!!');
         }).fail(function (data, status, jqxhr) {
             console.log(data);
             console.log(status);
@@ -220,44 +283,24 @@ $(function () {
     });
 });
 
-// UPDATE USER's IMAGE
+// COMPANY's LOGO PREVIEW
 $(function () {
-    $('#userImageReInfoForm').submit(function (event) {
-
-        if ($('#userImageReInfoForm-info').val() != 0) {
-            var formElement = this;
-            var formData = new FormData(formElement);
+    $('#companyLogoCoForm-info').change(function () {
+        let file = this.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                $('#company-logo-img').html('<img width="100%" alt="user-image.png" src="' + e.target.result + '">');
+            }
+            reader.readAsDataURL(file);
         }
-
-        $.ajax({
-            url: '/file-upload',
-            method: 'post',
-            data: formData,
-            enctype: 'multipart/form-data',
-            contentType: false,
-            processData: false,
-            cache: false
-        }).done(function (formData, status, jqxhr) {
-            console.log(formData);
-            console.log(status);
-            console.log(jqxhr);
-            $('#userImageReInfo').val(formData.fileName);
-            $('#userImageReInfoForm-info').val('');
-            alert("The user's image updated successfully!!!");
-        }).fail(function (data, status, jqxhr) {
-            console.log(data);
-            console.log(status);
-            console.log(jqxhr);
-            alert("Failed to update The user's image!!!");
-        });
-        event.preventDefault();
-    });
+    })
 });
 
 // ADD JOB DESCRIPTION BUTTON
 $(function () {
     $('#addJobDescriptionBtn').click(function () {
-        // var token =  $('input[name="_csrf"]').val();
+
         var data = {
             title: $('#jd-title').val(),
             quantity: $('#jd-quantity').val(),
@@ -302,12 +345,18 @@ $(function () {
                     $('#error-jd-title').text("");
                 }
                 if (value.field == "quantity") {
-                    $('#error-jd-quantity').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-quantity').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-quantity').text("");
                 }
                 if (value.field == "experience") {
-                    $('#error-jd-experience').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-experience').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-experience').text("");
                 }
@@ -317,7 +366,10 @@ $(function () {
                     $('#error-jd-address').text("");
                 }
                 if (value.field == "deadline") {
-                    $('#error-jd-deadline').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-deadline').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-deadline').text("");
                 }
@@ -337,7 +389,10 @@ $(function () {
                 //     $('#jd-category').text("");
                 // }
                 if (value.field == "description") {
-                    $('#error-jd-description').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-description').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-description').text("");
                 }
@@ -345,7 +400,6 @@ $(function () {
         });
     });
 });
-
 
 // UPDATE JOB DESCRIPTION's INFO
 $(function () {
@@ -390,32 +444,50 @@ $(function () {
             alert("Failed to update job description's info!!!");
             $.each(data.responseJSON.errors, (index, value) => {
                 if (value.field == "title") {
-                    $('#error-jd-ud-title').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-ud-title').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-ud-title').text("");
                 }
                 if (value.field == "quantity") {
-                    $('#error-jd-ud-quantity').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-ud-quantity').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-ud-quantity').text("");
                 }
                 if (value.field == "experience") {
-                    $('#error-jd-ud-experience').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-ud-experience').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-ud-experience').text("");
                 }
                 if (value.field == "jobDescriptionAddress") {
-                    $('#error-jd-ud-address').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-ud-address').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-ud-address').text("");
                 }
                 if (value.field == "deadline") {
-                    $('#error-jd-ud-deadline').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-ud-deadline').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-ud-deadline').text("");
                 }
                 if (value.field == "salary") {
-                    $('#error-jd-ud-salary').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-ud-salary').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-ud-salary').text("");
                 }
@@ -430,11 +502,44 @@ $(function () {
                 //     $('#jd-category').text("");
                 // }
                 if (value.field == "description") {
-                    $('#error-jd-ud-description').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('#error-jd-ud-description').text(value.defaultMessage).css({
+                        "display": "block",
+                        "color": "red"
+                    });
                 } else {
                     $('#error-jd-ud-description').text("");
                 }
             });
+        });
+    });
+});
+
+// DELETE JOB DESCRIPTION's INFO
+$(function () {
+    $('#deleteJdBtn').click(function () {
+        var data = {
+            jobDescriptionId: $('#deleteJdBtn').val(),
+        };
+        $.ajax({
+            url: '/recruiters/job-description-delete',
+            method: 'post',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: "json",
+            headers: {
+                'X-XSRF-TOKEN': $('input[name="_csrf"]').val()
+            },
+            cache: false
+        }).done(function (data) {
+            console.log(data);
+            alert("The job description's info updated successfully!!!");
+            $('#deleteJdBtnModal').modal('hide');
+            location.reload();
+        }).fail(function (data, status, jqxhr) {
+            console.log(data);
+            console.log(status);
+            console.log(jqxhr);
+            alert("Failed to update job description's info!!!");
         });
     });
 });

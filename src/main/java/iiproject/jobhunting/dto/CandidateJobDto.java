@@ -1,17 +1,31 @@
 package iiproject.jobhunting.dto;
 
-import iiproject.jobhunting.entities.Category;
-import iiproject.jobhunting.entities.Company;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import iiproject.jobhunting.entities.Cv;
+import iiproject.jobhunting.entities.User;
+import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobDescriptionDto {
+public class CandidateJobDto {
+    private int userId;
+
+    private String username;
+
+    private String email;
+
+    private String userAddress;
+
+    private String phoneNumber;
+
+    private String userDescription;
+
+    private String userImage;
+
     private int jobDescriptionId;
 
     private String jobDescriptionAddress;
@@ -41,4 +55,6 @@ public class JobDescriptionDto {
     private int companyId;
 
     private String categoryId;
+
+    private Cv cv;
 }

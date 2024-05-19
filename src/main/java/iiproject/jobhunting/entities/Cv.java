@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -18,8 +20,17 @@ public class Cv {
     @Column(name="cv_id")
     private int cvId;
 
-    @Column(name="file_name")
-    private String fileName;
+    @Column(name="cv_file_name")
+    private String cvFileName;
+
+    @Column(name="updatedAt")
+    private LocalDateTime updatedAt;
+
+    @Column(name="delete_status")
+    private int deleteStatus;
+
+    @Column(name="deletedAt")
+    private LocalDateTime deletedAt;
 
     @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="user_id")

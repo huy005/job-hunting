@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanyDto {
-//    private int companyId;
+    private int companyId;
 
     private String companyName;
 

@@ -2,7 +2,9 @@ package iiproject.jobhunting.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -35,6 +37,9 @@ public class JobDescription {
     @Column(name="title")
     private String title;
 
+    @Column(name="position")
+    private String position;
+
     @Column(name="job_description_type")
     private String jobDescriptionType;
 
@@ -53,6 +58,15 @@ public class JobDescription {
     @Column(name="view")
     private int view;
 
+    @Column(name="updatedAt")
+    private LocalDateTime updatedAt;
+
+    @Column(name="delete_status")
+    private int deleteStatus;
+
+    @Column(name="deletedAt")
+    private LocalDateTime deletedAt;
+
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "company_id")
     private Company company;
@@ -60,4 +74,7 @@ public class JobDescription {
     @OneToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="category_id")
     private Category category;
+
+    @ManyToMany(mappedBy = "jobDescriptions")
+    private List<User> candidates;
 }

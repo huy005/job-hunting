@@ -13,30 +13,15 @@
 <body>
 <div class="header">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">JobHunting</a>
+        <a class="navbar-brand" th:href="@{/home}">JobHunting</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="#">Find Jobs<span class="sr-only">(current)</span></a>
-                <!--                POST/JOB DESCRIPTION INFO-->
-                <a class="nav-item nav-link" th:href="@{/recruiters/job-descriptions}">Job Description
-                    List</a>
-                <!--                PERSONAL INFO-->
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
-                            aria-expanded="false">
-                        Personal Info
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#recruiterInfoModal">Recruiter's
-                            Info</a></li>
-                        <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#companyInfoModal">Company's
-                            Info</a></li>
-                    </ul>
-                </div>
+                <!--           CANDIDATE's LIST     -->
+                <a class="nav-item nav-link" th:href="@{/recruiters/candidates}">Candidate List</a>
             </div>
         </div>
 
@@ -47,104 +32,6 @@
         </div>
     </nav>
     <div class="header-img"></div>
-</div>
-
-<!--RECRUITER'S INFO MODAL-->
-<div class="modal fade" id="recruiterInfoModal" tabindex="-1" aria-labelledby="recruiterInfoModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="recruiterInfoModalLabel">Recruiter's Info</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-left">
-                <form action="#" method="POST">
-                    <div class="form-group">
-                        <label for="emailReInfo" class="col-form-label">Email:</label>
-                        <input type="text" class="form-control" id="emailReInfo">
-                        <p id="errorEmailReInfo"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="fullNameReInfo" class="col-form-label">Full Name:</label>
-                        <input type="text" class="form-control" id="fullNameReInfo">
-                        <p id="errorFullNameReInfo"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="addressReInfo" class="col-form-label">Address:</label>
-                        <input type="text" class="form-control" id="addressReInfo">
-                        <p id="errorAddressReInfo"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="phoneNumberReInfo" class="col-form-label">Phone Number:</label>
-                        <input type="text" class="form-control" id="phoneNumberReInfo">
-                        <p id="errorPhoneNumberReInfo"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="descriptionReInfo" class="col-form-label">Description:</label>
-                        <textarea id="descriptionReInfo" style="width: 100%;" rows="4"
-                                  cols="50">
-                        </textarea><br><br>
-                        <p id="errorDescriptionReInfo"></p>
-                    </div>
-                </form>
-                <div class="modal-footer">
-                    <input type="button" id="updateInfoBtn" value="Submit" class="btn btn-primary"/>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--COMPANY's INFO MODAL-->
-<div class="modal fade" id="companyInfoModal" tabindex="-1" aria-labelledby="companyInfoModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="companyInfoModalLabel">Company's Info</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-left">
-                <form action="#" method="POST">
-                    <div class="form-group">
-                        <label for="emailCoInfo" class="col-form-label">Email:</label>
-                        <input type="text" class="form-control" id="emailCoInfo">
-                        <p id="errorEmailCoInfo"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="nameCoInfo" class="col-form-label">Full Name:</label>
-                        <input type="text" class="form-control" id="nameCoInfo">
-                        <p id="errorNameCoInfo"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="addressCoInfo" class="col-form-label">Address:</label>
-                        <input type="text" class="form-control" id="addressCoInfo">
-                        <p id="errorAddressCoInfo"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="phoneNumberCoInfo" class="col-form-label">Phone Number:</label>
-                        <input type="text" class="form-control" id="phoneNumberCoInfo">
-                        <p id="errorPhoneNumberCoInfo"></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="descriptionCoInfo" class="col-form-label">Description:</label>
-                        <textarea id="descriptionCoInfo" style="width: 100%;" rows="4"
-                                  cols="50">
-                        </textarea><br><br>
-                        <p id="errorDescriptionCoInfo"></p>
-                    </div>
-                </form>
-                <div class="modal-footer">
-                    <input type="button" id="updateInfo2Btn" value="Submit" class="btn btn-primary"/>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="content">
@@ -298,6 +185,8 @@
                     <td class="job-des-content">
                         <p th:text="${jobDescription.jobDescriptionType}">JD TYPE</p>
                         <h3 th:text="${jobDescription.title}">JD TITLE</h3>
+                        <p th:text="${jobDescription.position}">JD Position</p>
+                        <p th:text="${jobDescription.description}">JD Description</p>
                         <div class="job-des-bottom-info">
                             <div class="job-des-bottom-info-left float-left">
                                 <i class="fa-solid fa-building float-left"></i>
@@ -308,51 +197,88 @@
                                 <p th:text="${jobDescription.jobDescriptionAddress}">JD ADDRESS</p>
                             </div>
                         </div>
+                        <div class="job-des-bottom-side float-right" style="width: 10rem;">
+                            <i class="fa-solid fa-hourglass-end float-left"></i>
+                            <p th:text="${jobDescription.deadline}" style="padding-left: 1rem;">JD DEADLINE</p>
+                        </div>
                         <div class="clear"></div>
                     </td>
+
                     <td>
                         <div>
+                            <a class="dropdown-item" th:href="@{/recruiters/jd-candidates(jobDescriptionId=${jobDescription.jobDescriptionId})}"><span
+                                    class="btn btn-primary">Candidates</span></a>
                             <a class="dropdown-item "
                                th:href="@{/recruiters/job-description-update(jobDescriptionId=${jobDescription.jobDescriptionId})}"><span
                                     class="btn btn-primary">Update</span></a>
-                            <a class="dropdown-item " href="#"><span class="btn btn-danger">Delete</span></a>
+                            <a class="dropdown-item " data-toggle="modal"
+                               data-target="#deleteJdBtnModal"><span class="btn btn-danger">Delete</span></a>
                         </div>
                     </td>
+
+                    <!--            DELETE MODEL-->
+                    <div class="modal" id="deleteJdBtnModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Delete this job description</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do you agree to delete this job description?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button type="button" id="deleteJdBtn" class="btn btn-primary"
+                                            th:value="${jobDescription.jobDescriptionId}">
+                                        Yes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tr>
                 </tbody>
             </table>
 
+
+
             <!--                    Pagination Buttons-->
-<!--            <div>-->
-<!--                <ul th:if="${! #lists.isEmpty(users)}">-->
-<!--                    <li style="display:inline;">-->
-<!--                        <span th:if="${userPage.first}">&lt;&lt;First</span>-->
-<!--                        <a-->
-<!--                                th:if="${!userPage.first}"-->
-<!--                                th:href="@{/users/list(page = ${userPage.number} - 1)}"-->
-<!--                        >-->
-<!--                            &lt;&lt;Previous-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                    <li-->
-<!--                            th:each="i : ${#numbers.sequence(0, userPage.totalPages - 1)}"-->
-<!--                            style="display:inline; margin-left:10px;"-->
-<!--                    >-->
-<!--                        <span th:if="${i} == ${userPage.number}" th:text="${i + 1}">1</span>-->
-<!--                        <a-->
-<!--                                th:if="${i} != ${userPage.number}"-->
-<!--                                th:href="@{/users/list(page = ${i})}"-->
-<!--                        >-->
-<!--                            <span th:text="${i+1}"></span>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                    <li style="display:inline; margin-left: 10px">-->
-<!--                        <span th:if="${userPage.last}">Last&gt;&gt;</span>-->
-<!--                        <a th:if="${!userPage.last}" th:href="@{/users/list(page = (${userPage.number} + 1))}">-->
-<!--                            Next&gt;&gt;</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </div>-->
+            <!--            <div>-->
+            <!--                <ul th:if="${! #lists.isEmpty(users)}">-->
+            <!--                    <li style="display:inline;">-->
+            <!--                        <span th:if="${userPage.first}">&lt;&lt;First</span>-->
+            <!--                        <a-->
+            <!--                                th:if="${!userPage.first}"-->
+            <!--                                th:href="@{/users/list(page = ${userPage.number} - 1)}"-->
+            <!--                        >-->
+            <!--                            &lt;&lt;Previous-->
+            <!--                        </a>-->
+            <!--                    </li>-->
+            <!--                    <li-->
+            <!--                            th:each="i : ${#numbers.sequence(0, userPage.totalPages - 1)}"-->
+            <!--                            style="display:inline; margin-left:10px;"-->
+            <!--                    >-->
+            <!--                        <span th:if="${i} == ${userPage.number}" th:text="${i + 1}">1</span>-->
+            <!--                        <a-->
+            <!--                                th:if="${i} != ${userPage.number}"-->
+            <!--                                th:href="@{/users/list(page = ${i})}"-->
+            <!--                        >-->
+            <!--                            <span th:text="${i+1}"></span>-->
+            <!--                        </a>-->
+            <!--                    </li>-->
+            <!--                    <li style="display:inline; margin-left: 10px">-->
+            <!--                        <span th:if="${userPage.last}">Last&gt;&gt;</span>-->
+            <!--                        <a th:if="${!userPage.last}" th:href="@{/users/list(page = (${userPage.number} + 1))}">-->
+            <!--                            Next&gt;&gt;</a>-->
+            <!--                    </li>-->
+            <!--                </ul>-->
+            <!--            </div>-->
+
+            <hr>
+            <a th:href="@{/home}">Back to home page</a>
         </div>
     </div>
     <!-- Footer -->
