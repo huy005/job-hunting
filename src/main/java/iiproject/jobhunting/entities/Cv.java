@@ -32,7 +32,7 @@ public class Cv {
     @Column(name="deletedAt")
     private LocalDateTime deletedAt;
 
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="user_id")
     private User user;
 }

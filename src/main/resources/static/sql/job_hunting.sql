@@ -67,7 +67,9 @@ CREATE TABLE user_db
     user_image varchar(255),
 	phone_number varchar(255),
     user_description varchar(255),
-    status int(11),
+    verification_status int(1),
+    token varchar(255),
+    token_expiry_date datetime,
     created_at datetime,
     role_id int(11),
     company_id int (11),
@@ -78,7 +80,7 @@ CREATE TABLE user_db
     constraint foreign key (role_id) references role_db (role_id),
     constraint foreign key (company_id) references company_db (company_id)
 );
-INSERT INTO user_db(user_full_name,user_email,user_address,user_password,phone_number,user_description,status,role_id,company_id,delete_status)
+INSERT INTO user_db(user_full_name,user_email,user_address,user_password,phone_number,user_description,verification_status,role_id,company_id,delete_status)
 VALUES ('Nguyen Thi Xuan','xuan001@email.com','123 HCM','{noop}123456','0010010011','tai khoan cua Xuan',1,1,1,0),
 ('Tran Minh Tuan','tuan002@email.com','567 HN','{noop}123456','0020020022','tai khoan cua Tuan',1,1,2,0),
 ('Lam Anh Dung','dung003@email.com','255 HP','{noop}123456','0030030033','tai khoan cua Dung',1,1,3,0),
@@ -141,39 +143,37 @@ INSERT INTO cv_db(cv_file_name,user_id,delete_status)
 VALUES ('Cv Xuan',1,0),('Cv Tuan',2,0),('Cv Dung',3,0),('Cv Sinh',4,0),('Cv Anh',5,0),('Cv Huong',6,0),('Cv Nam',7,0),('Cv Xuan2',8,0);
 -- ('Cv Xuan2',8),('Cv Nam1',14),('Cv Xuan3',8),('Cv Sinh1',11),('Cv Xuan4',8),('Cv Sinh2',11)
 
-CREATE TABLE follow_company_db
+CREATE TABLE candidate_company_db
 (
-	follow_company_id int(11) not null auto_increment,
+	candidate_company_id int(11) not null auto_increment,
 	user_id int(11),
 	company_id int(11),
-    primary key (follow_company_id),
-    constraint foreign key (user_id) 
-    references user_db (user_id),
-    constraint foreign key (company_id) 
-    references company_db (company_id) 
+    primary key (candidate_company_id),
+    constraint foreign key (user_id) references user_db (user_id),
+    constraint foreign key (company_id) references company_db (company_id) 
 );
 
-INSERT INTO follow_company_db(user_id,company_id)
-VALUES (8,12),(8,8),(9,12),(11,12),(10,8),(13,8),(14,9),(11,11),(13,12),(11,9),(10,12),(14,10);
+INSERT INTO candidate_company_db(user_id,company_id)
+VALUES (4,1),(4,2),(4,3),(5,1),(5,4),(6,1),(6,2),(7,5),(7,6),(7,7),(8,3),(8,8);
 
 
 
-CREATE TABLE apply_post_db
+CREATE TABLE applied_job_db
 (
-	apply_post_id int(11) not null auto_increment,
+	applied_job_id int(11) not null auto_increment,
 	cv_name varchar(255),
-    apply_post_text varchar(255),
-    created_at varchar(255),
+    additional_info varchar(255),
+    created_at datetime,
 	user_id int(11),
-	recruitment_id int(11),
+	job_description_id int(11),
     status int(11),
-    primary key (apply_post_id),
+    primary key (applied_job_id),
     constraint foreign key (user_id) 
     references user_db (user_id) ,
-    constraint foreign key (recruitment_id) 
-    references recruitment_db (recruitment_id) 
+    constraint foreign key (job_description_id) 
+    references job_description_db (job_description_id) 
 );
-INSERT INTO apply_post_db(cv_name,apply_post_text,user_id,recruitment_id)
+INSERT INTO applied_job_db(cv_name,additional_info,user_id,job_description_id)
 VALUES ('Cv Xuan','Apply for A',8,12),
 ('Cv Huong','Apply for A,B',13,8),
 ('Cv Tuan','Apply for C',9,12),

@@ -1,17 +1,14 @@
 package iiproject.jobhunting.dto;
 
 import iiproject.jobhunting.entities.Cv;
-import iiproject.jobhunting.entities.User;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CandidateJobDto {
+public class CandidateJdDto {
     private int userId;
 
     private String username;

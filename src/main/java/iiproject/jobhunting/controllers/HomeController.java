@@ -1,13 +1,17 @@
 package iiproject.jobhunting.controllers;
 
+import iiproject.jobhunting.dto.CompanyJdDto;
+import iiproject.jobhunting.dto.GenericResponse;
+import iiproject.jobhunting.dto.User2Dto;
 import iiproject.jobhunting.dto.UserDto;
 import iiproject.jobhunting.entities.JobDescription;
 import iiproject.jobhunting.entities.User;
+import iiproject.jobhunting.exception.UserNotFoundException;
+import iiproject.jobhunting.helpers.Utils;
 import iiproject.jobhunting.services.HomeService;
-import iiproject.jobhunting.entities.Role;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,42 +22,52 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static java.lang.Integer.parseInt;
-
 @Controller
 @RequestMapping("/")
 public class HomeController {
-    HttpSession httpSession;
 
     private HomeService homeService;
 
     @Autowired
-    public HomeController(HttpSession httpSession, HomeService homeService) {
-        this.httpSession = httpSession;
+    public HomeController(HomeService homeService) {
         this.homeService = homeService;
     }
 
+    //LOGIN PAGE
     @GetMapping("/log-in-page")
     public String showLogInPage(Model theModel) {
         theModel.addAttribute("userDtoLogIn", new UserDto());
         return "log-in";
     }
 
+    //VERIFICATION PAGE
+    @GetMapping("/verification-user")
+    public String verifyRegisteredUser(@RequestParam String token, Model theModel) {
+        if (homeService.verifyUserByToken(token)) {
+            theModel.addAttribute("userDtoLogIn", new UserDto());
+            return "verification/verification-user-page";
+        }
+        throw new UsernameNotFoundException("The user not verified yet.");
+    }
+
     @GetMapping("/")
-    public String showMainHomePage1(Model model, Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User user = homeService.findUserByEmail(userDetails.getUsername());
-        if (user != null) {
-            List<JobDescription> jobDescriptionQuantities = homeService.getJobDescriptionsByQuantity();
-            if (!jobDescriptionQuantities.isEmpty()){
-                model.addAttribute("jobDescriptionQuantities", jobDescriptionQuantities);
+    public String showMainHomePage1(Model theModel, Authentication authentication) {
+        if (authentication != null) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User user = homeService.findUserByEmail(userDetails.getUsername());
+            if (user != null) {
+                List<JobDescription> jobDescriptionQuantities = homeService.getJobDescriptionsByQuantity();
+                if (!jobDescriptionQuantities.isEmpty()) {
+                    theModel.addAttribute("jobDescriptionQuantities", jobDescriptionQuantities);
+                }
+                theModel.addAttribute("user", user);
+                theModel.addAttribute("company", user.getCompany());
+                return "home";
             }
-            model.addAttribute("user", user);
-            model.addAttribute("company", user.getCompany());
-            return "home";
+            throw new UsernameNotFoundException("The user not found.");
         }
         List<JobDescription> jobDescriptionQuantities = homeService.getJobDescriptionsByQuantity();
-        model.addAttribute("jobDescriptionQuantities", jobDescriptionQuantities);
+        theModel.addAttribute("jobDescriptionQuantities", jobDescriptionQuantities);
         return "index";
     }
 
@@ -74,23 +88,48 @@ public class HomeController {
             model.addAttribute("user", user);
             model.addAttribute("company", user.getCompany());
         } else {
-            throw new UsernameNotFoundException("User not found.");
+            throw new UsernameNotFoundException("The user not found.");
         }
         return "home";
     }
 
     //    ADD NEW USERS
     @PostMapping("/user-registration")
-    public @ResponseBody ResponseEntity<Boolean> saveUser(@RequestBody @Valid UserDto theUserDto) {
-        User theUser = new User();
-        theUser.setEmail(theUserDto.getEmail());
-        theUser.setUsername(theUserDto.getUsername());
-        theUser.setPassword(theUserDto.getPassword());
-        int roleId = parseInt(theUserDto.getRole());
-        Role role = new Role(roleId, roleId == 1 ? "RECRUITER" : "CANDIDATE");
-        theUser.setRole(role);
-        homeService.saveUserAndRole(theUser, role);
-        return ResponseEntity.ok(Boolean.TRUE);
+    public @ResponseBody ResponseEntity<GenericResponse> addNewUser(@RequestBody UserDto theUserDto, HttpStatus
+            httpStatus) {
+        if (homeService.addNewUser(theUserDto)) {
+            return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
+                    "The user registered successfully.", Utils.getTimeStampHelper()));
+        }
+        throw new UserNotFoundException("Failed to register the user.");
     }
 
+    // SEACH JOB DESCRIPTION
+    @GetMapping("/company-jd-info-page")
+    public String showCompanyJdPage(Model theModel) {
+//        List<CompanyJdDto> companyJdDtos = homeService.searchCompanyJd(keyword);
+//        theModel.addAttribute("companyJdDtos", companyJdDtos);
+        return "jd/company-jd-search";
+    }
+
+    @GetMapping("/company-jd-info")
+    public String searchCompanyJd(@RequestParam(required = false, name = "keyword") String keyword, Model theModel) {
+        List<CompanyJdDto> companyJdDtos = homeService.searchCompanyJd(keyword);
+        theModel.addAttribute("companyJdDtos", companyJdDtos);
+        return "jd/company-jd-search";
+    }
+
+    //    UPDATE USER-INFO
+    @PostMapping("/new-user-info")
+    public @ResponseBody ResponseEntity<GenericResponse> putRecruiterInfo(@RequestBody @Valid User2Dto user2Dto,
+                                                                          Authentication authentication,
+                                                                          HttpStatus httpStatus) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        boolean emailConfirmed = homeService.confirmEmailAndSave(userDetails.getUsername(), user2Dto);
+        if (emailConfirmed) {
+            return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
+                    "The recruiter's information updated successfully.", Utils.getTimeStampHelper()));
+        }
+        throw new UserNotFoundException("The updating user not found.");
+    }
 }

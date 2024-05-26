@@ -78,8 +78,8 @@ font-family: ‘Times New Roman’, Times, serif;
 	margin-left: 15px;
 }
 .company-info{
-	padding-bottom: 9px;
-	padding-top: 30px;
+	padding-bottom: 1.5rem;
+	padding-top: 0.5rem;
 }
 
 .content-list-jobs{
@@ -88,10 +88,9 @@ font-family: ‘Times New Roman’, Times, serif;
 
 /* LOG IN PAGE */
 .container-logIn{
-	width: 525px!important;
-    margin-left: 550px !important;
+	width: 32.5em!important;
     padding: 20px;
-    height: 395px !important;
+    height: 28rem !important;
     margin-top: 150px;
 }
 
@@ -99,7 +98,7 @@ font-family: ‘Times New Roman’, Times, serif;
 	width: 30.5rem;
     border: 1px solid black;
     padding: 1rem;
-	height: 16.8rem;
+	height: 19.8em;
 }
 
 .form-gp-input{
@@ -138,4 +137,19 @@ font-family: ‘Times New Roman’, Times, serif;
 
 .text-area-description{
 	margin: 1rem;
+}
+
+/*LOADING SPIN ICON*/
+#registerSubmitBtn-spinIcon {
+	animation: spin 1s linear infinite;
+}
+@keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
 }

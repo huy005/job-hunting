@@ -1,6 +1,6 @@
 package iiproject.jobhunting.services;
 
-import iiproject.jobhunting.dto.CandidateJobDto;
+import iiproject.jobhunting.dto.CandidateJdDto;
 import iiproject.jobhunting.dto.CompanyDto;
 import iiproject.jobhunting.dto.JobDescriptionDto;
 import iiproject.jobhunting.dto.User2Dto;
@@ -17,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
@@ -53,20 +52,6 @@ public class RecruiterServiceImp implements RecruiterService {
         return theJobDescription;
     }
 
-    @Override
-    public boolean confirmEmailAndSave(String email, User2Dto user2Dto) {
-        User theUser = findByEmail(email);
-        if (theUser != null) {
-            theUser.setUsername(user2Dto.getUsername());
-            theUser.setUserAddress(user2Dto.getUserAddress());
-            theUser.setPhoneNumber(user2Dto.getUserPhoneNumber());
-            theUser.setUserDescription(user2Dto.getUserDescription());
-            theUser.setUserImage(user2Dto.getUserImage());
-            userRepository.save(theUser);
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public boolean confirmCompanyAndSave(String email, CompanyDto companyDto) {
@@ -139,28 +124,28 @@ public class RecruiterServiceImp implements RecruiterService {
     }
 
     @Override
-    public List<CandidateJobDto> getCandidateJobList(String email) {
+    public List<CandidateJdDto> getCandidateJobList(String email) {
         List<JobDescription> jobDescriptions = getJobDescriptionList(email);
         if (!jobDescriptions.isEmpty()){
-            List<CandidateJobDto> candidateJobs = new ArrayList<>();
+            List<CandidateJdDto> candidateJobs = new ArrayList<>();
             jobDescriptions.forEach(jobDescription -> {
                 if (jobDescription.getDeleteStatus() == 0) {
-                    CandidateJobDto candidateJobDto = new CandidateJobDto();
-                    candidateJobDto.setTitle(jobDescription.getTitle());
-                    candidateJobDto.setJobDescriptionAddress(jobDescription.getJobDescriptionAddress());
-                    candidateJobDto.setJobDescriptionType(jobDescription.getJobDescriptionType());
-                    candidateJobDto.setPosition(jobDescription.getPosition());
-                    candidateJobDto.setDescription(jobDescription.getDescription());
-                    candidateJobDto.setDeadline(jobDescription.getDeadline());
+                    CandidateJdDto candidateJdDto = new CandidateJdDto();
+                    candidateJdDto.setTitle(jobDescription.getTitle());
+                    candidateJdDto.setJobDescriptionAddress(jobDescription.getJobDescriptionAddress());
+                    candidateJdDto.setJobDescriptionType(jobDescription.getJobDescriptionType());
+                    candidateJdDto.setPosition(jobDescription.getPosition());
+                    candidateJdDto.setDescription(jobDescription.getDescription());
+                    candidateJdDto.setDeadline(jobDescription.getDeadline());
                     jobDescription.getCandidates().forEach(candidate -> {
                         if (candidate.getDeleteStatus() == 0) {
-                            candidateJobDto.setUsername(candidate.getUsername());
-                            candidateJobDto.setEmail(candidate.getEmail());
-                            candidateJobDto.setUserAddress(candidate.getUserAddress());
-                            candidateJobDto.setPhoneNumber(candidate.getPhoneNumber());
+                            candidateJdDto.setUsername(candidate.getUsername());
+                            candidateJdDto.setEmail(candidate.getEmail());
+                            candidateJdDto.setUserAddress(candidate.getUserAddress());
+                            candidateJdDto.setPhoneNumber(candidate.getPhoneNumber());
                         }
                     });
-                    candidateJobs.add(candidateJobDto);
+                    candidateJobs.add(candidateJdDto);
                 }
             });
             return candidateJobs;
@@ -169,43 +154,42 @@ public class RecruiterServiceImp implements RecruiterService {
     }
 
     @Override
-    public List<CandidateJobDto> getJdCandidatesById(int theId) {
+    public List<CandidateJdDto> getJdCandidatesById(int theId) {
         JobDescription jobDescription = findJobDescriptionById(theId);
         if (jobDescription != null) {
-            List<CandidateJobDto> candidateJobDtos = new ArrayList<>();
-            CandidateJobDto candidateJobDto = null;
-            List<User> candidates = jobDescription.getCandidates();
+            List<CandidateJdDto> candidateJdDtos = new ArrayList<>();
+            CandidateJdDto candidateJdDto = null;
+            Set<User> candidates = jobDescription.getCandidates();
             if (!candidates.isEmpty()) {
                 for(User candidate : jobDescription.getCandidates()){
                     if (candidate.getDeleteStatus() == 0) {
-                        candidateJobDto =new CandidateJobDto();
-                        candidateJobDto.setTitle(jobDescription.getTitle());
-                        candidateJobDto.setJobDescriptionAddress(jobDescription.getJobDescriptionAddress());
-                        candidateJobDto.setJobDescriptionType(jobDescription.getJobDescriptionType());
-                        candidateJobDto.setPosition(jobDescription.getPosition());
-                        candidateJobDto.setDescription(jobDescription.getDescription());
-                        candidateJobDto.setDeadline(jobDescription.getDeadline());
-                        candidateJobDto.setUserId(candidate.getUserId());
-                        candidateJobDto.setUsername(candidate.getUsername());
-                        candidateJobDto.setEmail(candidate.getEmail());
-                        candidateJobDto.setUserAddress(candidate.getUserAddress());
-                        candidateJobDto.setPhoneNumber(candidate.getPhoneNumber());
-                        candidateJobDto.setCv(candidate.getCv());
-                        candidateJobDtos.add(candidateJobDto);
+                        candidateJdDto =new CandidateJdDto();
+                        candidateJdDto.setTitle(jobDescription.getTitle());
+                        candidateJdDto.setJobDescriptionAddress(jobDescription.getJobDescriptionAddress());
+                        candidateJdDto.setJobDescriptionType(jobDescription.getJobDescriptionType());
+                        candidateJdDto.setPosition(jobDescription.getPosition());
+                        candidateJdDto.setDescription(jobDescription.getDescription());
+                        candidateJdDto.setDeadline(jobDescription.getDeadline());
+                        candidateJdDto.setUserId(candidate.getUserId());
+                        candidateJdDto.setUsername(candidate.getUsername());
+                        candidateJdDto.setEmail(candidate.getEmail());
+                        candidateJdDto.setUserAddress(candidate.getUserAddress());
+                        candidateJdDto.setPhoneNumber(candidate.getPhoneNumber());
+                        candidateJdDtos.add(candidateJdDto);
                     }
                 }
             }else{
-                candidateJobDto =new CandidateJobDto();
-                candidateJobDto.setTitle(jobDescription.getTitle());
-                candidateJobDto.setJobDescriptionAddress(jobDescription.getJobDescriptionAddress());
-                candidateJobDto.setJobDescriptionType(jobDescription.getJobDescriptionType());
-                candidateJobDto.setPosition(jobDescription.getPosition());
-                candidateJobDto.setDescription(jobDescription.getDescription());
-                candidateJobDto.setDeadline(jobDescription.getDeadline());
-                candidateJobDto.setUserId(0);
-                candidateJobDtos.add(candidateJobDto);
+                candidateJdDto =new CandidateJdDto();
+                candidateJdDto.setTitle(jobDescription.getTitle());
+                candidateJdDto.setJobDescriptionAddress(jobDescription.getJobDescriptionAddress());
+                candidateJdDto.setJobDescriptionType(jobDescription.getJobDescriptionType());
+                candidateJdDto.setPosition(jobDescription.getPosition());
+                candidateJdDto.setDescription(jobDescription.getDescription());
+                candidateJdDto.setDeadline(jobDescription.getDeadline());
+                candidateJdDto.setUserId(0);
+                candidateJdDtos.add(candidateJdDto);
             }
-            return candidateJobDtos;
+            return candidateJdDtos;
         }
         return null;
     }

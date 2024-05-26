@@ -7,6 +7,8 @@
     <link th:href="@{/css/styles.css}" rel="stylesheet"/>
     <!--    BT CSS -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!--	Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="bg-secondary">
 <div class="container bg-light container-logIn">
@@ -16,16 +18,17 @@
     </div>
     <!--	LOG IN FORM-->
     <h1>LOG IN FORM</h1>
-    <form class="form-logIn" th:action="@{/authenticateTheUser}" method="POST">
-<!--        token-->
-<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
-        <!-- Check for login error -->
+    <form class="form-logIn" id="registrationForm" th:action="@{/authenticateTheUser}" method="POST">
         <div th:if="${param.error}">
-            <i class="alert-danger">Sorry!!! You entered invalid username/password.</i>
+            <i class="alert-danger">Sorry!!! You entered invalid username/password.<br>
+            In case of the inactive account, please check mail for activation.</i>
         </div>
-<!--        Check for log out -->
+        <!--        Check for log out -->
         <div th:if="${param.logout}">
             <i class="alert-danger">You have been logged out!!!</i>
+        </div>
+        <div class="hiddenAll" id="activationUser">
+            <p class="color-green" >Please check your mail for the activation!!!</p>
         </div>
         <div class="form-group form-gp-input">
             <label for="email" class="col-form-label">Email:</label>
@@ -41,23 +44,25 @@
             <input type="submit" value="Log In" class="btn btn-primary"/>
         </div>
         <div>
-            <p>Not a member? <a href="#!" data-toggle="modal" data-target="#exampleModal">Register</a></p>
+            <p>Not a member? <a href="#" data-toggle="modal" data-target="#registerModal">Register</a></p>
         </div>
     </form>
 </div>
-<!--         MODAL-->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+<!--     REGISTRATION MODAL-->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="addNewUserModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add New Users</h5>
+                <h5 class="modal-title" id="addNewUserModalLabel">REGISTRATION</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body text-left">
-                <form action="#" method="POST">
+                <form action="#" method="POST" id="userRegistrationForm">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <div class="form-group">
                         <label for="emailReg" class="col-form-label">Email:</label>
                         <input type="text" class="form-control" id="emailReg">
@@ -74,22 +79,24 @@
                         <p id="errorPasswordReg"></p>
                     </div>
                     <div class="form-group">
-                        <label for="confirmingPasswordReg" class="col-form-label">Confirm Password:</label>
-                        <input type="password" class="form-control" id="confirmingPasswordReg">
-                        <p id="errorPasswordConfirmReg"></p>
+                        <label for="confirmationPasswordReg" class="col-form-label">Confirmation Password:</label>
+                        <input type="password" name="confirmationPasswordReg" class="form-control"
+                               id="confirmationPasswordReg">
+                        <p id="errorConfirmationPasswordReg" class="color-red"></p>
                     </div>
                     <div class="form-group">
                         <label for="roleReg" class="col-form-label">Role:</label>
                         <select id="roleReg">
-                            <option value="1">Recruiter
-                            </option>
-                            <option value="2">Candidate
-                            </option>
+                            <option value="1">Recruiter</option>
+                            <option value="2">Candidate</option>
                         </select>
                     </div>
                 </form>
                 <div class="modal-footer">
-                    <input type="button" id="addUserBtn" value="Register" class="btn btn-primary"/>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="registerSubmitBtn-close">
+                        CLOSE</button>
+                    <button type="button" id="addUserBtn" class="btn btn-primary">REGISTER</button>
+                    <i class="fa-solid fa-spinner hiddenAll" id="registerSubmitBtn-spinIcon"></i>
                 </div>
             </div>
         </div>

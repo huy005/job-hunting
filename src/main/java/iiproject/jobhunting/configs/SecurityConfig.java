@@ -36,7 +36,8 @@ public class SecurityConfig {
                 "select u.user_email as username, r.role_name as role from user_db AS u\n" +
                         "inner join role_db AS r\n" +
                         "on u.role_id = r.role_id\n" +
-                        "where u.user_email = ?");
+                        "where u.user_email = ?\n" +
+                "and u.verification_status = 1");
         return jdbcUserDetailsManager;
     }
 
@@ -46,9 +47,10 @@ public class SecurityConfig {
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/css/**", "/js/**", "/img/**","/index").permitAll()
+                                .requestMatchers("/css/**", "/js/**", "/img/**","file/**","/index","/**").permitAll()
                                 .requestMatchers("/recruiters/**").hasAuthority("RECRUITER")
                                 .requestMatchers("/candidates/**").hasAuthority("CANDIDATE")
+                                .requestMatchers("/home").hasAnyAuthority("RECRUITER","CANDIDATE")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
@@ -70,7 +72,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/img/**");
+        return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/img/**","file/**");
     }
 
 

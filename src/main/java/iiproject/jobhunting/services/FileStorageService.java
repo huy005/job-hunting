@@ -45,10 +45,16 @@ public class FileStorageService {
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = Paths.get(new File("src\\main\\resources\\static\\img\\"+ fileName).getAbsolutePath());
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            if(fileName.contains(".png") || fileName.contains(".jpg") || fileName.contains(".jpeg")) {
+                Path targetLocation = Paths.get(new File("src\\main\\resources\\static\\img\\"+ fileName).getAbsolutePath());
+                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                return "img/" + fileName;
+            }
 
-            return "img/" + fileName;
+            Path targetLocation = Paths.get(new File("src\\main\\resources\\static\\file\\"+ fileName).getAbsolutePath());
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            return "file/" + fileName;
+
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }

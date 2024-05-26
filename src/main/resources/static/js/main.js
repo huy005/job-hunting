@@ -2,82 +2,180 @@
 // ADD USER BUTTON
 $(function () {
     $('#addUserBtn').click(function () {
-        let passwordConfirmed = null;
-        if ($('#passwordReg').val() === $('#confirmingPasswordReg').val()) {
-            passwordConfirmed = $('#passwordReg').val();
+        let confirmationPassword = null;
+        if ($('#passwordReg').val() === $('#confirmationPasswordReg').val()) {
+            confirmationPassword = $('#passwordReg').val();
         } else {
-            $('#errorPasswordConfirmRe').text("The password you entered not match!!! ");
+            $('#errorConfirmationPasswordReg').text("The password you entered not match!!! ");
+            return e.file.preventDefault();
         }
+        const token = $('input[name="_csrf"]').val();
         var data = {
             email: $('#emailReg').val(),
             username: $('#fullNameReg').val(),
-            password: passwordConfirmed,
-            role: $('#roleReg').val()
+            password: confirmationPassword,
+            role: $('#roleReg').val(),
+            token: token
         };
+
+        $('#addUserBtn').addClass('hiddenAll');
+        $('#registerSubmitBtn-close').addClass('hiddenAll');
+        $('#registerSubmitBtn-spinIcon').removeClass('hiddenAll');
+        setTimeout(function () {
+            // the followings performed after 2 seconds
+            // $('#registerSubmitBtn-spinIcon').fadeOut(3000, function () {
+            $('#registerSubmitBtn-spinIcon').addClass('hiddenAll');
+            $('#addUserBtn').removeClass('hiddenAll');
+            $('#registerSubmitBtn-close').removeClass('hiddenAll');
+            // });
+        }, 3000);
+
         $.ajax({
             url: '/user-registration',
             method: 'post',
             data: JSON.stringify(data),
             contentType: 'application/json',
             dataType: "json",
+            headers: {
+                'X-XSRF-TOKEN': token
+            },
             cache: false
         }).done(function (data, status, jqxhr) {
             console.log(data);
-            alert("A new user added successfully!!!");
-            $('#exampleModal').modal('hide');
+            $('#registerModal').modal('hide');
             $('#emailReg').val("");
             $('#fullNameReg').val("");
             $('#passwordReg').val("");
-            $('#roleReg').val("");
+            $('#confirmationPasswordReg').val("");
+            $('#errorConfirmationPasswordReg').text("");
+            $('#activationUser').removeClass('hiddenAll');
+            alert("A new user added successfully!!! Check your email for the activation!!!");
         }).fail(function (data, status, jqxhr) {
             console.log(data);
+            console.log(status);
+            console.log(jqxhr);
             alert("Failed to add a new user!!!");
-            $.each(data.responseJSON.errors, (index, value) => {
-                if (value.field == "userEmail") {
-                    $('#errorEmailReg').text(value.defaultMessage).css({"display": "block", "color": "red"});
-                } else {
-                    $('#errorEmailReg').text("");
-                }
-                if (value.field == "userFullName") {
-                    $('#errorFullNameReg').text(value.defaultMessage).css({"display": "block", "color": "red"});
-                } else {
-                    $('#errorFullNameReg').text("");
-                }
-                if (value.field == "userPassword") {
-                    $('#errorPasswordReg').text(value.defaultMessage).css({"display": "block", "color": "red"});
-                } else {
-                    $('#errorPasswordReg').text("");
-                }
-                if (value.field == "userConfirmingPassword") {
-                    $('#errorPasswordConfirmReg').text(value.defaultMessage).css({"display": "block", "color": "red"});
-                } else {
-                    $('#errorPasswordConfirmReg').text("");
-                }
-            });
+            // $.each(data.responseJSON.errors, (index, value) => {
+            //     if (value.field == "email") {
+            //         $('#errorEmailReg').text(value.defaultMessage).css({"display": "block", "color": "red"});
+            //     } else {
+            //         $('#errorEmailReg').text("");
+            //     }
+            //     if (value.field == "username") {
+            //         $('#errorFullNameReg').text(value.defaultMessage).css({"display": "block", "color": "red"});
+            //     } else {
+            //         $('#errorFullNameReg').text("");
+            //     }
+            //     if (value.field == "password") {
+            //         $('#errorPasswordReg').text(value.defaultMessage).css({"display": "block", "color": "red"});
+            //     } else {
+            //         $('#errorPasswordReg').text("");
+            //     }
+            //     if (value.field == "confirmationPasswordReg") {
+            //         $('#errorConfirmationPasswordReg').text(value.defaultMessage).css({
+            //             "display": "block",
+            //             "color": "red"
+            //         });
+            //     } else {
+            //         $('#errorConfirmationPasswordReg').text("");
+            //     }
+            // });
         });
     });
 });
 
 // UPDATE RECRUITER's INFO
-$(function () {
-    $('#updateInfoBtn').click(function () {
+// $(function () {
+//     $('#updateInfoBtn').click(function () {
+//
+//         if ($('#userFileReInfoForm-info').val() != 0) {
+//             alert("Upload the user's image before submitting.")
+//             $('#erroruserFileReInfoForm').text('Upload the user\'s image before submitting.')
+//             e.file.preventDefault();
+//             // uploadUserImage();
+//         }
+//
+//         var data = {
+//             userAddress: $('#addressReInfo').val(),
+//             userDescription: $('#descriptionReInfo').val(),
+//             userImage: $('#userImageReInfo').val(),
+//             username: $('#fullNameReInfo').val(),
+//             userPhoneNumber: $('#phoneNumberReInfo').val()
+//         };
+//         $.ajax({
+//             url: '/recruiters/recruiter-info',
+//             method: 'post',
+//             data: JSON.stringify(data),
+//             contentType: 'application/json',
+//             dataType: "json",
+//             headers: {
+//                 'X-XSRF-TOKEN': $('input[name="_csrf"]').val()
+//             },
+//             processData: false,
+//             cache: false
+//         }).done(function (data, status, jqxhr) {
+//             console.log(data);
+//             alert("The recruiter's info updated successfully!!!");
+//             $('#recruiterInfoModal').modal('hide');
+//             $('#userImageReInfo').val("");
+//             $('#fullNameReInfo').val("");
+//             $('#addressReInfo').val("");
+//             $('#phoneNumberReInfo').val("");
+//             $('#descriptionReInfo').val("");
+//             $('#successfuluserFileReInfoForm').text('')
+//             // location.reload();
+//         }).fail(function (data, status, jqxhr) {
+//             console.log(data);
+//             console.log(status);
+//             console.log(jqxhr);
+//             alert("Failed to update recruiter's info!!!");
+//             $.each(data.responseJSON.errors, (index, value) => {
+//                 if (value.field == "userFullName") {
+//                     $('#errorFullNameReInfo').text(value.defaultMessage).css({"display": "block", "color": "red"});
+//                 } else {
+//                     $('#errorFullNameReInfo').text("");
+//                 }
+//                 if (value.field == "userAddress") {
+//                     $('#errorAddressReInfo').text(value.defaultMessage).css({"display": "block", "color": "red"});
+//                 } else {
+//                     $('#errorAddressReInfo').text("");
+//                 }
+//                 if (value.field == "userPhoneNumber") {
+//                     $('#errorPhoneNumberReInfo').text(value.defaultMessage).css({"display": "block", "color": "red"});
+//                 } else {
+//                     $('#errorPhoneNumberReInfo').text("");
+//                 }
+//             });
+//         });
+//     });
+// });
 
-        if ($('#userImageReInfoForm-info').val() != 0) {
+// UPDATE RECRUITER's INFO
+$(function () {
+    $('.updateInfoBtn').click(function () {
+
+        if ($('.userFileReInfoForm-info').val() != 0 && $('#userCvReInfoForm-info-id').val() == 0) {
             alert("Upload the user's image before submitting.")
-            $('#errorUserImageReInfoForm').text('Upload the user\'s image before submitting.')
-            e.file.preventDefault();
-            // uploadUserImage();
+            $('.errorUserFileReInfoForm').text('Upload the user\'s image before submitting.')
+            return e.file.preventDefault();
+        }
+
+        if ($('#userCvReInfoForm-info-id').val() != 0 && $('.userFileReInfoForm-info').val() == 0) {
+            alert("Upload the CV before submitting.")
+            $('#errorUserCvReInfoForm').text('Upload the CV before submitting.')
+            return e.file.preventDefault();
         }
 
         var data = {
-            userAddress: $('#addressReInfo').val(),
-            userDescription: $('#descriptionReInfo').val(),
-            userImage: $('#userImageReInfo').val(),
-            username: $('#fullNameReInfo').val(),
-            userPhoneNumber: $('#phoneNumberReInfo').val()
+            userAddress: $('.addressReInfo').val(),
+            userDescription: $('.descriptionReInfo').val(),
+            userImageFileName: $('.userImageReInfo').val(),
+            username: $('.fullNameReInfo').val(),
+            userPhoneNumber: $('.phoneNumberReInfo').val(),
+            cvFileName: $('.userCvReInfo').val()
         };
         $.ajax({
-            url: '/recruiters/recruiter-info',
+            url: '/new-user-info',
             method: 'post',
             data: JSON.stringify(data),
             contentType: 'application/json',
@@ -90,14 +188,15 @@ $(function () {
         }).done(function (data, status, jqxhr) {
             console.log(data);
             alert("The recruiter's info updated successfully!!!");
-            $('#recruiterInfoModal').modal('hide');
-            $('#userImageReInfo').val("");
-            $('#fullNameReInfo').val("");
-            $('#addressReInfo').val("");
-            $('#phoneNumberReInfo').val("");
-            $('#descriptionReInfo').val("");
-            $('#successfulUserImageReInfoForm').text('')
-            // location.reload();
+            $('.recruiterInfoModal').modal('hide');
+            // $('.userImageReInfo').val("");
+            // $('#userCvReInfo').val("");
+            // $('.fullNameReInfo').val("");
+            // $('.addressReInfo').val("");
+            // $('.phoneNumberReInfo').val("");
+            // $('.descriptionReInfo').val("");
+            $('#successfulUserFileReInfoForm').text('');
+            $('#successfulUserCvReInfoForm').text('');
         }).fail(function (data, status, jqxhr) {
             console.log(data);
             console.log(status);
@@ -105,34 +204,33 @@ $(function () {
             alert("Failed to update recruiter's info!!!");
             $.each(data.responseJSON.errors, (index, value) => {
                 if (value.field == "userFullName") {
-                    $('#errorFullNameReInfo').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('.errorFullNameReInfo').text(value.defaultMessage).css({"display": "block", "color": "red"});
                 } else {
-                    $('#errorFullNameReInfo').text("");
+                    $('.errorFullNameReInfo').text("");
                 }
                 if (value.field == "userAddress") {
-                    $('#errorAddressReInfo').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('.errorAddressReInfo').text(value.defaultMessage).css({"display": "block", "color": "red"});
                 } else {
-                    $('#errorAddressReInfo').text("");
+                    $('.errorAddressReInfo').text("");
                 }
                 if (value.field == "userPhoneNumber") {
-                    $('#errorPhoneNumberReInfo').text(value.defaultMessage).css({"display": "block", "color": "red"});
+                    $('.errorPhoneNumberReInfo').text(value.defaultMessage).css({"display": "block", "color": "red"});
                 } else {
-                    $('#errorPhoneNumberReInfo').text("");
+                    $('.errorPhoneNumberReInfo').text("");
                 }
             });
         });
     });
 });
 
-// UPDATE USER's IMAGE
+// UPLOAD USER's FILE
 $(function () {
-    $('#userImageReInfoForm').submit(function(event) {
-        if ($('#userImageReInfoForm-info').val() != 0) {
-            // var data = $('#userImageReInfoForm').;
+    $('.userFileReInfoForm').submit(function (event) {
+        if ($('.userFileReInfoForm-info').val() != 0
+            || $('#userCvReInfoForm-info-id').val() != 0
+            || $('#userCvReInfoForm2-info-id').val() != 0) {
             var formData = new FormData(this);
-
         }
-
         $.ajax({
             url: '/file-upload',
             method: 'post',
@@ -148,16 +246,27 @@ $(function () {
             console.log(formData);
             console.log(status);
             console.log(jqxhr);
-            $('#userImageReInfo').val(formData.fileName);
-            $('#userImageReInfoForm-info').val('');
-            $('#errorUserImageReInfoForm').text('');
-            $('#successfulUserImageReInfoForm').text('The user\'s image updated successfully!!!');
-            // alert("The user's image updated successfully!!!");
+            $('.userImageReInfo').val(formData.fileName);
+            $('.userCvReInfo').val(formData.fileName);
+            if ($('.userFileReInfoForm-info').val() != 0) {
+                $('.userFileReInfoForm-info').val('');
+                $('.errorUserFileReInfoForm').text('');
+                $('.successfulUserFileReInfoForm').text('The user\'s image updated successfully!!!');
+            } else if ($('#userCvReInfoForm-info-id').val() != 0) {
+                $('#userCvReInfoForm-info-id').val('');
+                $('#errorUserCvReInfoForm').text('');
+                $('#successfulUserCvReInfoForm').text('The CV updated successfully!!!');
+
+            } else if ($('#userCvReInfoForm2-info-id').val() != 0) {
+                $('#userCvReInfoForm2-info-id').val('');
+                $('#errorUserCvReInfoForm2').text('');
+                $('#successfulUserCvReInfoForm2').text('The CV updated successfully!!!');
+            }
         }).fail(function (data, status, jqxhr) {
             console.log(data);
             console.log(status);
             console.log(jqxhr);
-            alert("Failed to update The user's image!!!");
+            alert("Failed to update the file!!!");
         });
         event.preventDefault();
     });
@@ -165,12 +274,12 @@ $(function () {
 
 // USER's IMAGE PREVIEW
 $(function () {
-    $('#userImageReInfoForm-info').change(function () {
+    $('.userFileReInfoForm-info').change(function () {
         let file = this.files[0];
         if (file) {
             let reader = new FileReader();
             reader.onload = function (e) {
-                $('#user-image-preview').html('<img width="100%" alt="user-image.png" src="' + e.target.result + '">');
+                $('.user-image-preview').html('<img width="100%" alt="user-image.png" src="' + e.target.result + '">');
             }
             reader.readAsDataURL(file);
         }
@@ -184,7 +293,7 @@ $(function () {
         if ($('#companyLogoCoForm-info').val() != 0) {
             alert("Upload the company logo before submitting.")
             $('#errorCompanyLogoCoForm').text('Upload the company\'s logo before submitting.')
-            e.file.preventDefault();
+            return e.file.preventDefault();
         }
 
         var data = {
@@ -209,14 +318,13 @@ $(function () {
             console.log(data);
             alert("The company's info updated successfully!!!");
             $('#companyInfoModal').modal('hide');
-            $('#emailCoInfo').val("");
-            $('#companyLogoCoInfo').val("");
-            $('#nameCoInfo').val("");
-            $('#addressCoInfo').val("");
-            $('#phoneNumberCoInfo').val("");
-            $('#descriptionCoInfo').val("");
+            // $('#emailCoInfo').val("");
+            // $('#companyLogoCoInfo').val("");
+            // $('#nameCoInfo').val("");
+            // $('#addressCoInfo').val("");
+            // $('#phoneNumberCoInfo').val("");
+            // $('#descriptionCoInfo').val("");
             $('#successfulCompanyLogoCoForm').text('');
-            // location.reload();
         }).fail(function (data, status, jqxhr) {
             console.log(data);
             console.log(status);
@@ -279,7 +387,7 @@ $(function () {
             console.log(jqxhr);
             alert("Failed to update the company's logo!!!");
         });
-        event.preventDefault();
+        return event.preventDefault();
     });
 });
 
@@ -300,7 +408,6 @@ $(function () {
 // ADD JOB DESCRIPTION BUTTON
 $(function () {
     $('#addJobDescriptionBtn').click(function () {
-
         var data = {
             title: $('#jd-title').val(),
             quantity: $('#jd-quantity').val(),
@@ -543,3 +650,115 @@ $(function () {
         });
     });
 });
+
+// CLEAR UPLOAD BUTTON
+$(function () {
+    $('.clearUploadBtn').click(function (event) {
+        if ($('.userFileReInfoForm-info').val() != 0) {
+            alert("The uploaded image canceled!!!")
+            $('#company-logo-img').html('<img th:src="*{companyLogo}" width="100%" alt="company-logo.png">');
+            $('.user-image-preview').html('<img th:src="*{userImage}" width="100%" alt="user-image.png">');
+            $('#errorCompanyLogoCoForm').text('');
+            $('.errorUserFileReInfoForm').text('');
+            $('.userFileReInfoForm-info').val("");
+        } else if ($('#userCvReInfoForm-info-id').val() != 0) {
+            alert("The uploaded CV canceled!!!")
+            $('.errorCompanyLogoCoForm').text('');
+            $('#userCvReInfoForm-info-id').val("");
+        } else {
+            alert("There is not any file to be canceled!!!")
+        }
+    });
+});
+
+// SHOW UPLOAD CV BUTTON
+function showUploadCvButton(btn) {
+    if (btn.value == "newCv") {
+        $('#showUploadCvId').removeClass('hiddenAll');
+    } else {
+        $('#showUploadCvId').addClass('hiddenAll');
+    }
+}
+
+// APPLY FOR THE JOB BUTTON
+function applyJob(jobDescriptionId) {
+    var data = {
+        jobDescriptionId: jobDescriptionId,
+        cvName: $('.userCvReInfo').val(),
+        additionalInfo: $('#additionalInfoArea').val(),
+    };
+    $.ajax({
+        url: '/candidates/job-application',
+        method: 'post',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        dataType: "json",
+        headers: {
+            'X-XSRF-TOKEN': $('input[name="_csrf"]').val()
+        },
+        cache: false
+    }).done(function (data, status, jqxhr) {
+        console.log(data);
+        alert("Successfully applied for the job!!!");
+        $('#applyForJobBtnModal').modal('hide');
+        $('.userCvReInfo').html("");
+        $('#additionalInfo').html("");
+    }).fail(function (data, status, jqxhr) {
+        console.log(data);
+        console.log(status);
+        console.log(jqxhr);
+        alert("Failed to apply for the job!!!");
+        $.each(data.responseJSON.errors, (index, value) => {
+            if (value.field == "additionalInfo") {
+                $('#errorDescriptionApplyBtn').text(value.defaultMessage).css({"display": "block", "color": "red"});
+            } else {
+                $('#errorDescriptionApplyBtn').text("");
+            }
+        });
+    });
+}
+
+// FAVOURITE BUTTON
+function changeFavoriteBtnStatus(jobDescriptionId) {
+    const favoriteBtn = $('#favoriteBtn');
+
+    favoriteBtn.toggleClass("btn-warning btn-light")
+
+    const favoriteBtnIcon = $('#favoriteBtnIcon');
+
+    favoriteBtnIcon.toggleClass("fa-solid fa-heart fa-regular fa-heart")
+
+    let favoriteJobStatus = 0;
+    if (favoriteBtn.hasClass("btn-warning") && favoriteBtnIcon.hasClass("fa-solid fa-heart")) {
+        favoriteJobStatus = 1;
+    }
+
+    var data = {
+        jobDescriptionId: jobDescriptionId,
+        favoriteJobStatus: favoriteJobStatus
+    };
+    $.ajax({
+        url: '/candidates/favorite-job',
+        method: 'post',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        headers: {
+            'X-XSRF-TOKEN': $('input[name="_csrf"]').val()
+        },
+        dataType: "json",
+        cache: false
+    }).done(function (data) {
+        console.log(data);
+        if (favoriteBtn.hasClass("btn-warning") && favoriteBtnIcon.hasClass("fa-solid fa-heart")){
+            alert("The job description added to the list successfully!!!");
+        }
+        if (favoriteBtn.hasClass("btn-light") && favoriteBtnIcon.hasClass("fa-regular fa-heart")){
+            alert("The job description deleted from the list successfully!!!");
+        }
+    }).fail(function (data, status, jqxhr) {
+        console.log(data);
+        console.log(status);
+        console.log(jqxhr);
+        alert("Failed to add favorite job description!!!");
+    });
+}

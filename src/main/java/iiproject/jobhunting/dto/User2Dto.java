@@ -22,5 +22,7 @@ public class User2Dto {
 
     private String userDescription;
 
-    private String userImage;
+    private String userImageFileName;
+
+    private String cvFileName;
 }

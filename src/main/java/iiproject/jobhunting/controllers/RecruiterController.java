@@ -2,8 +2,6 @@ package iiproject.jobhunting.controllers;
 
 import iiproject.jobhunting.dto.*;
 import iiproject.jobhunting.entities.JobDescription;
-import iiproject.jobhunting.entities.Role;
-import iiproject.jobhunting.entities.User;
 import iiproject.jobhunting.exception.UserNotFoundException;
 import iiproject.jobhunting.helpers.Utils;
 import iiproject.jobhunting.services.HomeService;
@@ -20,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 import static java.lang.Integer.parseInt;
 
@@ -37,19 +34,6 @@ public class RecruiterController {
         this.httpSession = httpSession;
         this.recruiterService = recruiterService;
         this.homeService = homeService;
-    }
-
-    @PostMapping("/recruiter-info")
-    public @ResponseBody ResponseEntity<GenericResponse> putRecruiterInfo(@RequestBody @Valid User2Dto user2Dto,
-                                                                          Authentication authentication,
-                                                                          HttpStatus httpStatus) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boolean emailConfirmed = recruiterService.confirmEmailAndSave(userDetails.getUsername(), user2Dto);
-        if (emailConfirmed) {
-            return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
-                    "The recruiter's information updated successfully.", Utils.getTimeStampHelper()));
-        }
-        throw new UserNotFoundException("The updating user not found.");
     }
 
     @PostMapping("/company-info")
@@ -134,7 +118,7 @@ public class RecruiterController {
     public String getCandidates(
             Authentication authentication, HttpStatus httpStatus, Model theModel) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        List<CandidateJobDto> candidateJobs = recruiterService.getCandidateJobList(userDetails.getUsername());
+        List<CandidateJdDto> candidateJobs = recruiterService.getCandidateJobList(userDetails.getUsername());
         if (!candidateJobs.isEmpty()) {
             theModel.addAttribute("candidateJobs", candidateJobs);
             return "candidate/candidates";
@@ -146,7 +130,7 @@ public class RecruiterController {
     @GetMapping("/jd-candidates")
     public String getJdCandidates(
             @RequestParam("jobDescriptionId") int theId, Model theModel) {
-        List<CandidateJobDto> candidateJobs = recruiterService.getJdCandidatesById(theId);
+        List<CandidateJdDto> candidateJobs = recruiterService.getJdCandidatesById(theId);
         if (!candidateJobs.isEmpty()) {
             theModel.addAttribute("candidateJobs", candidateJobs);
             return "candidate/jd-candidates";

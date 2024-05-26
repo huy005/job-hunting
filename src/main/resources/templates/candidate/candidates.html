@@ -23,6 +23,10 @@
                 <!--                POST/JOB DESCRIPTION INFO-->
                 <a class="nav-item nav-link" th:href="@{/recruiters/job-descriptions}">Job Description List</a>
             </div>
+            <div class="navbar-nav">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#candidateInfoModal">Candidate's
+                    Info</a>
+            </div>
         </div>
 
         <div class="navbar-nav" style="text-align:right">
@@ -32,6 +36,85 @@
         </div>
     </nav>
     <div class="header-img"></div>
+</div>
+
+<!--CANDIDATE'S INFO MODAL-->
+<div class="modal fade" id="candidateInfoModal" tabindex="-1" aria-labelledby="candidateInfoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="candidateInfoModalLabel">Recruiter's Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+<!--            <div class="modal-body text-left" th:object="${user}">-->
+<!--                &lt;!&ndash;                UPLOAD USER'S IMAGE&ndash;&gt;-->
+<!--                <div class="single-upload form-container">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-8">-->
+<!--                            <form id="userFileReInfoForm" name="singleUploadForm" method="post">-->
+<!--                                <div class="form-group">-->
+<!--                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+<!--                                </div>-->
+<!--                                <label for="userFileReInfoForm-info">Choose a user image:</label><br>-->
+<!--                                <input id="userFileReInfoForm-info" type="file" name="file"-->
+<!--                                       style="margin-bottom: 0.3rem;"/>-->
+<!--                                <button type="submit" class="primary submit-btn">Upload</button>-->
+<!--                                <p id="erroruserFileReInfoForm" class="color-red"></p>-->
+<!--                                <p id="successfuluserFileReInfoForm" class="color-green"></p>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                        <div class="col-4">-->
+<!--                            <div id="user-image-preview">-->
+<!--                                <img th:src="*{userImage}" width="100%" alt="user-image.png">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <form action="#" method="POST">-->
+<!--                    <div class="form-group">-->
+<!--                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <input type="hidden" id="userImageReInfo"/>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="emailReInfo" class="col-form-label">Email:</label>-->
+<!--                        <input type="text" class="form-control" id="emailReInfo" disabled th:field="*{email}">-->
+<!--                        &lt;!&ndash;                                            <p id="errorEmailReInfo"></p>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="fullNameReInfo" class="col-form-label">Full Name:</label>-->
+<!--                        <input type="text" class="form-control" id="fullNameReInfo" th:field="*{username}">-->
+<!--                        <p id="errorFullNameReInfo"></p>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="addressReInfo" class="col-form-label">Address:</label>-->
+<!--                        <input type="text" class="form-control" id="addressReInfo" th:field="*{userAddress}">-->
+<!--                        <p id="errorAddressReInfo"></p>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="phoneNumberReInfo" class="col-form-label">Phone-->
+<!--                            Number:</label>-->
+<!--                        <input type="text" class="form-control" id="phoneNumberReInfo" th:field="*{phoneNumber}">-->
+<!--                        <p id="errorPhoneNumberReInfo"></p>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="descriptionReInfo" class="col-form-label">Description:</label>-->
+<!--                        <textarea id="descriptionReInfo" style="width: 100%;" rows="4"-->
+<!--                                  cols="50" th:field="*{userDescription}">-->
+<!--                        </textarea><br><br>-->
+<!--                        <p id="errorDescriptionReInfo"></p>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--                <div class="modal-footer">-->
+<!--                    <input type="button" id="updateInfoBtn" value="Submit" class="btn btn-primary"/>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </div>
 </div>
 
 <div class="content">
@@ -90,37 +173,37 @@
                         <p th:text="${candidateJob.deadline}"></p>
                     </div>
                 </td>
-<!--                <td>-->
-<!--                    <div>-->
-<!--                        <a class="dropdown-item "><span class="btn btn-primary">Update</span></a>-->
-<!--                        <a class="dropdown-item " data-toggle="modal"-->
-<!--                           data-target="#deleteJdBtnModal"><span class="btn btn-danger">Delete</span></a>-->
-<!--                    </div>-->
-<!--                </td>-->
+                <!--                <td>-->
+                <!--                    <div>-->
+                <!--                        <a class="dropdown-item "><span class="btn btn-primary">Update</span></a>-->
+                <!--                        <a class="dropdown-item " data-toggle="modal"-->
+                <!--                           data-target="#deleteJdBtnModal"><span class="btn btn-danger">Delete</span></a>-->
+                <!--                    </div>-->
+                <!--                </td>-->
 
                 <!--            DELETE MODEL-->
-<!--                <div class="modal" id="deleteJdBtnModal" tabindex="-1">-->
-<!--                    <div class="modal-dialog">-->
-<!--                        <div class="modal-content">-->
-<!--                            <div class="modal-header">-->
-<!--                                <h5 class="modal-title">Delete this job description</h5>-->
-<!--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                                    <span aria-hidden="true">&times;</span>-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                            <div class="modal-body">-->
-<!--                                <p>Do you agree to delete this job description?</p>-->
-<!--                            </div>-->
-<!--                            <div class="modal-footer">-->
-<!--                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>-->
-<!--                                &lt;!&ndash;                                    <button type="button" id="deleteJdBtn" class="btn btn-primary"&ndash;&gt;-->
-<!--                                &lt;!&ndash;                                            th:value="${jobDescription.jobDescriptionId}">&ndash;&gt;-->
-<!--                                &lt;!&ndash;                                        Yes&ndash;&gt;-->
-<!--                                &lt;!&ndash;                                    </button>&ndash;&gt;-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!--                <div class="modal" id="deleteJdBtnModal" tabindex="-1">-->
+                <!--                    <div class="modal-dialog">-->
+                <!--                        <div class="modal-content">-->
+                <!--                            <div class="modal-header">-->
+                <!--                                <h5 class="modal-title">Delete this job description</h5>-->
+                <!--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                <!--                                    <span aria-hidden="true">&times;</span>-->
+                <!--                                </button>-->
+                <!--                            </div>-->
+                <!--                            <div class="modal-body">-->
+                <!--                                <p>Do you agree to delete this job description?</p>-->
+                <!--                            </div>-->
+                <!--                            <div class="modal-footer">-->
+                <!--                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>-->
+                <!--                                &lt;!&ndash;                                    <button type="button" id="deleteJdBtn" class="btn btn-primary"&ndash;&gt;-->
+                <!--                                &lt;!&ndash;                                            th:value="${jobDescription.jobDescriptionId}">&ndash;&gt;-->
+                <!--                                &lt;!&ndash;                                        Yes&ndash;&gt;-->
+                <!--                                &lt;!&ndash;                                    </button>&ndash;&gt;-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
             </tr>
             </tbody>
         </table>

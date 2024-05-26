@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -39,33 +40,50 @@ public class User {
     @Column(name="user_description")
     private String userDescription;
 
-    @Column(name="createdAt")
+    @Column(name="verification_status")
+    private int varificationStatus;
+
+    @Column(name="token")
+    private String token;
+
+    @Column(name="token_expiry_date")
+    private LocalDateTime tokenExpiryDate;
+
+    @Column(name="created_at")
     private LocalDateTime createdAt;
 
-    @Column(name="updatedAt")
+    @Column(name="update_at")
     private LocalDateTime updatedAt;
 
     @Column(name="delete_status")
     private int deleteStatus;
 
-    @Column(name="deletedAt")
+    @Column(name="deleted_at")
     private LocalDateTime deletedAt;
 
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="role_id")
     private Role role;
 
-    @OneToOne(mappedBy = "user")
-    private Cv cv;
+    @OneToMany(mappedBy = "user")
+    private List<AppliedJob> appliedJob;
 
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Company company;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "candidate_company_db",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_id"))
+    private List<Company> candidateCompanies;
 
     @ManyToMany
     @JoinTable(
             name = "user_job_db",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "job_description_id"))
-    private List<JobDescription> jobDescriptions;
+    private Set<JobDescription> jobDescriptions;
 }

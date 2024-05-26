@@ -49,7 +49,10 @@ public class Company {
     private LocalDateTime deletedAt;
 
     @OneToMany(mappedBy = "company")
-    private List<User> user;
+    private List<User> recruiter;
+
+    @ManyToMany(mappedBy = "candidateCompanies")
+    private List<User> companyCandidates;
 
     @OneToMany(mappedBy = "company")
     private List<JobDescription> jobDescriptions;

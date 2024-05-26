@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.batch.BatchProperties;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -67,14 +68,14 @@ public class JobDescription {
     @Column(name="deletedAt")
     private LocalDateTime deletedAt;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name="category_id")
     private Category category;
 
     @ManyToMany(mappedBy = "jobDescriptions")
-    private List<User> candidates;
+    private Set<User> candidates;
 }
