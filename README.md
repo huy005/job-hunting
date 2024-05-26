@@ -66,7 +66,7 @@ Validation for each field(in progress)
 Show all the job descriptions with the corresponding companies  
 Click "Job Description List" and be redirected to "Job Description List" page  
 ![img_16.png](img_16.png)
-![img_17.png](img_17.png)
+![img_33.png](img_33.png)!
 
 9/Job Descriptions Addition  
 Recruiters post job descriptions showing on homepage  
@@ -93,12 +93,15 @@ Recruiters view candidate list applying for the corresponding job
 ![img_2.png](img_2.png)  
 
 From the job description page, the recruiter can also see then the candidate applying for the job by clicking Candidate button  
-The recruiter can download the candidate's Cv by clicking Download Button(in progress)
+The recruiter can download the candidate's Cv by clicking Download Button(in progress)  
+![img_34.png](img_34.png)
 ![img_3.png](img_3.png)
 
 If there are no any candidates applying for this job, the message will be shown  
 ![img_5.png](img_5.png)
 
+13/ Downloading candidates' CV(in progress)
+Downloading the CVs from the candidates applying for the jobs
 
 ---
 III/CANDIDATE'S FUNCTIONS  

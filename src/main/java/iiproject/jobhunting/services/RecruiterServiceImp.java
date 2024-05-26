@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -109,6 +110,7 @@ public class RecruiterServiceImp implements RecruiterService {
 
 
     @Override
+    @Transactional
     public List<JobDescription> getJobDescriptionList(String email) {
         User theUser = findByEmail(email);
         if (theUser != null) {
@@ -124,6 +126,7 @@ public class RecruiterServiceImp implements RecruiterService {
     }
 
     @Override
+    @Transactional
     public List<CandidateJdDto> getCandidateJobList(String email) {
         List<JobDescription> jobDescriptions = getJobDescriptionList(email);
         if (!jobDescriptions.isEmpty()){
@@ -154,6 +157,7 @@ public class RecruiterServiceImp implements RecruiterService {
     }
 
     @Override
+    @Transactional
     public List<CandidateJdDto> getJdCandidatesById(int theId) {
         JobDescription jobDescription = findJobDescriptionById(theId);
         if (jobDescription != null) {
