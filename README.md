@@ -72,7 +72,6 @@ Click "Job Description List" and be redirected to "Job Description List" page
 Recruiters post job descriptions showing on homepage  
 Click "POST A NEW JOB" Button  
 Validation for each field(in progress)
-![img_18.png](img_18.png)
 ![img_19.png](img_19.png)  
 
 10/Job Descriptions Update  
@@ -100,7 +99,8 @@ The recruiter can download the candidate's Cv by clicking Download Button(in pro
 If there are no any candidates applying for this job, the message will be shown  
 ![img_5.png](img_5.png)
 
-13/ Downloading candidates' CV(in progress)
+
+13/ Downloading candidates' CV(in progress)  
 Downloading the CVs from the candidates applying for the jobs
 
 ---
