@@ -75,10 +75,9 @@ Validation for each field(in progress)
 ![img_19.png](img_19.png)  
 
 10/Job Descriptions Update  
-The recruiter updates job description's info  
+The recruiter updates job description's info
 Click Update button of the corresponding job description, then be redirected to "UPDATE JOB DESCRIPTION'S INFORMATION" page.    
-After filling in the fields that need updating, click Save button to update the new info  
-![img.png](img.png)  
+After filling in the fields that need updating, click Save button to update the new info
 ![img_1.png](img_1.png)    
 
 11/Delete Job Descriptions 
