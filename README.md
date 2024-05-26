@@ -147,7 +147,7 @@ There will be 2 choices for submitting the CV(submitting a new one or using the 
 ---
 IV/ADVANCED FUNCTIONS  
 
-1/Account Register Authentication with sending email  
+1/Account Authentication been just registered by sending email  
 Reference "II/RECRUITER'S FUNCTIONS -> 4/Signup"  
 
 2/Adding to Favourite List (Following Jobs or Companies)  
