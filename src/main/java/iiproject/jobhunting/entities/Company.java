@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -52,7 +53,7 @@ public class Company {
     private List<User> recruiter;
 
     @ManyToMany(mappedBy = "candidateCompanies")
-    private List<User> companyCandidates;
+    private Set<User> companyCandidates;
 
     @OneToMany(mappedBy = "company")
     private List<JobDescription> jobDescriptions;

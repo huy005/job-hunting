@@ -353,12 +353,12 @@
         <table class="table table-borderless">
             <thead>
             <tr>
-                <td>
+                <td class="text-left">
                     <h3 class="first-th text-primary">The Popular Jobs</h3>
                     <p class="mb-0 px-1 text-info">Jobs have a lot of candidates</p>
                 </td>
-                <td>
-                    <h3 class="text-center text-primary">The Popular Companies</h3>
+                <td class="text-right">
+                    <h3 class="text-primary">The Popular Companies</h3>
                 </td>
             </tr>
             </thead>
@@ -389,10 +389,10 @@
                         </div>
 
                         <!--BUTTON OPERATION-->
-                        <div class="col-3 mt-1">
-                            <button type="button" id="favoriteBtn" class="btn btn-light mb-2"
-                                    th:attr="onclick=|changeFavoriteBtnStatus('${jobDescriptionQuantity.jobDescriptionId}')|">
-                                <i class="fa-regular fa-heart activeFavoriteBtn" id="favoriteBtnIcon"></i><br>Favourite!
+                        <div class="col-3 mt-1 text-left">
+                            <button type="button" class="btn btn-light mb-2" th:id="'favoriteJobBtn-' + ${jobDescriptionQuantity.jobDescriptionId}"
+                                    th:attr="onclick=|changeFavoriteBtnStatus('${jobDescriptionQuantity.jobDescriptionId}', 0)|">
+                                <i class="fa-regular fa-heart activeFavoriteBtn" th:id="'favoriteJobBtnIcon-' + ${jobDescriptionQuantity.jobDescriptionId}"></i><br>Favourite!
                             </button>
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                     data-target="#applyForJobBtnModal">
@@ -469,15 +469,26 @@
                     </div>
                 </td>
 
-                <td class="text-center">
-                    <div class="text-center company-info"
-                         th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
-                        <div class="logo-img">
-                            <img th:src="${jobDescriptionQuantity.company.companyLogo}" width="10%"
-                                 alt="company-logo.png">
+                <td>
+                    <div class="row" th:each="jobDescriptionQuantity : ${jobDescriptionQuantities}">
+                        <div class="col-10 ">
+                            <div class="text-right company-info">
+                                    <div class="logo-img">
+                                        <img th:src="${jobDescriptionQuantity.company.companyLogo}" width="10%"
+                                             alt="company-logo.png">
+                                    </div>
+                                    <h5 th:text="${jobDescriptionQuantity.company.companyName}">Company's Name</h5>
+                                    <p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)
+                                    </p>
+                                </div>
                         </div>
-                        <h5 th:text="${jobDescriptionQuantity.company.companyName}">Company's Name</h5>
-                        <p><span th:text="${jobDescriptionQuantity.quantity}">2</span> Interested position(s)</p>
+
+                        <div class="col-2 text-left" style="margin-top: 0.25rem;">
+                            <button type="button" class="btn btn-light mb-2" th:id="'favoriteComBtn-' + ${jobDescriptionQuantity.company.companyId}"
+                                    th:attr="onclick=|changeFavoriteBtnStatus('${jobDescriptionQuantity.company.companyId}',1)|">
+                                <i class="fa-regular fa-heart activeFavoriteBtn" th:id="'favoriteComBtnIcon-' + ${jobDescriptionQuantity.company.companyId}"></i><br>Favourite!
+                            </button>
+                        </div>
                     </div>
                 </td>
             </tr>

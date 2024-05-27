@@ -2,7 +2,9 @@ package iiproject.jobhunting.services;
 
 import iiproject.jobhunting.dto.AppliedJobDto;
 import iiproject.jobhunting.dto.CompanyJdDto;
+import iiproject.jobhunting.dto.FavoriteJobCompanyDto;
 import iiproject.jobhunting.entities.AppliedJob;
+import iiproject.jobhunting.entities.Company;
 import iiproject.jobhunting.entities.JobDescription;
 import iiproject.jobhunting.entities.User;
 import iiproject.jobhunting.helpers.Utils;
@@ -54,6 +56,13 @@ public class CandidateServiceImp implements CandidateService {
         return theJobDescription;
     }
 
+    public Company findCompanyById(int theId) {
+        Optional<Company> company = companyRepository.findById(theId);
+        Company theCompany = null;
+        if (company.isPresent()) theCompany = company.get();
+        return theCompany;
+    }
+
     @Override
     public boolean findUserAndSaveJobApplicaiton(String email, AppliedJobDto appliedJobDto) {
         User user = findByEmail(email);
@@ -74,17 +83,29 @@ public class CandidateServiceImp implements CandidateService {
 
     @Override
     @Transactional
-    public boolean saveCandidateJob(String email, AppliedJobDto appliedJobDto) {
+    public boolean saveCandidateJob(String email, FavoriteJobCompanyDto favoriteJobCompanyDto) {
         User user = findByEmail(email);
-        JobDescription jobDescription = findJobDescriptionById(appliedJobDto.getJobDescriptionId());
-        if (user != null && user.getDeleteStatus() == 0 && appliedJobDto.getFavoriteJobStatus() == 1) {
+        JobDescription jobDescription = findJobDescriptionById(favoriteJobCompanyDto.getJobDescriptionId());
+        Company company = findCompanyById(favoriteJobCompanyDto.getCompanyId());
+        if (user != null && user.getDeleteStatus() == 0 && favoriteJobCompanyDto.getFavoriteJobStatus() == 1) {
             user.getJobDescriptions().add(jobDescription);
             return true;
-        } else if (user != null && user.getDeleteStatus() == 0 && appliedJobDto.getFavoriteJobStatus() == 0) {
+        } else if (user != null && user.getDeleteStatus() == 0 && favoriteJobCompanyDto.getFavoriteJobStatus() == 0) {
             Set<JobDescription> userJds = user.getJobDescriptions();
             for (JobDescription userJd : userJds) {
-                if (userJd.getJobDescriptionId() == appliedJobDto.getJobDescriptionId()) {
+                if (userJd.getJobDescriptionId() == favoriteJobCompanyDto.getJobDescriptionId()) {
                     userJds.remove(jobDescription);
+                    return true;
+                }
+            }
+        } else if (user != null && user.getDeleteStatus() == 0 && favoriteJobCompanyDto.getFavoriteJobStatus() == 3) {
+            user.getCandidateCompanies().add(company);
+            return true;
+        } else if (user != null && user.getDeleteStatus() == 0 && favoriteJobCompanyDto.getFavoriteJobStatus() == 2) {
+            Set<Company> userComs = user.getCandidateCompanies();
+            for (Company userCom : userComs) {
+                if (userCom.getCompanyId() == favoriteJobCompanyDto.getCompanyId()) {
+                    userComs.remove(company);
                     return true;
                 }
             }

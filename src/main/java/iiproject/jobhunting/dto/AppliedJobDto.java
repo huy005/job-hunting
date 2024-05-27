@@ -15,6 +15,4 @@ public class AppliedJobDto {
     private String additionalInfo;
 
     private int jobDescriptionId;
-
-    private int favoriteJobStatus;
 }

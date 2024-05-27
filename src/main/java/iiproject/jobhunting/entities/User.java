@@ -78,7 +78,7 @@ public class User {
             name = "candidate_company_db",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "company_id"))
-    private List<Company> candidateCompanies;
+    private Set<Company> candidateCompanies;
 
     @ManyToMany
     @JoinTable(

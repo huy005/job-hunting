@@ -1,155 +1,158 @@
 /* GLOBAL */
-*{
-	box-sizing: border-box;
+* {
+    box-sizing: border-box;
 }
 
 /* CLEAR FLOAT */
-.clear{
-	clear: both;
+.clear {
+    clear: both;
 }
 
-.float-left{
-	float: left;
+.float-left {
+    float: left;
 }
 
 /* GENERAL */
-html,body{
-font-size: 16px;
-font-family: ‘Times New Roman’, Times, serif;
-	background-color: #a6ced3 !important;
+html, body {
+    font-size: 16px;
+    font-family: ‘Times New Roman’, Times, serif;
+    background-color: #a6ced3 !important;
 }
 
-.color-green{
-	color: green;
+.color-green {
+    color: green;
 }
 
-.color-red{
-	color: red;
+.color-red {
+    color: red;
 }
 
-.hiddenAll{
-	display:none !important;
+.hiddenAll {
+    display: none !important;
 }
 
 /* HOME PAGE*/
 /* HEADER */
-.header-img{
+.header-img {
     max-width: 100%;
     height: 300px;
     background: url('../img/job-search-header.jpg');
     background-size: contain;
 }
 
-#logInBtn{
-	width: 100px;
+#logInBtn {
+    width: 100px;
     height: 47px;
     font-size: 20px;
 }
 
 /* CONTENT */
-.table{
-	width:100%;
-	height:100px;
+.table {
+    width: 100%;
+    height: 100px;
 }
 
-.table th{
-	font-size: 37px;
-	padding: 0 !important;
+.table th {
+    font-size: 37px;
+    padding: 0 !important;
 }
 
-.first-th{
-	width:50%;
-}
-.job-info{
-	margin-bottom: 2.5rem;
+.first-th {
+    width: 8em;
 }
 
-.job-info-detail{
-	display: inline-block;
+.job-info {
+    margin-bottom: 2.5rem;
+}
+
+.job-info-detail {
+    display: inline-block;
 
 }
 
-.job-info-ele-company-name>p, .job-info-ele-company-address>p{
-	display: inline;
-	font-size: 20px;
+.job-info-ele-company-name > p, .job-info-ele-company-address > p {
+    display: inline;
+    font-size: 20px;
 }
 
-.job-info-ele-company-address{
-	margin-left: 15px;
-}
-.company-info{
-	padding-bottom: 1.5rem;
-	padding-top: 0.5rem;
+.job-info-ele-company-address {
+    margin-left: 15px;
 }
 
-.content-list-jobs{
-	margin-bottom: 30px;
+.company-info {
+    padding-bottom: 1.5rem;
+    padding-top: 0.5rem;
+}
+
+.content-list-jobs {
+    margin-bottom: 30px;
 }
 
 /* LOG IN PAGE */
-.container-logIn{
-	width: 32.5em!important;
+.container-logIn {
+    width: 32.5em !important;
     padding: 20px;
     height: 28rem !important;
     margin-top: 150px;
 }
 
-.form-logIn{
-	width: 30.5rem;
+.form-logIn {
+    width: 30.5rem;
     border: 1px solid black;
     padding: 1rem;
-	height: 19.8em;
+    height: 19.8em;
 }
 
-.form-gp-input{
+.form-gp-input {
     width: 450px;
 }
 
-.form-gp-btn{
-	margin-left: 290px;
+.form-gp-btn {
+    margin-left: 290px;
 }
 
-.form-gp-btn>input{
-	width: 160px;
+.form-gp-btn > input {
+    width: 160px;
 }
 
 /* COMPANY PAGE */
-#recruitmentCreationBtn{
-	width: 200px;
+#recruitmentCreationBtn {
+    width: 200px;
     height: 47px;
     font-size: 20px;
 }
 
 /*JOB DESCRIPTION*/
-.job-des-bottom-info-left>p{
-	margin-left: 1rem;
-	margin-right: 1rem;
+.job-des-bottom-info-left > p {
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
-.job-des-bottom-info-right>p{
-	margin-left: 1rem;
-	margin-right: 1rem;
+.job-des-bottom-info-right > p {
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
-.job-des-content>p{
-	margin-bottom: 0 !important;
+.job-des-content > p {
+    margin-bottom: 0 !important;
 }
 
-.text-area-description{
-	margin: 1rem;
+.text-area-description {
+    margin: 1rem;
 }
 
 /*LOADING SPIN ICON*/
 #registerSubmitBtn-spinIcon {
-	animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
-	0% {
-		-webkit-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
-	100% {
-		-webkit-transform: rotate(360deg);
-		transform: rotate(360deg);
-	}
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }

@@ -719,24 +719,45 @@ function applyJob(jobDescriptionId) {
 }
 
 // FAVOURITE BUTTON
-function changeFavoriteBtnStatus(jobDescriptionId) {
-    const favoriteBtn = $('#favoriteBtn');
-
-    favoriteBtn.toggleClass("btn-warning btn-light")
-
-    const favoriteBtnIcon = $('#favoriteBtnIcon');
-
-    favoriteBtnIcon.toggleClass("fa-solid fa-heart fa-regular fa-heart")
-
+function changeFavoriteBtnStatus(id, jobOrCom) {
+    var data = null;
+    let favoriteBtn = null;
+    let favoriteBtnIcon = null;
     let favoriteJobStatus = 0;
-    if (favoriteBtn.hasClass("btn-warning") && favoriteBtnIcon.hasClass("fa-solid fa-heart")) {
-        favoriteJobStatus = 1;
-    }
+    if (jobOrCom === 0){
+        favoriteBtn = $('#favoriteJobBtn-' + id);
 
-    var data = {
-        jobDescriptionId: jobDescriptionId,
-        favoriteJobStatus: favoriteJobStatus
-    };
+        favoriteBtn.toggleClass("btn-warning btn-light")
+
+        favoriteBtnIcon = $('#favoriteJobBtnIcon-' + id);
+
+        favoriteBtnIcon.toggleClass("fa-solid fa-heart fa-regular fa-heart")
+
+        if (favoriteBtn.hasClass("btn-warning") && favoriteBtnIcon.hasClass("fa-solid fa-heart")) {
+            favoriteJobStatus = 1;
+        }
+        data ={
+            jobDescriptionId: id,
+            favoriteJobStatus: favoriteJobStatus
+        };
+    }else if (jobOrCom === 1){
+        favoriteBtn = $('#favoriteComBtn-' + id);
+
+        favoriteBtn.toggleClass("btn-warning btn-light")
+
+        favoriteBtnIcon = $('#favoriteComBtnIcon-' + id);
+
+        favoriteBtnIcon.toggleClass("fa-solid fa-heart fa-regular fa-heart")
+
+        favoriteJobStatus = 2;
+        if (favoriteBtn.hasClass("btn-warning") && favoriteBtnIcon.hasClass("fa-solid fa-heart")) {
+            favoriteJobStatus = 3;
+        }
+        data ={
+            companyId: id,
+            favoriteJobStatus: favoriteJobStatus
+        };
+    }
     $.ajax({
         url: '/candidates/favorite-job',
         method: 'post',
@@ -749,11 +770,17 @@ function changeFavoriteBtnStatus(jobDescriptionId) {
         cache: false
     }).done(function (data) {
         console.log(data);
-        if (favoriteBtn.hasClass("btn-warning") && favoriteBtnIcon.hasClass("fa-solid fa-heart")){
-            alert("The job description added to the list successfully!!!");
+        if (favoriteJobStatus === 1 && favoriteBtn.hasClass("btn-warning") && favoriteBtnIcon.hasClass("fa-solid fa-heart")){
+            alert("The favorite job description added to the list successfully!!!");
         }
-        if (favoriteBtn.hasClass("btn-light") && favoriteBtnIcon.hasClass("fa-regular fa-heart")){
-            alert("The job description deleted from the list successfully!!!");
+        if (favoriteJobStatus === 0 && favoriteBtn.hasClass("btn-light") && favoriteBtnIcon.hasClass("fa-regular fa-heart")){
+            alert("The favorite job description deleted from the list successfully!!!");
+        }
+        if (favoriteJobStatus === 3 && favoriteBtn.hasClass("btn-warning") && favoriteBtnIcon.hasClass("fa-solid fa-heart")){
+            alert("The favorite company added to the list successfully!!!");
+        }
+        if (favoriteJobStatus === 2 && favoriteBtn.hasClass("btn-light") && favoriteBtnIcon.hasClass("fa-regular fa-heart")){
+            alert("The favorite company deleted from the list successfully!!!");
         }
     }).fail(function (data, status, jqxhr) {
         console.log(data);

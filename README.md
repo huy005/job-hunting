@@ -155,8 +155,8 @@ Reference "II/RECRUITER'S FUNCTIONS -> 4/Signup"
 2/Adding to Favourite List (Following Jobs or Companies)  
 Click Favorite button for the 1st time to add the favourite jobs or companies that the candidate feels interested, the icon will be a yellow background with a black heart  
 Click Favorite button for the 2nd time to remove the favorite jobs or companies that the candidate doesn't feel interested anymore the icon will return to the white background with a border-blacked empty heart  
+![img_18.png](img_18.png)
 ![img_31.png](img_31.png)
-![img_32.png](img_32.png)
 
 3/List of jobs applied or saved(in progress)  
 

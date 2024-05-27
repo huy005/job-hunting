@@ -1,9 +1,6 @@
 package iiproject.jobhunting.controllers;
 
-import iiproject.jobhunting.dto.AppliedJobDto;
-import iiproject.jobhunting.dto.CompanyDto;
-import iiproject.jobhunting.dto.CompanyJdDto;
-import iiproject.jobhunting.dto.GenericResponse;
+import iiproject.jobhunting.dto.*;
 import iiproject.jobhunting.exception.UserNotFoundException;
 import iiproject.jobhunting.helpers.Utils;
 import iiproject.jobhunting.services.CandidateService;
@@ -43,17 +40,23 @@ public class CandidateController {
  }
 
     @PostMapping("/favorite-job")
-    public @ResponseBody ResponseEntity<GenericResponse> addFavoriteJob(@RequestBody AppliedJobDto appliedJobDto,
+    public @ResponseBody ResponseEntity<GenericResponse> addFavoriteJob(@RequestBody FavoriteJobCompanyDto favoriteJobCompanyDto,
                                                                             Authentication authentication,
                                                                             HttpStatus httpStatus) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boolean jobAdded = candidateService.saveCandidateJob(userDetails.getUsername(), appliedJobDto);
-        if (jobAdded && appliedJobDto.getFavoriteJobStatus() == 1) {
+        boolean jobAdded = candidateService.saveCandidateJob(userDetails.getUsername(), favoriteJobCompanyDto);
+        if (jobAdded && favoriteJobCompanyDto.getFavoriteJobStatus() == 1) {
             return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
-                    "Successfully added the job to the list.", Utils.getTimeStampHelper()));
-        }else if (jobAdded && appliedJobDto.getFavoriteJobStatus() == 0){
+                    "Successfully added the favorite job description to the list.", Utils.getTimeStampHelper()));
+        }else if (jobAdded && favoriteJobCompanyDto.getFavoriteJobStatus() == 0){
             return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
-                    "Successfully deleted the job to the list.", Utils.getTimeStampHelper()));
+                    "Successfully deleted the favorite job description from the list.", Utils.getTimeStampHelper()));
+        }else if (jobAdded && favoriteJobCompanyDto.getFavoriteJobStatus() == 3){
+            return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
+                    "Successfully added the favorite company to the list.", Utils.getTimeStampHelper()));
+        }else if (jobAdded && favoriteJobCompanyDto.getFavoriteJobStatus() == 2){
+            return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
+                    "Successfully deleted the favorite company from the list.", Utils.getTimeStampHelper()));
         }
         throw new UserNotFoundException("The user not found.");
     }
