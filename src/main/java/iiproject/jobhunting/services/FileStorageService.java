@@ -2,9 +2,7 @@ package iiproject.jobhunting.services;
 
 import iiproject.jobhunting.exception.FileStorageException;
 import iiproject.jobhunting.exception.MyFileNotFoundException;
-import iiproject.jobhunting.properties.FileStorageProperties;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.util.StringUtils;
@@ -17,21 +15,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 @Service
 public class FileStorageService {
-    private Path fileStorageLocation;
 
-    @Autowired
-    public FileStorageService(FileStorageProperties fileStorageProperties) {
-//        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
-//                .toAbsolutePath().normalize();
-//
-//        try {
-//            Files.createDirectories(this.fileStorageLocation);
-//        } catch (Exception ex) {
-//            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
-//        }
+    private final Path fileStorageLocation;
+
+    public FileStorageService() {
+        this.fileStorageLocation = Paths.get("../job-hunting-pj/src/main/resources/static/file")
+                .toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(this.fileStorageLocation);
+        } catch (Exception ex) {
+            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
+        }
     }
 
     public String storeFile(MultipartFile file) {

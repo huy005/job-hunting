@@ -38,7 +38,7 @@ public class JobDescriptionDto {
 
     private int view;
 
-    private int companyId;
+    private Company company;
 
-    private String categoryId;
+    private Category category;
 }

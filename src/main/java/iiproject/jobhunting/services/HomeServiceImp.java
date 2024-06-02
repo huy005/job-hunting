@@ -1,18 +1,17 @@
 package iiproject.jobhunting.services;
 
-import iiproject.jobhunting.dto.CompanyJdDto;
-import iiproject.jobhunting.dto.IJobDescriptionCount;
-import iiproject.jobhunting.dto.User2Dto;
-import iiproject.jobhunting.dto.UserDto;
+import iiproject.jobhunting.dto.*;
 import iiproject.jobhunting.entities.*;
 import iiproject.jobhunting.helpers.Utils;
 import iiproject.jobhunting.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +21,11 @@ import static java.lang.Integer.parseInt;
 @Service
 public class HomeServiceImp implements HomeService {
 
-    private JobDescriptionRepository jobDescriptionRepository;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private CvRepository cvRepository;
-    private JavaMailSender javaMailSender;
+    private final JobDescriptionRepository jobDescriptionRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final CvRepository cvRepository;
+    private final JavaMailSender javaMailSender;
 
 //    @Value("#{server.contextPath}")
 //    private String contextPath;
@@ -44,17 +43,27 @@ public class HomeServiceImp implements HomeService {
         this.javaMailSender = javaMailSender;
     }
 
-    public User findByEmail(String email) {
+    private User findByEmail(String email) {
         Optional<User> recruiter = userRepository.findByEmail(email);
         User theUser = null;
         if (recruiter.isPresent()) theUser = recruiter.get();
         return theUser;
     }
 
+    public void sendMail(String subject, String mailText) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom("test-email@gmail.com");
+        msg.setTo("huybqfx18856@funix.edu.vn");
+        msg.setSubject(subject);
+        msg.setText(mailText);
+        javaMailSender.send(msg);
+    }
+
     //UPDATE USER'S INFO
     @Override
-    public boolean confirmEmailAndSave(String email, User2Dto user2Dto) {
-        User theUser = findByEmail(email);
+    public boolean confirmEmailAndSave(Authentication authentication, User2Dto user2Dto) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User theUser = findByEmail(userDetails.getUsername());
         if (theUser != null) {
             theUser.setUsername(user2Dto.getUsername());
             theUser.setUserAddress(user2Dto.getUserAddress());
@@ -80,11 +89,43 @@ public class HomeServiceImp implements HomeService {
     public boolean verifyUserByToken(String token) {
         Optional<User> recruiter = userRepository.getUserByToken(token);
         User theUser = null;
-        if (recruiter.isPresent()){
+        if (recruiter.isPresent()) {
             theUser = recruiter.get();
-            theUser.setVarificationStatus(1);
+            theUser.setVerificationStatus(1);
             userRepository.save(theUser);
             return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean sendOtpAuthentication(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = findByEmail(userDetails.getUsername());
+        if (user != null && user.getDeleteStatus() == 0) {
+            SecureRandom rand = new SecureRandom();
+            String otpCode = Integer.toString(rand.nextInt(999999));
+            user.setOneTimePassword(otpCode);
+            user.setOtpExpiryTime(Utils.getLocalDateTimeOfNow().plusMinutes(5));
+            userRepository.save(user);
+
+//            Sending Mail
+            sendMail("The Otp Code For Logging in.",
+                    "Hi " + user.getUsername() + ", input \"" +
+                            otpCode + "\" for the authentication. \n");
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean verifyOtp(UserDto userDto, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = findByEmail(userDetails.getUsername());
+        if (user != null && user.getDeleteStatus() == 0) {
+            if (user.getOneTimePassword().equals(userDto.getOtp())) {
+                return true;
+            }
         }
         return false;
     }
@@ -111,23 +152,6 @@ public class HomeServiceImp implements HomeService {
     }
 
     @Override
-    public boolean confirmLogIn(UserDto theUserDto) {
-        String userDtoEmail = theUserDto.getEmail();
-        Optional<User> userOptional = userRepository.findByEmail(userDtoEmail);
-        User theUser = null;
-        if (userOptional.isPresent()) {
-            theUser = userOptional.get();
-        } else {
-            throw new RuntimeException("Did not find email - " + userDtoEmail);
-        }
-        if (theUserDto.getPassword().equals(theUser.getPassword())) {
-            return true;
-        } else {
-            throw new RuntimeException("The password not match!!!");
-        }
-    }
-
-    @Override
     public boolean addNewUser(UserDto theUserDto) {
 //        Adding the new user
         User theUser = new User();
@@ -137,8 +161,8 @@ public class HomeServiceImp implements HomeService {
         theUser.setCreatedAt(Utils.getLocalDateTimeOfNow());
         theUser.setDeleteStatus(0);
         theUser.setToken(theUserDto.getToken());
-        theUser.setTokenExpiryDate(Utils.getLocalDateTimeOfNow().plusHours(8));
-        theUser.setVarificationStatus(0);
+        theUser.setTokenExpiryTime(Utils.getLocalDateTimeOfNow().plusHours(8));
+        theUser.setVerificationStatus(0);
         int roleId = parseInt(theUserDto.getRole());
         Role role = new Role(roleId, roleId == 1 ? "RECRUITER" : "CANDIDATE");
         theUser.setRole(role);
@@ -147,24 +171,17 @@ public class HomeServiceImp implements HomeService {
         userRepository.save(theUser);
 
         //            Sending to email
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo("huybqfx18856@funix.edu.vn");
-        msg.setSubject("Complete Password Reset!");
-        msg.setFrom("test-email@gmail.com");
-        msg.setText("To complete the password reset process, please click here: " +
+        sendMail("Complete Password Reset!",
+                "To complete the password reset process, please click here: " +
                         "http://localhost:8080/verification-user?token=" + theUserDto.getToken());
-        javaMailSender.send(msg);
         return true;
     }
 
     @Override
-    public User findUserByEmail(String theEmail) {
-        Optional<User> userOptional = userRepository.findByEmail(theEmail);
-        User user = null;
-        if (userOptional.isPresent()) {
-            return user = userOptional.get();
-        }
-        return null;
+    public User findUserByEmail(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = findByEmail(userDetails.getUsername());
+        return user;
     }
 
     @Override

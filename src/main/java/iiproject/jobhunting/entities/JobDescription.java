@@ -54,7 +54,7 @@ public class JobDescription {
     private String createdAt;
 
     @Column(name="status")
-    private int status;
+    private String status;
 
     @Column(name="view")
     private int view;

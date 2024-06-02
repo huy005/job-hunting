@@ -5,18 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
-import java.util.List;
+
 
 @Configuration
 @EnableWebSecurity
@@ -57,7 +52,7 @@ public class SecurityConfig {
                         form
                                 .loginPage("/log-in-page")
                                 .loginProcessingUrl("/authenticateTheUser")
-                                .defaultSuccessUrl("/home")
+                                .defaultSuccessUrl("/otp-authentication")
                                 .usernameParameter("email")
                                 .passwordParameter("password")
                                 .permitAll()
@@ -75,5 +70,8 @@ public class SecurityConfig {
         return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/img/**","file/**");
     }
 
-
+//    @Bean
+//    BCryptPasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }

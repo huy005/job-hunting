@@ -30,8 +30,16 @@
                    sec:authorize="hasAuthority('RECRUITER')">Candidate List</a>
                 <!--                CANDIDATE'S INFO-->
                 <a class="dnav-item nav-link" href="#" data-toggle="modal" data-target="#candidateInfoModal"
-                   sec:authorize="hasAuthority('CANDIDATE')">Candidate's
-                    Info</a>
+                   sec:authorize="hasAuthority('CANDIDATE')">Candidate's Info</a>
+                <!--                APPLIED JOB LIST -->
+                <a class="dnav-item nav-link" th:href="@{/candidates/applied-jobs}"
+                   sec:authorize="hasAuthority('CANDIDATE')">Applied Job List</a>
+                <!--                FAVORITE JOB LIST-->
+                <a class="dnav-item nav-link" th:href="@{/candidates/favorite-jobs}"
+                   sec:authorize="hasAuthority('CANDIDATE')">Favorite Job List</a>
+                <!--                FAVORITE COMPANY LIST-->
+                <a class="dnav-item nav-link" th:href="@{/candidates/favorite-companies}"
+                   sec:authorize="hasAuthority('CANDIDATE')">Favorite Company List</a>
                 <!--                PERSONAL INFO-->
                 <div class="dropdown" sec:authorize="hasAuthority('RECRUITER')">
                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"
@@ -390,18 +398,24 @@
 
                         <!--BUTTON OPERATION-->
                         <div class="col-3 mt-1 text-left">
-                            <button type="button" class="btn btn-light mb-2" th:id="'favoriteJobBtn-' + ${jobDescriptionQuantity.jobDescriptionId}"
+                            <button type="button" class="btn btn-light mb-2"
+                                    th:id="'favoriteJobBtn-' + ${jobDescriptionQuantity.jobDescriptionId}"
                                     th:attr="onclick=|changeFavoriteBtnStatus('${jobDescriptionQuantity.jobDescriptionId}', 0)|">
                                 <i class="fa-regular fa-heart activeFavoriteBtn" th:id="'favoriteJobBtnIcon-' + ${jobDescriptionQuantity.jobDescriptionId}"></i><br>Favourite!
                             </button>
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#applyForJobBtnModal">
-                                <i class="fa-regular fa-square-check"></i><br>Apply
+                            <button type="button" class="btn btn-primary"
+                                    th:id="'jobApplicationBtn-' + ${jobDescriptionQuantity.jobDescriptionId}"
+                                    data-toggle="modal"
+                                    th:attr="data-target='#applyForJobBtnModal-' + ${jobDescriptionQuantity.jobDescriptionId}">
+                                <i class="fa-regular fa-square-check"
+                                   th:id="'jobApplicationBtnIcon-' + ${jobDescriptionQuantity.jobDescriptionId}"></i><br>
+                                Apply
                             </button>
                         </div>
 
                         <!--APPLY FOR THE JOB MODAL-->
-                        <div class="modal fade" id="applyForJobBtnModal" tabindex="-1"
+                        <div class="modal fade" th:id="'applyForJobBtnModal-' + ${jobDescriptionQuantity.jobDescriptionId}"
+                             tabindex="-1"
                              aria-labelledby="applyForJobModalLabel"
                              aria-hidden="true">
                             <div class="modal-dialog">

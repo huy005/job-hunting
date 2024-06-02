@@ -53,7 +53,7 @@ html, body {
 }
 
 .table th {
-    font-size: 37px;
+    font-size: 1.5em;
     padding: 0 !important;
 }
 
@@ -155,4 +155,9 @@ html, body {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+
+/*OTP AUTHEN FORM*/
+.container-Form{
+margin-left: 34%;
 }

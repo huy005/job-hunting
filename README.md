@@ -40,8 +40,11 @@ Click "Log in" button on homepage
 Redirected to http://localhost:8080/log-in-page  
 Credentials will be compared to ones from database  
 "Successfully logged in..." shown in case of success  
-Logging in as RECRUITER role will be email-authenticated with OTP before permitted to log in(in progress)   
+Before redirected to home page, user must be email-authenticated with OTP code     
+A random 6 digits for the authentication will be sent to email  
 ![img_10.png](img_10.png)
+![img_32.png](img_32.png)
+
 
 6/Authorization
 Authorize users to perform the corresponding specified functions
@@ -52,7 +55,7 @@ From main homepage, click "Log Out" button
 Redirect to index page  
 ![img_20.png](img_20.png)
 
-7/Recruiter's and Company's New Info  
+8/Recruiter's and Company's New Info  
 Update recruiter's and company's Info by filling the form  
 From main homepage, click "Personal Info" and choose one of 2 choices respectively  
 Upload company's logo or user's image
@@ -62,31 +65,31 @@ Validation for each field(in progress)
 ![img_13.png](img_13.png)
 ![img_14.png](img_14.png)
 
-8/Job Descriptions  
+9/Job Descriptions  
 Show all the job descriptions with the corresponding companies  
 Click "Job Description List" and be redirected to "Job Description List" page  
 ![img_16.png](img_16.png)
 ![img_33.png](img_33.png)!
 
-9/Job Descriptions Addition  
+10/Job Descriptions Addition  
 Recruiters post job descriptions showing on homepage  
 Click "POST A NEW JOB" Button  
 Validation for each field(in progress)
 ![img_19.png](img_19.png)  
 
-10/Job Descriptions Update  
+11/Job Descriptions Update  
 The recruiter updates job description's info
 Click Update button of the corresponding job description, then be redirected to "UPDATE JOB DESCRIPTION'S INFORMATION" page.    
 After filling in the fields that need updating, click Save button to update the new info
 ![img_1.png](img_1.png)    
 
-11/Delete Job Descriptions 
+12/Delete Job Descriptions 
 Recruiters delete job descriptions by clicking Red Delete Button  
 A confirmation popup will be shown  
 The job description deleted will be disappeared from the list  
 ![img_4.png](img_4.png)
 
-12/Candidate List View
+13/Candidate List View
 Recruiters view candidate list applying for the corresponding job  
 ![img_2.png](img_2.png)  
 
@@ -98,9 +101,10 @@ The recruiter can download the candidate's Cv by clicking Download Button(in pro
 If there are no any candidates applying for this job, the message will be shown  
 ![img_5.png](img_5.png)
 
-
-13/ Downloading candidates' CV(in progress)  
-Downloading the CVs from the candidates applying for the jobs
+14/ Downloading candidates' CV
+Click "Candidate" button from "Job Description List" (8/ Job Description)
+Click "Download CV" button to Download the CVs as PDF, or else from the candidates applying for the jobs    
+![img_35.png](img_35.png)
 
 ---
 III/CANDIDATE'S FUNCTIONS  

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Candidate Page</title>
+    <!--    CSS Styles-->
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <!--    BT CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!--	Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" th:href="@{/home}">JobHunting</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <!--                POST/JOB DESCRIPTION INFO-->
+                <a class="nav-item nav-link" th:href="@{/recruiters/job-descriptions}">Job Description List</a>
+            </div>
+            <div class="navbar-nav">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#candidateInfoModal">Candidate's
+                    Info</a>
+            </div>
+        </div>
+
+        <div class="navbar-nav" style="text-align:right">
+            <form action="#" th:action="@{/logout}" method="POST">
+                <input type="submit" value="Log Out" class="btn btn-dark"/>
+            </form>
+        </div>
+    </nav>
+    <div class="header-img"></div>
+</div>
+
+<!--CANDIDATE'S INFO MODAL-->
+<div class="modal fade" id="candidateInfoModal" tabindex="-1" aria-labelledby="candidateInfoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="candidateInfoModalLabel">Recruiter's Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--            <div class="modal-body text-left" th:object="${user}">-->
+            <!--                &lt;!&ndash;                UPLOAD USER'S IMAGE&ndash;&gt;-->
+            <!--                <div class="single-upload form-container">-->
+            <!--                    <div class="row">-->
+            <!--                        <div class="col-8">-->
+            <!--                            <form id="userFileReInfoForm" name="singleUploadForm" method="post">-->
+            <!--                                <div class="form-group">-->
+            <!--                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+            <!--                                </div>-->
+            <!--                                <label for="userFileReInfoForm-info">Choose a user image:</label><br>-->
+            <!--                                <input id="userFileReInfoForm-info" type="file" name="file"-->
+            <!--                                       style="margin-bottom: 0.3rem;"/>-->
+            <!--                                <button type="submit" class="primary submit-btn">Upload</button>-->
+            <!--                                <p id="erroruserFileReInfoForm" class="color-red"></p>-->
+            <!--                                <p id="successfuluserFileReInfoForm" class="color-green"></p>-->
+            <!--                            </form>-->
+            <!--                        </div>-->
+            <!--                        <div class="col-4">-->
+            <!--                            <div id="user-image-preview">-->
+            <!--                                <img th:src="*{userImage}" width="100%" alt="user-image.png">-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <form action="#" method="POST">-->
+            <!--                    <div class="form-group">-->
+            <!--                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+            <!--                    </div>-->
+            <!--                    <div class="form-group">-->
+            <!--                        <input type="hidden" id="userImageReInfo"/>-->
+            <!--                    </div>-->
+            <!--                    <div class="form-group">-->
+            <!--                        <label for="emailReInfo" class="col-form-label">Email:</label>-->
+            <!--                        <input type="text" class="form-control" id="emailReInfo" disabled th:field="*{email}">-->
+            <!--                        &lt;!&ndash;                                            <p id="errorEmailReInfo"></p>&ndash;&gt;-->
+            <!--                    </div>-->
+            <!--                    <div class="form-group">-->
+            <!--                        <label for="fullNameReInfo" class="col-form-label">Full Name:</label>-->
+            <!--                        <input type="text" class="form-control" id="fullNameReInfo" th:field="*{username}">-->
+            <!--                        <p id="errorFullNameReInfo"></p>-->
+            <!--                    </div>-->
+            <!--                    <div class="form-group">-->
+            <!--                        <label for="addressReInfo" class="col-form-label">Address:</label>-->
+            <!--                        <input type="text" class="form-control" id="addressReInfo" th:field="*{userAddress}">-->
+            <!--                        <p id="errorAddressReInfo"></p>-->
+            <!--                    </div>-->
+            <!--                    <div class="form-group">-->
+            <!--                        <label for="phoneNumberReInfo" class="col-form-label">Phone-->
+            <!--                            Number:</label>-->
+            <!--                        <input type="text" class="form-control" id="phoneNumberReInfo" th:field="*{phoneNumber}">-->
+            <!--                        <p id="errorPhoneNumberReInfo"></p>-->
+            <!--                    </div>-->
+            <!--                    <div class="form-group">-->
+            <!--                        <label for="descriptionReInfo" class="col-form-label">Description:</label>-->
+            <!--                        <textarea id="descriptionReInfo" style="width: 100%;" rows="4"-->
+            <!--                                  cols="50" th:field="*{userDescription}">-->
+            <!--                        </textarea><br><br>-->
+            <!--                        <p id="errorDescriptionReInfo"></p>-->
+            <!--                    </div>-->
+            <!--                </form>-->
+            <!--                <div class="modal-footer">-->
+            <!--                    <input type="button" id="updateInfoBtn" value="Submit" class="btn btn-primary"/>-->
+            <!--                </div>-->
+            <!--            </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container">
+        <!--	TOP TITLE-->
+        <div class="content-list-jobs">
+            <div class="content-list-jobs-header text-center">
+                <h1 class="text-primary">LIST OF APPLIED JOBS</h1>
+            </div>
+        </div>
+        <!--	LIST OF CANDIDATES-->
+        <table class="table appliedJobTable">
+<!--            <thead>-->
+<!--            <th>Job Description's Title</th>-->
+<!--            <th>Working Address</th>-->
+<!--            <th>Working Type</th>-->
+<!--            <th>Position</th>-->
+<!--            <th>Details</th>-->
+<!--            <th>Deadline</th>-->
+<!--            <th>Status</th>-->
+<!--            <th>Note</th>-->
+<!--            </thead>-->
+            <tbody>
+            <tr th:each="appliedJob : ${appliedJobs}">
+
+                <!--                <td class="appliedJobTableContent">-->
+                <!--                    <div class="appliedJobContentItem">-->
+                <!--                        <h6>Candidate's Name: </h6>-->
+                <!--                        <p th:text="${candidateJob.username}"></p>-->
+                <!--                    </div>-->
+                <!--                    <div class="appliedJobTableContentItem">-->
+                <!--                        <h6>Candidate's Email: </h6>-->
+                <!--                        <p th:text="${candidateJob.email}"></p>-->
+                <!--                    </div>-->
+                <!--                    <div class="appliedJobTableContentItem">-->
+                <!--                        <h6>Candidate's Address: </h6>-->
+                <!--                        <p th:text="${candidateJob.userAddress}"></p>-->
+                <!--                    </div>-->
+                <!--                    <div class="appliedJobTableContentItem">-->
+                <!--                        <h6>Candidate's Phone Number: </h6>-->
+                <!--                        <p th:text="${candidateJob.phoneNumber}"></p>-->
+                <!--                    </div>-->
+                <!--                </td>-->
+                <td class="appliedJobTableContent"  th:if="${appliedJob.appliedJobId != 0}">
+                    <div class="favoriteJobContentContainer">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="favoriteJobTableContentItem">
+                                    <h6>Job Description's Title: </h6>
+                                    <p th:text="${appliedJob.jobDescription.title}"></p>
+                                </div>
+                                <div class="favoriteJobTableContentItem">
+                                    <h6>Working Address: </h6>
+                                    <p th:text="${appliedJob.jobDescription.jobDescriptionAddress}"></p>
+                                </div>
+                                <div class="favoriteJobTableContentItem">
+                                    <h6>Working Type: </h6>
+                                    <p th:text="${appliedJob.jobDescription.jobDescriptionType}"></p>
+                                </div>
+                                <div class="favoriteJobTableContentItem">
+                                    <h6>Position: </h6>
+                                    <p th:text="${appliedJob.jobDescription.position}"></p>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="favoriteJobTableContentItem">
+                                    <h6>Details: </h6>
+                                    <p th:text="${appliedJob.jobDescription.description}"></p>
+                                </div>
+                                <div class="favoriteJobTableContentItem">
+                                    <h6>Deadline: </h6>
+                                    <p th:text="${appliedJob.jobDescription.deadline}"></p>
+                                </div>
+                                <div class="favoriteJobTableContentItem">
+                                    <h6>Category: </h6>
+                                    <p th:text="${appliedJob.jobDescription.category.categoryName}"></p>
+                                </div>
+                                <div class="favoriteJobTableContentItem">
+                                    <h6>Company Name: </h6>
+                                    <a th:href="@{/company-details}" th:text="${appliedJob.jobDescription.company.companyName}"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="favoriteJobTableContentItem text-center" th:unless="${appliedJob.appliedJobId != 0}">
+                        <h2>There is no any applied job yet.</h2>
+                    </div>
+                </td>
+
+<!--                <td>-->
+<!--                    <a class="btn btn-primary" type="button">-->
+<!--                        Details-->
+<!--                    </a>-->
+<!--                    <div class="dropdown">-->
+<!--                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"-->
+<!--                                aria-expanded="false">-->
+<!--                            Statuses-->
+<!--                        </button>-->
+<!--                        <div class="dropdown-menu">-->
+<!--                            <a class="dropdown-item" href="#">CV Review</a>-->
+<!--                            <a class="dropdown-item" href="#">1st Interview</a>-->
+<!--                            <a class="dropdown-item" href="#">2nd Interview</a>-->
+<!--                            <a class="dropdown-item" href="#">3rd Interview</a>-->
+<!--                            <a class="dropdown-item" href="#">4th Interview</a>-->
+<!--                            <a class="dropdown-item" href="#">Refused</a>-->
+<!--                            <a class="dropdown-item" href="#">Passed</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </td>-->
+                <!--                    <div class="appliedJobTableContentItem">-->
+<!--                <td th:unless="${appliedJob.appliedJobId != 0}">-->
+<!--                    <h2>There are no any jobs applied for.</h2>-->
+<!--                </td>-->
+                <!--                    </div>-->
+
+                <!--                <td>-->
+                <!--                    <div>-->
+                <!--                        <a class="dropdown-item "><span class="btn btn-primary">Update</span></a>-->
+                <!--                        <a class="dropdown-item " data-toggle="modal"-->
+                <!--                           data-target="#deleteJdBtnModal"><span class="btn btn-danger">Delete</span></a>-->
+                <!--                    </div>-->
+                <!--                </td>-->
+
+                <!--            DELETE MODEL-->
+                <!--                <div class="modal" id="deleteJdBtnModal" tabindex="-1">-->
+                <!--                    <div class="modal-dialog">-->
+                <!--                        <div class="modal-content">-->
+                <!--                            <div class="modal-header">-->
+                <!--                                <h5 class="modal-title">Delete this job description</h5>-->
+                <!--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                <!--                                    <span aria-hidden="true">&times;</span>-->
+                <!--                                </button>-->
+                <!--                            </div>-->
+                <!--                            <div class="modal-body">-->
+                <!--                                <p>Do you agree to delete this job description?</p>-->
+                <!--                            </div>-->
+                <!--                            <div class="modal-footer">-->
+                <!--                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>-->
+                <!--                                &lt;!&ndash;                                    <button type="button" id="deleteJdBtn" class="btn btn-primary"&ndash;&gt;-->
+                <!--                                &lt;!&ndash;                                            th:value="${jobDescription.jobDescriptionId}">&ndash;&gt;-->
+                <!--                                &lt;!&ndash;                                        Yes&ndash;&gt;-->
+                <!--                                &lt;!&ndash;                                    </button>&ndash;&gt;-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+            </tr>
+            </tbody>
+        </table>
+        <hr>
+        <a th:href="@{/home}">Back to home page</a>
+    </div>
+</div>
+<!-- Footer -->
+<footer class="bg-secondary">
+    <!-- Footer Links -->
+    <div class="text-center">
+        <!-- Content -->
+        <h5 class="text-uppercase pt-3">Footer Content</h5>
+        <p>Here is your footer content.</p>
+    </div>
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="/" class="text-info"> MDBootstrap.com</a>
+    </div>
+</footer>
+<!--BT JS-->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<!--MAIN JS-->
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>

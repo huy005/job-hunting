@@ -1,9 +1,6 @@
 package iiproject.jobhunting.controllers;
 
-import iiproject.jobhunting.dto.CompanyJdDto;
-import iiproject.jobhunting.dto.GenericResponse;
-import iiproject.jobhunting.dto.User2Dto;
-import iiproject.jobhunting.dto.UserDto;
+import iiproject.jobhunting.dto.*;
 import iiproject.jobhunting.entities.JobDescription;
 import iiproject.jobhunting.entities.User;
 import iiproject.jobhunting.exception.UserNotFoundException;
@@ -14,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,8 +49,7 @@ public class HomeController {
     @GetMapping("/")
     public String showMainHomePage1(Model theModel, Authentication authentication) {
         if (authentication != null) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            User user = homeService.findUserByEmail(userDetails.getUsername());
+            User user = homeService.findUserByEmail(authentication);
             if (user != null) {
                 List<JobDescription> jobDescriptionQuantities = homeService.getJobDescriptionsByQuantity();
                 if (!jobDescriptionQuantities.isEmpty()) {
@@ -82,8 +77,7 @@ public class HomeController {
     public String showMainHomePage2(Model model, Authentication authentication) {
         List<JobDescription> jobDescriptionQuantities = homeService.getJobDescriptionsByQuantity();
         model.addAttribute("jobDescriptionQuantities", jobDescriptionQuantities);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User user = homeService.findUserByEmail(userDetails.getUsername());
+        User user = homeService.findUserByEmail(authentication);
         if (user != null) {
             model.addAttribute("user", user);
             model.addAttribute("company", user.getCompany());
@@ -119,17 +113,50 @@ public class HomeController {
         return "jd/company-jd-search";
     }
 
+//    @PostMapping("/company-jd-info")
+//    public @ResponseBody ResponseEntity<GenericResponse> searchCompanyJd(@RequestBody CompanyJdDto companyJdDto,
+////                                                                         Model theModel,
+//                                                                         HttpStatus httpStatus) {
+//        List<CompanyJdDto> companyJdDtos = homeService.searchCompanyJd(companyJdDto.getKeywords());
+////        theModel.addAttribute("companyJdDtos", companyJdDtos);
+//        if (companyJdDtos.isEmpty()) {
+//            throw new UserNotFoundException("There is no any keyword found.");
+//        }
+//        return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
+//                companyJdDtos, Utils.getTimeStampHelper()));
+//    }
+
     //    UPDATE USER-INFO
     @PostMapping("/new-user-info")
     public @ResponseBody ResponseEntity<GenericResponse> putRecruiterInfo(@RequestBody @Valid User2Dto user2Dto,
                                                                           Authentication authentication,
                                                                           HttpStatus httpStatus) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        boolean emailConfirmed = homeService.confirmEmailAndSave(userDetails.getUsername(), user2Dto);
+        boolean emailConfirmed = homeService.confirmEmailAndSave(authentication, user2Dto);
         if (emailConfirmed) {
             return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
                     "The recruiter's information updated successfully.", Utils.getTimeStampHelper()));
         }
         throw new UserNotFoundException("The updating user not found.");
+    }
+
+    //    OTP Authentication
+    @GetMapping("/otp-authentication")
+    public String getOtpAuthenticationPage(Authentication authentication) {
+        boolean isUserExisted = homeService.sendOtpAuthentication(authentication);
+        if (isUserExisted) {
+            return "verification/otp-authentication-page";
+        }
+        throw new UsernameNotFoundException("The user not found.");
+    }
+
+    @PostMapping("/otp-verification")
+    public @ResponseBody ResponseEntity<GenericResponse> verifyOtp(@RequestBody UserDto userDto,
+                                                                   Authentication authentication,
+                                                                   HttpStatus httpStatus) {
+        if (homeService.verifyOtp(userDto, authentication)){
+            return ResponseEntity.ok(new GenericResponse(httpStatus.OK.value(),
+                    "Your account authenticated successfully.", Utils.getTimeStampHelper()));
+        }
+        throw new UsernameNotFoundException("The OPT code invalid.");
     }
 }

@@ -99,7 +99,7 @@ public class RecruiterServiceImp implements RecruiterService {
             jobDescription.setDeadline(jobDescriptionDto.getDeadline());
             jobDescription.setSalary(jobDescriptionDto.getSalary());
             jobDescription.setJobDescriptionType(jobDescriptionDto.getJobDescriptionType());
-            Category category = new Category(parseInt(jobDescriptionDto.getCategoryId()));
+            Category category = new Category(jobDescriptionDto.getCategory().getCategoryId());
             jobDescription.setCategory(category);
             jobDescription.setDescription(jobDescriptionDto.getDescription());
             jobDescriptionRepository.save(jobDescription);
@@ -179,6 +179,7 @@ public class RecruiterServiceImp implements RecruiterService {
                         candidateJdDto.setEmail(candidate.getEmail());
                         candidateJdDto.setUserAddress(candidate.getUserAddress());
                         candidateJdDto.setPhoneNumber(candidate.getPhoneNumber());
+                        candidateJdDto.setCv(candidate.getCvSubmitted());
                         candidateJdDtos.add(candidateJdDto);
                     }
                 }
@@ -209,10 +210,9 @@ public class RecruiterServiceImp implements RecruiterService {
         jobDescription.setSalary(jobDescriptionDto.getSalary());
         jobDescription.setJobDescriptionType(jobDescriptionDto.getJobDescriptionType());
         jobDescription.setDescription(jobDescriptionDto.getDescription());
-        Category category = new Category(parseInt(jobDescriptionDto.getCategoryId()));
+        Category category = new Category(jobDescriptionDto.getCategory().getCategoryId());
         jobDescription.setCategory(category);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User user = homeService.findUserByEmail(userDetails.getUsername());
+        User user = homeService.findUserByEmail(authentication);
         if (user != null) {
             jobDescription.setCompany(user.getCompany());
             jobDescriptionRepository.save(jobDescription);

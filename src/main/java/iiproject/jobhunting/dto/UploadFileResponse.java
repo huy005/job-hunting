@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UploadFileResponse {
     private String fileName;
-    private String fileDownloadUri;
+    private String fileDownloadedUri;
     private String fileType;
     private long size;
 }

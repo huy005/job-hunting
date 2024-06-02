@@ -95,9 +95,10 @@
                     </div>
                     <div class="candidateTableContentItem">
                         <h6>Download CV: </h6>
-                        <form method="get" action="file.doc">
-                            <button type="submit">Download!</button>
-                        </form>
+                        <a class="btn btn-primary" th:href="@{|/file-download/${candidateJob.getCv().getCvFileName()}|}">Download CV</a>
+<!--                        <form method="get" action="file.doc">-->
+<!--                            <button type="submit">Download!</button>-->
+<!--                        </form>-->
                     </div>
                 </td>
 

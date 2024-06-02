@@ -21,7 +21,7 @@
     <form class="form-logIn" id="registrationForm" th:action="@{/authenticateTheUser}" method="POST">
         <div th:if="${param.error}">
             <i class="alert-danger">Sorry!!! You entered invalid username/password.<br>
-            In case of the inactive account, please check mail for activation.</i>
+                In case of the inactive account, please check mail for activation.</i>
         </div>
         <!--        Check for log out -->
         <div th:if="${param.logout}">

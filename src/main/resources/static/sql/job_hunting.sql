@@ -69,7 +69,9 @@ CREATE TABLE user_db
     user_description varchar(255),
     verification_status int(1),
     token varchar(255),
-    token_expiry_date datetime,
+    token_expiry_time datetime,
+    one_time_password varchar(255),
+    otp_expiry_time datetime,
     created_at datetime,
     role_id int(11),
     company_id int (11),
@@ -108,7 +110,7 @@ CREATE TABLE job_description_db
     updated_at datetime,
     delete_status int(1),
     deleted_at datetime,
-    status int(11),
+    status varchar(255),
 	view int(11),
     company_id int(11),
     category_id int(11),
@@ -140,7 +142,7 @@ CREATE TABLE cv_db
 );
 
 INSERT INTO cv_db(cv_file_name,user_id,delete_status)
-VALUES ('Cv Xuan',1,0),('Cv Tuan',2,0),('Cv Dung',3,0),('Cv Sinh',4,0),('Cv Anh',5,0),('Cv Huong',6,0),('Cv Nam',7,0),('Cv Xuan2',8,0);
+VALUES ('0-trial-pdf.pdf',1,0),('1-trial-pdf.pdf',2,0),('2-trial-pdf.pdf',3,0),('3-trial-pdf.pdf',4,0),('4-trial-pdf.pdf',5,0),('5-trial-pdf.pdf',6,0),('6-trial-pdf.pdf',7,0),('7-trial-pdf.pdf',8,0);
 -- ('Cv Xuan2',8),('Cv Nam1',14),('Cv Xuan3',8),('Cv Sinh1',11),('Cv Xuan4',8),('Cv Sinh2',11)
 
 CREATE TABLE candidate_company_db

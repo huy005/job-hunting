@@ -27,4 +27,6 @@ public class CompanyJdDto {
     private String companyEmail;
 
     private String companyDescription;
+
+//    private String keywords;
 }
